@@ -94,3 +94,6 @@ fix: devenv
 
 run: prodenv
     opensafely run run_all
+
+run-force: prodenv
+    opensafely run run_all --force
