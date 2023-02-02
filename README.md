@@ -1,5 +1,9 @@
 # isaric-exploration
 
+## About this project
+
+This project is an initial investigation of the `ISARIC_New` table in TPP.
+
 [View on OpenSAFELY](https://jobs.opensafely.org/repo/https%253A%252F%252Fgithub.com%252Fopensafely%252Fisaric-exploration)
 
 Details of the purpose and any published outputs from this project can be found at the link above.
