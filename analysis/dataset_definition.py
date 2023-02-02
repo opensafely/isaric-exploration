@@ -13,7 +13,8 @@ for column_name in isaric_raw.qm_node.schema.column_names:
     # so we don't have to explicitly specify them,
     # making this dataset definition much more concise.
     column_on_table = getattr(isaric_raw, column_name)
+    # Choose the same row for each column.
     column_data = getattr(
-        isaric_raw.sort_by(column_on_table).first_for_patient(), column_name
+        isaric_raw.sort_by(isaric_raw.age).first_for_patient(), column_name
     )
     setattr(dataset, column_name, column_data)
