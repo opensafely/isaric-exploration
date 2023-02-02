@@ -1,0 +1,19 @@
+name: Check Python
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  check-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: opensafely-core/setup-action@v1
+        with:
+          install-just: true
+          python-version: "3.9"
+      - name: Check formatting, linting and import sorting
+        run: just check
