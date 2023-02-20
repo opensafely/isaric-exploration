@@ -88,3 +88,27 @@ write_csv(ascertainment, here("output","validation", "ascertainment.csv"))
 
 
 
+
+
+# Clinical characteristics in SUS versus ISARIC -------
+
+## Only consider admissions identified and matched in both sources
+
+
+#
+# characteristics <-
+#   admissions_joined %>%
+#   filter(method_isaric, method_susA) %>%
+#   summarise(
+#     n = n(),
+#   ) %>%
+#
+#
+# ascertainment
+#
+# write_csv(characteristics, here("output","validation", "ascertainment.csv"))
+
+
+
+
+
