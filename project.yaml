@@ -22,6 +22,17 @@ actions:
     outputs:
       highly_sensitive:
         csv: output/admissions/isaric_admission1.csv.gz
+
+  process_isaric:
+    run: r:latest analysis/process_isaric.R
+    needs:
+    - extract_isaric_admission1
+    outputs:
+      highly_sensitive:
+        rds: output/admissions/processed_isaric.rds
+      moderately_sensitive:
+        txt: output/admissions/isaric_raw_skim.txt
+
   extract_sus_methodA_admission1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
       --output-file output/admissions/sus_methodA_admission1.csv.gz --param admission_number=1
