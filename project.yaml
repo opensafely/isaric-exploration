@@ -11,6 +11,17 @@ actions:
   ## This file is created by create-project.R 
   ## Edit and run create-project.R to update the project.yaml 
   ## # # # # # # # # # # # # # # # # # # # 
+  ## # # # # # # # # # # # # # # # # # # # 
+  ## Extract admission date 
+  ## # # # # # # # # # # # # # # # # # # # 
+
+  extract_isaric_admission1:
+    run: databuilder:v0.69.0 generate-dataset 'analysis/dataset_definition_isaric.py'
+      --dummy-tables 'dummy-tables/' --output 'output/admissions/isaric_admission1.csv.gz'
+    needs: []
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/isaric_admission1.csv.gz
   extract_sus_methodA_admission1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
       --output-file output/admissions/sus_methodA_admission1.csv.gz --param admission_number=1
@@ -157,6 +168,38 @@ actions:
     outputs:
       highly_sensitive:
         csv: output/admissions/sus_methodC_admission5.csv.gz
+
+  process_sus:
+    run: r:latest analysis/process_sus.R
+    needs:
+    - extract_sus_methodA_admission1
+    - extract_sus_methodA_admission2
+    - extract_sus_methodA_admission3
+    - extract_sus_methodA_admission4
+    - extract_sus_methodA_admission5
+    - extract_sus_methodB_admission1
+    - extract_sus_methodB_admission2
+    - extract_sus_methodB_admission3
+    - extract_sus_methodB_admission4
+    - extract_sus_methodB_admission5
+    - extract_sus_methodC_admission1
+    - extract_sus_methodC_admission2
+    - extract_sus_methodC_admission3
+    - extract_sus_methodC_admission4
+    - extract_sus_methodC_admission5
+    outputs:
+      highly_sensitive:
+        rds: output/admissions/processed_sus*.rds
+
+  validation:
+    run: r:latest analysis/validation.R
+    needs:
+    - process_isaric
+    - process_sus
+    outputs:
+      moderately_sensitive:
+        csv: output/validation/*.csv
+
   ## # # # # # # # # # # # # # # # # # # # 
   ## End 
   ## # # # # # # # # # # # # # # # # # # # 
