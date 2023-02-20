@@ -1,0 +1,19 @@
+# COVID identification codes
+## ICD10
+opensafely/covid-identification/2020-06-03
+## SNOMED/CTV-3
+opensafely/covid-identification-in-primary-care-probable-covid-positive-test/2020-07-16
+opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16
+opensafely/covid-identification-in-primary-care-probable-covid-sequelae/2020-07-16
+opensafely/covid-identification-in-primary-care-suspected-covid-advice/2020-07-16
+opensafely/covid-identification-in-primary-care-suspected-covid-had-test/2020-07-16
+opensafely/covid-identification-in-primary-care-suspected-covid-isolation-code/2020-07-16
+opensafely/covid-identification-in-primary-care-suspected-covid-nonspecific-clinical-assessment/2020-07-16
+opensafely/covid-identification-in-primary-care-exposure-to-disease/2020-06-23
+opensafely/ethnicity-snomed-0removed/2e641f61/
+# A&E diagnosis codes
+user/anschaf/covid-19-ae-diagnosis-codes/1df1c0b2
+user/Louis/respiratory-related-ae/4a555f7d
+# comorbidities
+opensafely/chronic-cardiac-disease/2020-04-08
+opensafely/diabetes/2020-04-15
