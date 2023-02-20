@@ -93,6 +93,36 @@ actions_list <- splice(
   comment("# # # # # # # # # # # # # # # # # # #", "Extract admission date", "# # # # # # # # # # # # # # # # # # #"),
 
 
+  action(
+    name = glue("extract_isaric_admission1"),
+    run = glue("databuilder:v0.69.0 generate-dataset 'analysis/dataset_definition_isaric.py' --dummy-tables 'dummy-tables/' --output 'output/admissions/isaric_admission1.csv.gz'"),
+    needs = list(),
+    highly_sensitive = lst(
+      csv = glue("output/admissions/isaric_admission1.csv.gz")
+    )
+  ),
+
+  # action(
+  #   name = glue("report_isaric_admission1"),
+  #   run = glue("dataset-report:v0.0.26 --input-files 'output/admissions/isaric_admission1.csv.gz' --output-dir output/admissions"),
+  #   needs = list("extract_isaric_admission1"),
+  #   moderately_sensitive = lst(
+  #     html = "output/admissions/isaric_admission1.html"
+  #   )
+  # ),
+
+  action(
+    name = glue("process_isaric"),
+    run = glue("r:latest analysis/process_isaric.R"),
+    needs = list("extract_isaric_admission1"),
+    moderately_sensitive = lst(
+      txt = glue("output/admissions/isaric_raw_skim.txt")
+    ),
+    highly_sensitive = lst(
+      rds = glue("output/admissions/processed_isaric.rds")
+    )
+  ),
+
   action_extract_sus("A", 1),
   action_extract_sus("A", 2),
   action_extract_sus("A", 3),
@@ -122,6 +152,24 @@ actions_list <- splice(
   # action_extract_sus("E", 3),
   # action_extract_sus("E", 4),
   # action_extract_sus("E", 5),
+
+  action(
+    name = glue("process_sus"),
+    run = glue("r:latest analysis/process_sus.R"),
+    needs = as.list(glue_data(expand_grid(method=LETTERS[1:3], n=1:5), "extract_sus_method{method}_admission{n}")),
+    highly_sensitive = lst(
+      rds = glue("output/admissions/processed_sus*.rds")
+    )
+  ),
+
+  action(
+    name = glue("validation"),
+    run = glue("r:latest analysis/validation.R"),
+    needs = list("process_isaric", "process_sus"),
+    moderately_sensitive = lst(
+      csv = glue("output/validation/*.csv")
+    )
+  ),
 
 
 comment("# # # # # # # # # # # # # # # # # # #", "End", "# # # # # # # # # # # # # # # # # # #")
@@ -159,6 +207,20 @@ if (Sys.getenv("OPENSAFELY_BACKEND") %in% c("expectations", "tpp")){
 ## output to file ----
   writeLines(thisproject, here("project.yaml"))
 #yaml::write_yaml(project_list, file =here("project.yaml"))
+
+## grab all action names and send to a txt file
+
+names(actions_list) %>% tibble(action=.) %>%
+  mutate(
+    model = action==""  & lag(action!="", 1, TRUE),
+    model_number = cumsum(model),
+  ) %>%
+  group_by(model_number) %>%
+  summarise(
+    sets = str_trim(paste(action, collapse=" "))
+  ) %>% pull(sets) %>%
+  paste(collapse="\n") %>%
+  writeLines(here("actions.txt"))
 
 # fail if backend not recognised
 } else {
