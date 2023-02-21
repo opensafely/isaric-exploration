@@ -1,0 +1,5 @@
+patient_id,date,snomedct_code,ctv3_code,numeric_value
+1,2023-01-20,,79000,
+2,2022-01-21,,66AI.,
+3,2023-01-20,,79000,
+3,2023-01-20,,66AI.,
