@@ -27,7 +27,7 @@ fs::dir_create(here("output", "admissions"))
 
 get_admissions <- function(method, n){
   import_extract(
-    here("output", "admissionsdummy", glue("sus_method{method}_admission{n}.feather")),
+    here("dummy-output", glue("sus_method{method}_admission{n}.feather")),
     here("output", "admissions", glue("sus_method{method}_admission{n}.csv.gz"))
   ) %>%
   select(-previous_admission_date) %>%

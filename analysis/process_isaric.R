@@ -28,7 +28,7 @@ fs::dir_create(here("output", "admissions"))
 
 get_admissions <- function(n){
   import_extract(
-    here("output", "admissionsdummy", glue("isaric_admission{n}.feather")),
+    here("dummy-output", glue("isaric_admission{n}.feather")),
     here("output", "admissions", glue("isaric_admission{n}.csv.gz"))
   ) %>%
   add_column(

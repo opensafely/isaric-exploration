@@ -1,7 +1,7 @@
 from databuilder.ehrql import Dataset
 from databuilder.tables.beta.tpp import isaric_raw, clinical_events
 
-# import codelists
+#import codelists
 
 dataset = Dataset()
 
@@ -40,7 +40,7 @@ for column_name in ["hostdat", "age", "calc_age", "sex", "corona_ieorres", "cori
 
 # dataset.diabetes = (
 #     clinical_events.take(clinical_events.ctv3_code.is_in(codelists.diabetes)) # update to snomed
-#     .take(clinical_events.date.is_on_or_before(dataset.hostdat)) # should be date minus 1 day
+#     .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1))) 
 #     .exists_for_patient()
 # )
 # 
@@ -48,7 +48,7 @@ for column_name in ["hostdat", "age", "calc_age", "sex", "corona_ieorres", "cori
 #     clinical_events.take(
 #       clinical_events.ctv3_code.is_in(codelists.chronic_cardiac_disease) & # update to snomed
 #       (clinical_events.date.is_on_or_before(dataset.hostdat) - days(1))
-#     ) 
+#     )
 #     .exists_for_patient()
 # )
 
