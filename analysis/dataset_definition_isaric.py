@@ -1,5 +1,6 @@
 from databuilder.ehrql import Dataset
 from databuilder.tables.beta.tpp import isaric_raw, clinical_events
+from databuilder.query_language import days
 
 import codelists_ehrql
 
@@ -38,6 +39,7 @@ for column_name in ["hostdat", "age", "calc_age", "sex", "corona_ieorres", "cori
 
 # add primary care characteristics
 
+# TODO: make date subtraction work. Needs the relevant column converting to a date.
 # dataset.diabetes = (
 #     clinical_events.take(clinical_events.ctv3_code.is_in(codelists_ehrql.diabetes)) # update to snomed
 #     .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1))) 
