@@ -57,11 +57,6 @@ isaric_processed <-
       right=FALSE
     ),
     sex = factor(sex, levels=c("Female", "Male")),
-
-    ## TODO TESTING COMORBIDITIES -- update here when comorbidities are available in databuilder
-    diabetes = inflammatory_mss,
-    chornic_cardiac_disease = inflammatory_mss
-
   )
 
 write_rds(isaric_processed, here("output", "admissions", "processed_isaric.rds"), compress="gz")
