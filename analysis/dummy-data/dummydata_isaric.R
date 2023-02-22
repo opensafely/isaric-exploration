@@ -73,6 +73,14 @@ sim_list = lst(
     missing_rate = ~0
   ),
 
+  diabetes = bn_node(
+    ~rbernoulli(..n, 0.1),
+  ),
+
+  chronic_cardiac_disease = bn_node(
+    ~rbernoulli(..n, 0.1),
+  ),
+
   # dsstdat = bn_node(
   #   ~as.integer(runif(n=..n, hostdat-20, hostdat)),
   #   missing_rate = ~0
@@ -102,5 +110,5 @@ dummydata_processed <- day_to_date(dummydata, index_date)
 
 fs::dir_create(here("output", "admissionsdummy"))
 
-write_feather(dummydata_processed, sink = here("output", "admissionsdummy", "isaric_admission1.feather"))
+write_feather(dummydata_processed, sink = here("dummy-output", "isaric_admission1.feather"))
 write_csv(dummydata_processed, here("dummy-tables", "isaric_raw.csv"))

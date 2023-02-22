@@ -1,7 +1,8 @@
 from databuilder.ehrql import Dataset
 from databuilder.tables.beta.tpp import isaric_raw, clinical_events
+from databuilder.query_language import days
 
-#import codelists
+import codelists_ehrql
 
 dataset = Dataset()
 
@@ -34,21 +35,15 @@ for column_name in ["hostdat", "age", "calc_age", "sex", "corona_ieorres", "cori
     setattr(dataset, column_name, column_data)
 
 
+def add_primary_care_characteristic_to_dataset(column_name):
+    codelist_attribute = getattr(codelists_ehrql, column_name)
+    characteristic = clinical_events.take(
+        clinical_events.ctv3_code.is_in(codelist_attribute)
+        # TODO: make date subtraction work.
+        # .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1)))
+    ).exists_for_patient()
+    setattr(dataset, column_name, characteristic)
 
 
-# add primary care characteristics
-
-# dataset.diabetes = (
-#     clinical_events.take(clinical_events.ctv3_code.is_in(codelists.diabetes)) # update to snomed
-#     .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1))) 
-#     .exists_for_patient()
-# )
-# 
-# dataset.chronic_cardiac_disease = (
-#     clinical_events.take(
-#       clinical_events.ctv3_code.is_in(codelists.chronic_cardiac_disease) & # update to snomed
-#       (clinical_events.date.is_on_or_before(dataset.hostdat) - days(1))
-#     )
-#     .exists_for_patient()
-# )
-
+for characteristic_column_name in ["diabetes", "chronic_cardiac_disease"]:
+    add_primary_care_characteristic_to_dataset(characteristic_column_name)
