@@ -73,6 +73,14 @@ sim_list = lst(
     missing_rate = ~0
   ),
 
+  diabetes = bn_node(
+    ~rbernoulli(..n, 0.1),
+  ),
+
+  chronic_cardiac_disease = bn_node(
+    ~rbernoulli(..n, 0.1),
+  ),
+
   # dsstdat = bn_node(
   #   ~as.integer(runif(n=..n, hostdat-20, hostdat)),
   #   missing_rate = ~0
