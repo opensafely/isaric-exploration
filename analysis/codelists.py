@@ -3,8 +3,8 @@ from cohortextractor import (codelist, codelist_from_csv, combine_codelists)
 
 covid_icd10 = codelist(["U071", "U072", "U109", "U099"], system="icd10")
 
-covid_emergency = codelist(
-    "codelists/user-anschaf-covid-19-ae-diagnosis-codes.csv",
+covid_emergency = codelist_from_csv(
+    "codelists/opensafely-covid-19-ae-diagnosis-codes.csv",
     system="snomed",
 )
 
@@ -13,7 +13,6 @@ resp_emergency = codelist_from_csv(
     system="snomed",
     column="code",
 )
-
 
 
 covid_primary_care_positive_test = codelist_from_csv(

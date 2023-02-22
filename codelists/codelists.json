@@ -60,10 +60,10 @@
       "downloaded_at": "2023-02-13 16:17:40.851865Z",
       "sha": "8b849b5b785d80306e488d0109640c8c1d2da01b"
     },
-    "user-anschaf-covid-19-ae-diagnosis-codes.csv": {
-      "id": "user/anschaf/covid-19-ae-diagnosis-codes/1df1c0b2",
-      "url": "https://codelists.opensafely.org/codelist/user/anschaf/covid-19-ae-diagnosis-codes/1df1c0b2/",
-      "downloaded_at": "2023-02-13 16:17:41.031783Z",
+    "opensafely-covid-19-ae-diagnosis-codes.csv": {
+      "id": "opensafely/covid-19-ae-diagnosis-codes/1df1c0b2",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-19-ae-diagnosis-codes/1df1c0b2/",
+      "downloaded_at": "2023-02-21 16:54:32.101643Z",
       "sha": "e948d6944aa5e2c5f36d92ba009077bc28fdcc31"
     },
     "user-Louis-respiratory-related-ae.csv": {
