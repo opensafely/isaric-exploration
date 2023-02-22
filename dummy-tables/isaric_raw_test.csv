@@ -1,0 +1,4 @@
+patient_id,age,age_factor,calc_age,sex,ethnic,corona_ieorres,coriona_ieorres2,coriona_ieorres3,inflammatory_mss,covid19_vaccine,covid19_vaccined,covid19_vaccined_nk,hostdat,readm_cov19,hooccur,hostdat_transfer,hostdat_transfernk
+1,49,AGE_FACTOR,49,M,ETHNICITY,1,1,1,1,1,2021-05-05,,2021-12-05,0,3,,1
+1,50,AGE_FACTOR,50,M,ETHNICITY,1,1,1,1,1,2021-05-05,,2022-04-03,1,2,2022-03-30,
+2,35,AGE_FACTOR,35,F,ETHNICITY,1,0,0,0,1,,1,2023-01-05,0,3,,

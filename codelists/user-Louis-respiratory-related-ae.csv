@@ -1,0 +1,778 @@
+code,term
+1010333003,Emphysema of left lung
+1010334009,Emphysema of right lung
+1010615002,Late syphilis of lung
+1010620002,Infection of lung caused by Mycobacterium malmoense
+1010622005,Infection of lung caused by Mycobacterium xenopi
+1010634002,Pneumonia caused by Acinetobacter
+1010650005,Acute endogenous lipoid pneumonia
+1010662009,Infection of lung caused by Mycobacterium kansasii
+1010670004,Chronic endogenous lipoid pneumonia
+101301000119106,Acute hypercapnic respiratory failure due to obstructive sleep apnea
+102361000119104,Chronic pneumonia
+1033051000000101,Influenza due to zoonotic influenza virus
+1033071000000105,Influenza due to pandemic influenza virus
+1033091000000109,Influenza due to seasonal influenza virus
+1033111000000104,Influenza with pneumonia due to seasonal influenza virus
+10345003,Primary syphilis of tonsils
+10351008,Suppurative tonsillitis
+103781000119103,Allergic bronchopulmonary mycosis
+104041000119108,Fungal sinusitis
+10446001,Aspergilloma
+105901000119108,Pleural effusion caused by bacterial infection
+105977003,Non-infectious pneumonia
+106001000119101,Chronic obstructive lung disease co-occurrent with acute bronchitis
+10624991000119103,Bronchopneumonia caused by Achromobacter
+10625031000119102,Bronchopneumonia caused by anaerobic bacteria
+10625071000119104,Bronchopneumonia caused by bacteria
+10625111000119106,Bronchopneumonia caused by Escherichia coli
+10625151000119107,Bronchopneumonia caused by Group A Streptococcus
+10625191000119102,Bronchopneumonia caused by Group B Streptococcus
+10625231000119106,Bronchopneumonia caused by Haemophilus influenzae
+10625271000119109,Bronchopneumonia caused by Human metapneumovirus
+10625311000119109,Bronchopneumonia caused by Klebsiella pneumoniae
+10625351000119105,Bronchopneumonia caused by methicillin resistant Staphylococcus aureus
+10625391000119100,Bronchopneumonia caused by methicillin susceptible Staphylococcus aureus
+10625431000119105,Bronchopneumonia caused by Mycoplasma pneumoniae
+10625471000119108,Bronchopneumonia caused by Proteus mirabilis
+10625511000119104,Bronchopneumonia caused by Pseudomonas
+10625551000119103,Bronchopneumonia caused by respiratory syncytial virus
+10625591000119108,Bronchopneumonia caused by Staphylococcus
+10625631000119108,Bronchopneumonia caused by Staphylococcus aureus
+10625671000119106,Bronchopneumonia caused by Streptococcus
+10625711000119105,Bronchopneumonia caused by Streptococcus pneumoniae
+10625751000119106,Bronchopneumonia due to virus
+10629191000119100,Bronchiolitis caused by influenza virus
+10629231000119109,Recurrent acute streptococcal tonsillitis
+10674711000119105,Acute severe exacerbation of asthma co-occurrent with allergic rhinitis
+10674991000119104,Intermittent allergic asthma
+10675391000119101,Severe controlled persistent asthma
+10675431000119106,Severe persistent allergic asthma
+10675471000119109,Acute severe exacerbation of severe persistent allergic asthma
+10675551000119104,Acute severe exacerbation of severe persistent asthma co-occurrent with allergic rhinitis
+10675751000119107,Severe uncontrolled persistent asthma
+10675871000119106,Mild persistent allergic asthma
+10675911000119109,Acute severe exacerbation of mild persistent allergic asthma
+10675991000119100,Acute severe exacerbation of mild persistent allergic asthma co-occurrent with allergic rhinitis
+10676391000119108,Moderate persistent allergic asthma
+10676431000119103,Acute severe exacerbation of moderate persistent allergic asthma
+10676511000119109,Acute severe exacerbation of moderate persistent asthma co-occurrent with allergic rhinitis
+10685111000119102,Upper respiratory tract infection caused by Influenza
+10692681000119108,Aspirin exacerbated respiratory disease
+10692721000119102,Chronic obstructive asthma co-occurrent with acute exacerbation of asthma
+10692761000119107,Asthma-chronic obstructive pulmonary disease overlap syndrome
+10742121000119104,Asthma in mother complicating childbirth
+10809006,Parainfluenza virus laryngotracheitis
+1082721000119101,Pneumonia caused by Ascaris
+1086701000000102,Life threatening acute exacerbation of allergic asthma
+1086711000000100,Life threatening acute exacerbation of intrinsic asthma
+1087061000119106,Gonococcal pneumonia
+1090211000119102,Pharyngeal diphtheria
+1092361000119109,Rubella pneumonia
+1092951000119106,Pneumonia caused by Bordetella parapertussis
+1103911000000103,Severe asthma with fungal sensitisation
+111816002,Pneumococcal tonsillitis
+111849006,Adenoviral bronchitis
+111900000,Pneumonia in aspergillosis
+11389007,Inhalational anthrax
+11461005,Staphylococcal tonsillitis
+11641008,Millers' asthma
+120639003,Hantavirus pulmonary syndrome
+123587001,Acute bronchopneumonia
+123588006,Confluent bronchopneumonia with abscess formation
+123589003,Necrotizing bronchopneumonia
+123590007,Focal pneumonia
+123591006,Confluent pneumonia
+1240541000000107,Infection of upper respiratory tract caused by Severe acute respiratory syndrome coronavirus 2
+12428000,Intrinsic asthma without status asthmaticus
+124691000119101,Pneumonia caused by methicillin resistant Staphylococcus aureus
+124991000119109,Severe persistent asthma co-occurrent with allergic rhinitis
+125001000119103,Moderate persistent asthma co-occurrent with allergic rhinitis
+125011000119100,Mild persistent asthma co-occurrent with allergic rhinitis
+125021000119107,Intermittent asthma co-occurrent with allergic rhinitis
+12571000132104,Pneumonitis due to Herpes zoster
+128601007,Infectious disease of lung
+128711000119106,Pneumonia caused by methicillin susceptible Staphylococcus aureus
+128940004,Parasitic infection of lung
+129451001,Respiratory bronchiolitis associated interstitial lung disease
+129452008,Nonspecific interstitial pneumonia
+13089009,Adenoviral bronchiolitis
+135171000119106,Acute exacerbation of moderate persistent asthma
+135181000119109,Acute exacerbation of mild persistent asthma
+135836000,End stage chronic obstructive airways disease
+13645005,Chronic obstructive lung disease
+138389411000119105,Acute bronchitis caused by Severe acute respiratory syndrome coronavirus 2
+13841000119107,Exudative pleural effusion
+14114003,Pseudochylothorax
+142931000119100,Pneumonia caused by H1N1 influenza
+142941000119109,Upper respiratory tract infection caused by H1N1 influenza
+14527007,Tuberculous empyema
+15199004,Acute bronchiolitis with bronchospasm
+1532007,Viral pharyngitis
+154283005,Pulmonary tuberculosis
+15600009,Pneumochylothorax
+15682004,Anterior nasal diphtheria
+16003001,Giant bullous emphysema
+16036000,Acute empyema of frontal sinus
+16146001,Viral bronchitis
+16311000119108,Pneumonia caused by influenza
+16584951000119101,Oral steroid-dependent asthma
+16846004,Obstructive emphysema
+1731000119106,Atypical mycobacterial infection of lung
+1741000119102,Intermittent asthma uncontrolled
+1751000119100,Acute exacerbation of chronic obstructive airways disease with asthma
+18041002,Printers' asthma
+181007,Hemorrhagic bronchopneumonia
+181869007,Neonatal cardiorespiratory arrest
+184431000119108,Acute pneumonia due to coccidioidomycosis
+186175002,Infiltrative lung tuberculosis
+186177005,Tuberculosis of lung with cavitation
+186178000,Tuberculosis of bronchus
+186193001,"Tuberculosis of lung, confirmed by sputum microscopy with or without culture"
+186194007,"Tuberculosis of lung, confirmed by culture only"
+186195008,"Tuberculosis of lung, confirmed histologically"
+186203002,"Tuberculosis of lung, bacteriologically and histologically negative"
+186204008,"Tuberculosis of lung, bacteriological and histological examination not done"
+186342000,Pulmonary Mycobacterium avium complex infection
+186659004,Herpangina
+186675001,Viral pharyngoconjunctivitis
+186963008,Vincent's angina - pharyngitis
+187027001,Acute pulmonary coccidioidomycosis
+187052004,Pulmonary African histoplasmosis
+187054003,Pulmonary histoplasmosis
+187066009,Primary pulmonary blastomycosis
+187069002,Acute pulmonary blastomycosis
+187084006,Tonsillar aspergillosis
+187100003,Rhinocerebral mucormycosis
+187196002,Toxoplasma pneumonitis
+187222000,Infestation of nasopharynx caused by fly larvae
+190905008,Cystic fibrosis
+191727003,Post measles pneumonia
+195658003,Acute bacterial pharyngitis
+195659006,Acute pneumococcal pharyngitis
+195660001,Acute staphylococcal pharyngitis
+195662009,Acute viral pharyngitis
+195671000,Acute bacterial tonsillitis
+195672007,Acute pneumococcal tonsillitis
+195673002,Acute staphylococcal tonsillitis
+195676005,Acute viral tonsillitis
+195684009,Acute haemophilus influenzae laryngitis
+195685005,Acute pneumococcal laryngitis
+195686006,Acute suppurative laryngitis
+195708003,Recurrent upper respiratory tract infection
+195717003,Acute purulent bronchitis
+195719000,Acute pneumococcal bronchitis
+195720006,Acute streptococcal bronchitis
+195721005,Acute haemophilus influenzae bronchitis
+195722003,Acute Moraxella catarrhalis bronchitis
+195725001,Acute coxsackievirus bronchitis
+195726000,Acute parainfluenza virus bronchitis
+195727009,Acute respiratory syncytial virus bronchitis
+195728004,Acute bronchitis caused by rhinovirus
+195729007,Acute echovirus bronchitis
+195737004,Acute exudative bronchiolitis
+195739001,Acute bronchiolitis caused by respiratory syncytial virus
+195742007,Acute lower respiratory tract infection
+195770009,Chronic infective rhinitis
+195878008,Pneumonia and influenza
+195881003,Pneumonia caused by respiratory syncytial virus
+195886008,Group B streptococcal pneumonia
+195888009,Proteus pneumonia
+195889001,Legionella pneumonia
+195896004,Pneumonia caused by pleuropneumonia-like organism
+195900001,Pneumonia co-occurrent and due to measles
+195902009,Anthrax pneumonia
+195904005,Pneumonia with coccidioidomycosis
+195908008,Actinomycotic pneumonia
+195909000,Nocardial pneumonia
+195911009,Chickenpox pneumonia
+195923003,Influenza with laryngitis
+195924009,Influenza with pharyngitis
+195949008,Chronic asthmatic bronchitis
+195951007,Acute exacerbation of chronic obstructive airways disease
+195957006,Chronic bullous emphysema
+195958001,Segmental bullous emphysema
+195959009,Zonal bullous emphysema
+195967001,Asthma
+195977004,Mixed asthma
+196001008,Chronic obstructive pulmonary disease with acute lower respiratory infection
+196026004,Chronic emphysema caused by chemical fumes
+196027008,Toxic bronchiolitis obliterans
+196067009,Loculated empyema
+196112005,Abscess of lung with pneumonia
+19849005,Meat-wrappers' asthma
+206283000,Congenital staphylococcal pneumonia
+206284006,Congenital group A hemolytic streptococcal pneumonia
+206285007,Congenital group B hemolytic streptococcal pneumonia
+206286008,Congenital Escherichia coli pneumonia
+206287004,Congenital pseudomonal pneumonia
+206289001,Congenital chlamydial pneumonia
+206359006,Neonatal candidiasis of lung
+2087000,Pulmonary nocardiosis
+20953001,Pulmonary cryptococcosis
+21060003,Acute bacterial epiglottitis
+213215000,Cardiorespiratory failure as a complication of care
+21846001,Pulmonary actinomycosis
+22482002,Subacute obliterative bronchiolitis
+225057002,Brittle asthma
+22754005,Staphylococcal pneumonia
+232367004,Nasal syphilis
+232399005,Acute herpes simplex pharyngitis
+232400003,Acute herpes zoster pharyngitis
+232401004,Glandular fever pharyngitis
+232402006,Meningococcal pharyngitis
+232403001,Chlamydial pharyngitis
+232404007,Acute pharyngeal candidiasis
+232406009,Chronic pharyngeal candidiasis
+232417005,Vincent's tonsillitis
+232418000,Acute infection of tonsillar remnant
+232434002,Chronic fungal laryngitis
+233598009,Acute bacterial bronchitis
+233599001,Acute mycoplasmal bronchitis
+233600003,Acute chlamydial bronchitis
+233601004,Acute viral bronchitis
+233602006,Acute viral bronchiolitis
+233603001,Acute bronchiolitis caused by adenovirus
+233604007,Pneumonia
+233606009,Atypical pneumonia
+233607000,Pneumococcal pneumonia
+233608005,Meningococcal pneumonia
+233609002,Pneumonia caused by Chlamydiaceae
+233610007,Neonatal chlamydial pneumonia
+233613009,Fungal pneumonia
+233614003,Pulmonary mucormycosis
+233615002,Chronic pulmonary coccidioidomycosis
+233616001,Pulmonary blastomycosis
+233617005,Hemorrhagic pneumonia
+233618000,Mycobacterial pneumonia
+233619008,Neonatal pneumonia
+233620002,Pneumonia due to parasitic infestation
+233621003,Rickettsial pneumonia
+233622005,Infectious mononucleosis pneumonia
+233623000,Mononuclear interstitial pneumonia
+233624006,Herpes simplex pneumonia
+233625007,Giant cell pneumonia
+233639007,Benign asbestos pleural effusion
+233640009,Drug-induced pleural effusion
+233646003,Congenital chylothorax
+233647007,Malignant chylothorax
+233648002,Traumatic chylothorax
+233649005,Tuberculous chylothorax
+233650005,Intralipid pseudochylous effusion
+233673002,Drug-induced bronchiolitis obliterans
+233674008,Pulmonary emphysema in alpha-1 primary immunodeficiency deficiency
+233675009,Toxic emphysema
+233677001,Scar emphysema
+233678006,Childhood asthma
+233679003,Late onset asthma
+233683003,Hay fever with asthma
+233687002,Colophony asthma
+233688007,Sulfite-induced asthma
+233706004,Drug-induced acute pulmonary edema
+233713004,Seasonal cryptogenic organizing pneumonia with biochemical cholestasis
+233728004,Cholesterol pneumonia
+233730002,Lupus pneumonia
+233731003,Traumatic pneumonia
+233785003,Infectious disorder of trachea
+233794009,Tuberculous bronchopleural fistula
+233795005,Infectious disorder of bronchus
+233797002,Infected bronchogenic cyst
+235978006,Cystic fibrosis of pancreas
+2360001000004109,Steroid dependent asthma
+236302005,Acute interstitial pneumonia
+23698009,Staphylococcal pleurisy with effusion
+23958009,Vanishing lung
+240387006,Pulmonary glanders
+240391001,Pulmonary melioidosis
+240422004,Tracheobronchial diphtheria
+240444009,Fusobacterial necrotizing tonsillitis
+240547000,Lymphonodular coxsackie pharyngitis
+240629003,Malarial shock lung
+240635003,Pneumonia caused by Leishmania
+240704003,Pharyngeal candidiasis
+240705002,Candidiasis of trachea
+240735009,Classical histoplasmosis nasal ulceration
+240741002,Acute pulmonary African histoplasmosis
+240742009,Chronic pulmonary African histoplasmosis
+240747003,Chronic pulmonary blastomycosis
+24078009,Gangosa of yaws
+24235005,Tuberculous hydrothorax
+24302002,Pneumococcal pleurisy with effusion
+243981000119109,Pulmonary filariasis
+24662006,Influenza caused by Influenza B virus
+2523007,Salmonella pneumonia
+25831001,Tuberculosis of nasal septum
+26427008,Chronic pulmonary histoplasmosis
+266350000,Pneumococcal lobar pneumonia
+266355005,Bullous emphysema with collapse
+266356006,Atrophic (senile) emphysema
+266361008,Non-allergic asthma
+266404004,Chronic chemical respiratory disease
+271503005,Pleural empyema with fistula
+271504004,Pleural empyema with no fistula
+271567008,Whooping cough-like syndrome
+27278006,Acute empyema of sphenoidal sinus
+27475006,Parainfluenza virus bronchitis
+275376007,Congenital syphilitic chronic coryza
+275497007,Infection of lower respiratory tract and mediastinum
+275500001,Exudative pleurisy
+276191000000107,Viral wheeze
+276259003,Respiratory arrest preceding cardiac arrest
+276692000,Congenital viral pneumonia
+276693005,Congenital bacterial pneumonia
+276695003,Neonatal aspiration pneumonia
+276700005,Congenital syphilitic rhinitis
+27757009,Encysted pleurisy
+277869007,Non-tuberculous mycobacterial pneumonia
+27836007,Pertussis
+278484009,Tropical pulmonary eosinophilia
+278516003,Lobar pneumonia
+28085001,Empyema with bronchopleural fistula
+281239006,Exacerbation of asthma
+281794004,Viral upper respiratory tract infection
+285381006,Acute infective exacerbation of chronic obstructive airways disease
+28791000119105,Chronic coccidioidomycotic pneumonia
+293991000000106,Very severe chronic obstructive pulmonary disease
+29591002,Purulent bronchitis
+300999006,Basal pneumonia
+301000005,Left lower zone pneumonia
+301001009,Right lower zone pneumonia
+301002002,Left upper zone pneumonia
+301003007,Right middle zone pneumonia
+301004001,Right upper zone pneumonia
+301824001,Acute viral laryngotracheitis
+30437004,Empyema with bronchocutaneous fistula
+304527002,Acute asthma
+307202004,Hemorrhagic pleural effusion
+308906005,Secondary bacterial pneumonia
+312118003,Bacterial upper respiratory infection
+312119006,Bacterial lower respiratory infection
+312134000,Viral lower respiratory infection
+312342009,Infective pneumonia
+312371005,Acute infective bronchitis
+312400008,Acute infective tracheobronchitis
+312422001,Infective pharyngitis
+312423006,Infective laryngitis
+31309002,Respiratory syncytial virus pharyngitis
+313296004,Mild chronic obstructive pulmonary disease
+313297008,Moderate chronic obstructive pulmonary disease
+313299006,Severe chronic obstructive pulmonary disease
+31387002,Exercise-induced asthma
+314978007,Postoperative pneumonia
+31561003,Hypostatic bronchopneumonia
+31810002,Pleurisy with effusion
+31898008,Paraseptal emphysema
+31920006,Hemorrhagic varicella pneumonitis
+3214003,Invasive pulmonary aspergillosis
+32179007,Furuncle of nasal septum
+32204007,Pulmonary actinobacillosis
+32286006,Pneumonia in Q fever
+328531000119104,Upper respiratory tract infection caused by Influenza A
+32904004,Pneumococcal laryngitis
+33325001,Compensatory emphysema
+33631007,Pyopneumothorax
+34015007,Bakers' asthma
+34020007,Pneumonia caused by Streptococcus
+34286007,Empyema with hepatopleural fistula
+34290009,Pulmonary nematodiasis
+3487004,Candidiasis of lung
+35031000119100,Acute aspiration pneumonia
+35037009,Primary atypical interstitial pneumonia
+35168006,Acute empyema of ethmoidal sinus
+35339003,Primary pneumonic plague
+35377009,Parainfluenza virus laryngotracheobronchitis
+360371003,Acute cardiac pulmonary edema
+370218001,Mild asthma
+370219009,Moderate asthma
+370220003,Occasional asthma
+370221004,Severe asthma
+371072008,Postobstructive pneumonia
+373435003,Battey disease
+37981002,Allergic bronchopulmonary aspergillosis
+385093006,Community acquired pneumonia
+385479009,Follicular bronchiolitis
+38699009,Pneumonia caused by Histoplasma capsulatum
+389145006,Allergic asthma
+38976008,Pneumonic plague
+39172002,Pneumonia caused by Proteus mirabilis
+396285007,Bronchopneumonia
+396286008,Bilateral bronchopneumonia
+40100001,Obliterative bronchiolitis
+401000119107,Asthma with irreversible airway obstruction
+404804003,Platinum asthma
+404806001,Cheese-makers' asthma
+404808000,Isocyanate induced asthma
+40541001,Acute pulmonary edema
+405944004,Asthmatic bronchitis
+40600002,Pneumococcal bronchitis
+40766000,Enteroviral lymphonodular pharyngitis
+407671000,Bilateral pneumonia
+407674008,Aspirin-induced asthma
+40786001,Aspiration pneumonia caused by regurgitated gastric secretions
+408680002,Healthcare associated bacterial pneumonia
+408681003,Healthcare associated legionnaire's disease
+408682005,Healthcare associated pertussis
+408687004,Healthcare associated influenza disease
+409663006,Cough variant asthma
+409664000,Pneumonia caused by anaerobic bacteria
+409665004,Pneumonia caused by aerobic bacteria
+410430005,Cardiorespiratory arrest
+41048006,Haemophilus influenzae laryngitis
+4120002,Bronchiolitis
+41207000,Adenoviral pneumonia
+41269000,Influenzal bronchopneumonia
+41381004,Pneumonia caused by Pseudomonas
+414304001,Furuncle of nasal cavity
+415125002,Pneumocystosis jirovecii pneumonia
+41553006,Detergent asthma
+415724006,Tonsillitis caused by Gram negative bacteria
+41582007,Streptococcal tonsillitis
+417688002,Chronic progressive coccidioidal pneumonia
+418122003,Bronchomoniliasis
+418395004,Tea-makers' asthma
+42004004,Aspiration pneumonia caused by inhalation of vomitus
+420544002,Bacterial pneumonia associated with acquired immunodeficiency syndrome
+420706008,Nasopharyngeal fascioliasis
+420787001,Pneumococcal pneumonia associated with acquired immunodeficiency syndrome
+421047005,Candidiasis of lung associated with acquired immunodeficiency syndrome
+421508002,Viral pneumonia associated with acquired immunodeficiency syndrome
+421671002,Pneumonia associated with acquired immunodeficiency syndrome
+4225003,Tuberculosis of nose
+422588002,Aspiration pneumonia
+423889005,Non-immunoglobulin E mediated allergic asthma
+424199006,Substance induced asthma
+424327005,Tonsillar actinomycosis
+424643009,Immunoglobulin E-mediated allergic asthma
+425464007,Nosocomial pneumonia
+425802001,Bilateral pleural effusion
+425969006,Exacerbation of intermittent asthma
+425996009,Bilateral basal pneumonia
+426437004,Familial idiopathic pulmonary fibrosis
+426656000,Severe persistent asthma
+426696003,Lingular pneumonia
+426705001,Diabetes mellitus co-occurrent and due to cystic fibrosis
+42680007,Endogenous lipoid pneumonia
+426896000,Chronic hypercapnic respiratory failure
+426979002,Mild persistent asthma
+427295004,Moderate persistent asthma
+427603009,Intermittent asthma
+427679007,Mild intermittent asthma
+427895005,Loculated pleural effusion
+428697002,Inactive tuberculosis of lung
+429271009,Ventilator-acquired pneumonia
+429427008,Invasive fungal sinusitis
+430395005,Pneumonia caused by Gram negative bacteria
+430476004,Diffuse panbronchiolitis
+430969000,Recurrent aspiration pneumonia
+432381000,Human papillomavirus infection of vocal cord
+43692000,Influenzal acute upper respiratory infection
+438764004,Postoperative aspiration pneumonia
+43878008,Streptococcal sore throat
+441551009,Inflammation of larynx caused by virus
+441590008,Pneumonia caused by Severe acute respiratory syndrome coronavirus
+441658007,Pneumonia caused by Staphylococcus aureus
+441942006,Pneumonia caused by infection caused by Streptococcus pyogenes
+442025000,Acute exacerbation of chronic asthmatic bronchitis
+442094008,Pneumonia caused by Histoplasma
+442438000,Influenza caused by Influenza A virus
+442696006,Influenza caused by Influenza A virus subtype H1N1
+44274007,Lymphoid interstitial pneumonia
+443378001,Lady Windermere syndrome
+444745000,Infection of mucous cyst of nasal sinus
+444814009,Viral sinusitis
+445058002,Inflammation of bronchus caused by Aspergillus
+445096001,Pneumonia caused by Human metapneumovirus
+445102008,Inflammation of bronchiole caused by Human metapneumovirus
+445130008,Acute infective adenoiditis
+445427006,Seasonal asthma
+44549008,Aspiration pneumonia resulting from a procedure
+446543007,Tuberculous abscess of lung
+446594000,Infection of pharynx caused by Chlamydia trachomatis
+446753005,Tuberculosis of oropharynx
+446946005,Reinfection pulmonary tuberculosis
+446986002,Tuberculous pleural effusion
+447006007,Relapse pulmonary tuberculosis
+448719004,Postoperative lower respiratory tract infection
+448739000,Recurrent lower respiratory tract infection
+450715004,Influenza caused by Influenza A virus subtype H7
+450716003,Influenza caused by Influenza A virus subtype H9
+45263007,Pulmonary sporotrichosis
+45312009,Pneumonia in typhoid fever
+45556008,Pulmonary tularemia
+46207001,Pneumonitis caused by acquired toxoplasmosis
+462163003,Fetal pleural effusion
+46970008,Pneumonia caused by Mycoplasma pneumoniae
+47082005,Congenital rubella pneumonitis
+471272001,Cavitary pneumonia
+47895001,Congenital emphysema
+47938003,Chronic obliterative bronchiolitis
+4981000,Panacinar emphysema
+50215002,Laryngeal diphtheria
+50417007,Lower respiratory tract infection
+50694005,Empyema with mediastinal fistula
+50804000,Catarrhal pneumonia
+50997000,Pulmonary dirofilariasis
+51209006,Viral tonsillitis
+51530003,Pneumonia caused by Escherichia coli
+51960003,Secondary syphilis of pharynx
+52409006,Bronchiolitis exudativa
+52721006,Tuberculosis of nasal sinus
+53084003,Bacterial pneumonia
+54150009,Upper respiratory infection
+54398005,Acute upper respiratory infection
+5505005,Acute bronchiolitis
+55419007,Tuberculosis of glottis
+55570000,Asthma without status asthmaticus
+55679008,Peribronchial pneumonia
+56498009,Tuberculosis of nasopharynx
+56968009,Asthma caused by wood dust
+57089007,Respiratory syncytial virus bronchiolitis
+57607007,Occupational asthma
+57686001,Emphysematous bleb of lung
+57702005,Unresolved pneumonia
+58031004,Suppurative pharyngitis
+58524006,Acute pulmonary histoplasmosis
+58554001,Empyema of pleura
+58576005,Haemophilus influenzae epiglottitis
+58763001,Acute empyema of nasal sinus
+58890000,Adenoviral bronchopneumonia
+59221008,Parainfluenza virus rhinopharyngitis
+59475000,Pneumonia in pertussis
+59786004,Weavers' cough
+59903001,Acute obliterating bronchiolitis
+60031001,Serofibrinous pleurisy
+60046008,Pleural effusion
+6042001,Pulmonary aspergillosis
+60485005,Pleurobronchopneumonia
+60805002,Hemolytic anemia with emphysema AND cutis laxa
+60916008,Cardiopulmonary schistosomiasis
+6142004,Influenza
+61700007,Influenza with non-respiratory manifestation
+61884008,Achromobacter pneumonia
+63088003,Allergic asthma without status asthmaticus
+63402005,Meigs' syndrome
+63741006,Fungal infection of lung
+64479007,Pneumonia caused by Klebsiella pneumoniae
+64667001,Interstitial pneumonia
+64703005,Terminal bronchopneumonia
+64880000,Parainfluenza virus bronchopneumonia
+64917006,Parainfluenza virus pneumonia
+65095005,Amebic lung abscess
+65102004,Adiaspiromycosis caused by Emmonsia parva
+65141002,Foreign body pneumonia
+65878001,Septic bronchitis
+65933003,Hydropneumothorax
+66011008,Viral tracheitis
+66429007,Unresolved lobar pneumonia
+66987001,Congenital lobar emphysema
+67525007,Secondary pneumonic plague
+68328006,Centriacinar emphysema
+68409003,Organized pneumonia
+698504006,Postoperative cardiopulmonary failure
+699014000,Recurrent pneumonia
+699748007,Cardiorespiratory arrest with successful resuscitation
+700249006,Idiopathic interstitial pneumonia
+700250006,Idiopathic pulmonary fibrosis
+700273003,Isolated tracheobronchial tuberculosis
+70036007,Haemophilus influenzae pneumonia
+70341005,Tuberculous laryngitis
+703468005,Bacterial tonsillitis
+703470001,Bacterial sinusitis
+70385007,Adenoviral pharyngoconjunctivitis
+703953004,Allergic asthma caused by Dermatophagoides pteronyssinus
+703954005,Allergic asthma caused by Dermatophagoides farinae
+704345008,Chronic interstitial pneumonia
+7063008,Gangrenous pneumonia
+707444001,Uncomplicated asthma
+707445000,Exacerbation of mild persistent asthma
+707446004,Exacerbation of moderate persistent asthma
+707447008,Exacerbation of severe persistent asthma
+707448003,Influenza caused by Influenza A virus subtype H7N9
+707449006,Exogenous lipoid pneumonia
+707503004,Pneumonia caused by Schistosoma mansoni
+707507003,Pneumonia caused by Schistosoma japonicum
+707508008,Pneumonia caused by Schistosoma haematobium
+707509000,Tracheobronchitis caused by Aspergillus
+707511009,Uncomplicated mild persistent asthma
+707512002,Uncomplicated moderate persistent asthma
+707513007,Uncomplicated severe persistent asthma
+707552000,Acute exogenous lipoid pneumonia
+707553005,Chronic exogenous lipoid pneumonia
+70756004,Bronchial atresia with segmental pulmonary emphysema
+707766007,Exocrine pancreatic manifestation co-occurrent and due to cystic fibrosis
+707979007,Acute severe exacerbation of severe persistent asthma
+707980005,Acute severe exacerbation of moderate persistent asthma
+707981009,Acute severe exacerbation of mild persistent asthma
+708025003,Pyopneumothorax following infection by Coccidioides
+708030004,Pulmonary emphysema co-occurrent with fibrosis of lung
+708031000,Idiopathic eosinophilic pneumonia
+708038006,Acute exacerbation of asthma
+708090002,Acute severe exacerbation of asthma
+708093000,Acute exacerbation of immunoglobulin E-mediated allergic asthma
+708094006,Acute exacerbation of intrinsic asthma
+708095007,Acute severe exacerbation of immunoglobin E-mediated allergic asthma
+708096008,Acute severe exacerbation of intrinsic asthma
+709109004,Hypercapnic respiratory failure
+709110009,Acute hypercapnic respiratory failure
+7097001,Streptococcal pleurisy with effusion
+70976000,Viral epiglottitis
+71186008,Croup
+71255007,Adenoviral laryngotracheobronchitis
+713083002,Influenza caused by Influenza A virus subtype H5
+713084008,Pneumonia caused by Human coronavirus
+713419002,Intraoperative cardiorespiratory arrest
+713525001,Recurrent bacterial pneumonia
+713526000,Recurrent bacterial pneumonia co-occurrent with human immunodeficiency virus infection
+713544008,Bacterial pneumonia co-occurrent with human immunodeficiency virus infection
+713721008,Hydrothorax as complication of peritoneal dialysis
+715219001,Familial spontaneous pneumothorax
+715593000,Infection of nasal cavity caused by Genus Candida
+715882005,Severe acute respiratory syndrome of upper respiratory tract
+716088000,Follicular hamartoma with alopecia and cystic fibrosis syndrome
+716673006,Infection of upper respiratory tract caused by fungus
+718004,Acute bronchiolitis with obstruction
+719218000,Cryptogenic organizing pneumonia
+71926009,Infective pneumonia acquired prenatally
+719522009,Infection of upper respiratory tract caused by Candida co-occurrent with human immunodeficiency virus infection
+719590007,Influenza caused by seasonal influenza virus
+719865001,Influenza caused by pandemic influenza virus
+720401009,Cystic fibrosis with gastritis and megaloblastic anemia syndrome
+721586007,Pharyngotonsillitis caused by Human herpes simplex virus
+721741006,Sinusitis caused by Streptococcus pneumoniae
+721755003,Sinusitis caused by Haemophilus influenzae
+721804002,Infection of lung caused by Pneumocystis
+72204002,Respiratory syncytial virus laryngotracheobronchitis
+72301000119103,Asthma in pregnancy
+723829000,"Pulmonary fibrosis, hepatic hyperplasia, bone marrow hypoplasia syndrome"
+72409005,Rhinoscleroma
+724498004,Pneumonia caused by Chlamydia pneumoniae
+724499007,Idiopathic acute eosinophilic pneumonia
+724500003,Idiopathic chronic eosinophilic pneumonia
+725052002,Fetal cystic fibrosis
+725916003,Acute sinusitis caused by fungus
+725917007,Acute sinusitis caused by virus
+72656004,Granulomatous pneumonia
+72854003,Aspiration pneumonia due to near drowning
+733051000,Pneumonia caused by Gram positive bacteria
+733170007,Chronic aspergillosis of paranasal sinus
+733171006,Chronic pulmonary aspergillosis
+733497009,Chronic suppuration of bronchus
+733858005,Acute severe refractory exacerbation of asthma
+73414003,Haemophilus influenzae laryngotracheobronchitis
+734477008,Congenital hydrothorax
+734904007,Life threatening acute exacerbation of asthma
+734905008,Moderate acute exacerbation of asthma
+735386008,Acute hypoxemic respiratory failure co-occurrent with acute hypercapnic respiratory failure
+735465007,Protracted bronchitis caused by bacterium
+735532001,Infection of lung caused by Echinococcus
+735588005,Uncomplicated allergic asthma
+735589002,Uncomplicated non-allergic asthma
+735740009,Infection causing tracheitis in neonate
+7361000175106,Acute-on-chronic hypercapnic respiratory failure
+737180005,Chronic bronchiolitis
+73995006,Pulmonary paracoccidioidomycosis
+74372003,Gonorrhea of pharynx
+74387008,Tuberculosis of hilar lymph nodes
+74417001,Mucopurulent chronic bronchitis
+74644004,Influenza with encephalopathy
+75388006,Echinococcus granulosus infection of lung
+75426006,Aspiration pneumonia caused by regurgitated food
+7548000,Rheumatic pneumonia
+75498004,Acute bacterial sinusitis
+75570004,Viral pneumonia
+75589004,Nasopharyngeal diphtheria
+75689006,Pleural effusion associated with hepatic disorder
+76090006,Pittsburgh pneumonia
+762269004,Classical cystic fibrosis
+762270003,Atypical cystic fibrosis
+762271004,Subclinical cystic fibrosis
+762521001,Exacerbation of allergic asthma
+762618008,Bronchiolitis obliterans syndrome due to and after lung transplantation
+763888005,Necrotizing pneumonia caused by Panton-Valentine leukocidin producing Staphylococcus aureus
+76630008,Fibrinopurulent pleurisy
+76651006,Pneumococcal pharyngitis
+76653009,Acute empyema of maxillary sinus
+7678002,Cytomegaloviral pneumonia
+770674007,Tubercular lesion of lung
+772810003,Influenza caused by Influenza A virus subtype H3N2
+772828001,Influenza caused by Influenza A virus subtype H5N1
+772839003,Pneumonia caused by Influenza A virus
+77668003,Isolated tracheal tuberculosis
+77690003,Interstitial emphysema of lung
+782513000,Acute severe exacerbation of allergic asthma
+782520007,Exacerbation of allergic asthma due to infection
+782761005,Subacute invasive pulmonary aspergillosis
+782774004,Atypical Meigs syndrome
+78430008,Adenoviral pharyngitis
+786836003,Near fatal asthma
+78887005,Seropurulent pleurisy
+78895009,Congenital pneumonia
+788964000,Infestation of larynx caused by larva of order Diptera
+788997004,Obstruction of tracheobronchial tree caused by Aspergillus infection
+78911000,Parainfluenza virus pharyngitis
+789574002,Acute exacerbation of idiopathic pulmonary fibrosis
+79231000,Hydrothorax
+79479005,Respiratory syncytial virus bronchitis
+80003002,Tuberculous pneumonia
+80010008,Isolated bronchial tuberculosis
+80423007,Spontaneous pneumothorax
+80602006,Nodular tuberculosis of lung
+81075000,Pleural effusion associated with pulmonary infection
+81164001,Ornithosis with pneumonia
+81339006,Secondary syphilis of tonsil
+81423003,Cystic fibrosis without meconium ileus
+81524006,Influenza caused by Influenza C virus
+81554001,Tuberculosis of lung with involvement of bronchus
+82228008,Staphylococcal pharyngitis
+82272006,Common cold
+82454002,Carbuncle of nasal septum
+82690000,Suppurative laryngitis
+829976001,Thunderstorm asthma
+83035003,Chylothorax
+83608006,Aspiration pneumonia caused by inhalation of milk
+836477007,Chronic emphysema caused by vapor
+836478002,Subacute obliterative bronchiolitis caused by chemical fumes
+836479005,Subacute obliterative bronchiolitis caused by vapor
+840350008,Chronic obliterative bronchiolitis caused by chemical fumes
+840351007,Chronic obliterative bronchiolitis caused by vapor
+840521002,Acute pulmonary edema caused by fume
+840522009,Acute pulmonary edema caused by vapor
+84353005,Pulmonary disease caused by Mycobacteria
+8442000,Purulent rhinitis
+847091000000104,Acute non-infective exacerbation of chronic obstructive pulmonary disease
+84753008,Pneumonia in systemic mycosis
+849571000000102,Acute bacterial laryngitis
+85083002,Streptococcal laryngitis
+85426002,Bacterial pleurisy with effusion
+85469005,Hypostatic pneumonia
+8549006,Desquamative interstitial pneumonia
+8555001,Syphilis of lung
+85832003,Parainfluenza virus laryngitis
+859041000000103,Exacerbation of cystic fibrosis
+860791002,Pleural effusion due to neoplastic disease
+860792009,Pleural effusion due to malignant neoplastic disease
+86092005,Cystic fibrosis with meconium ileus
+863977001,Pleural effusion due to disorder of pancreas
+863978006,Pleural effusion due to pancreatitis
+86555001,Cystic fibrosis of the lung
+86680006,Ruptured emphysematous bleb of lung
+866881000000101,Chronic asthma with fixed airflow obstruction
+870573008,Interstitial pneumonia with autoimmune features
+87317003,Respiratory arrest
+87433001,Pulmonary emphysema
+87695000,Necrotizing bronchiolitis
+88036000,Primary pulmonary coccidioidomycosis
+880529761000119102,Lower respiratory infection caused by Severe acute respiratory syndrome coronavirus 2
+882784691000119100,Pneumonia caused by Severe acute respiratory syndrome coronavirus 2
+90117007,Tuberculous fibrosis of lung
+90727007,Pleural effusion due to congestive heart failure
+9095002,Adiaspiromycosis caused by Emmonsia crescens
+9228003,Pulmonary schistosomiasis
+92807009,Chemical-induced asthma
+9312005,Necrotic rhinitis
+93432008,Drug-induced asthma
+9505000,Infestation caused by Pneumonyssus simicola
+95634003,Neonatal respiratory arrest
+95885008,Mycoplasmal pharyngitis
+95886009,Mycoplasmal tracheobronchitis
+99031000119107,Acute exacerbation of asthma co-occurrent with allergic rhinitis

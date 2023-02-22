@@ -1,11 +1,217 @@
 version: '3.0'
 
 expectations:
-  population_size: 3000
+
+  population_size: 1000
 
 actions:
-  extract_population:
-    run: databuilder:v0.69.0 generate-dataset "analysis/dataset_definition.py" --dummy-tables "dummy-tables/" --output "output/isaric_raw_population.csv.gz"
+
+  ## # # # # # # # # # # # # # # # # # # # 
+  ## DO NOT EDIT project.yaml DIRECTLY 
+  ## This file is created by create-project.R 
+  ## Edit and run create-project.R to update the project.yaml 
+  ## # # # # # # # # # # # # # # # # # # # 
+  ## # # # # # # # # # # # # # # # # # # # 
+  ## Extract admission date 
+  ## # # # # # # # # # # # # # # # # # # # 
+
+  extract_isaric_admission1:
+    run: databuilder:v0.69.0 generate-dataset 'analysis/dataset_definition_isaric.py'
+      --dummy-tables 'dummy-tables/' --output 'output/admissions/isaric_admission1.csv.gz'
+    needs: []
     outputs:
       highly_sensitive:
-        population: output/isaric_raw_population.csv.gz
+        csv: output/admissions/isaric_admission1.csv.gz
+
+  process_isaric:
+    run: r:latest analysis/process_isaric.R
+    needs:
+    - extract_isaric_admission1
+    outputs:
+      highly_sensitive:
+        rds: output/admissions/processed_isaric.rds
+      moderately_sensitive:
+        txt: output/admissions/isaric_raw_skim.txt
+
+  extract_sus_methodA_admission1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodA_admission1.csv.gz --param admission_number=1
+      --param admission_method=A
+    needs: []
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodA_admission1.csv.gz
+
+  extract_sus_methodA_admission2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodA_admission2.csv.gz --param admission_number=2
+      --param admission_method=A
+    needs:
+    - extract_sus_methodA_admission1
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodA_admission2.csv.gz
+
+  extract_sus_methodA_admission3:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodA_admission3.csv.gz --param admission_number=3
+      --param admission_method=A
+    needs:
+    - extract_sus_methodA_admission2
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodA_admission3.csv.gz
+
+  extract_sus_methodA_admission4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodA_admission4.csv.gz --param admission_number=4
+      --param admission_method=A
+    needs:
+    - extract_sus_methodA_admission3
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodA_admission4.csv.gz
+
+  extract_sus_methodA_admission5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodA_admission5.csv.gz --param admission_number=5
+      --param admission_method=A
+    needs:
+    - extract_sus_methodA_admission4
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodA_admission5.csv.gz
+
+  extract_sus_methodB_admission1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodB_admission1.csv.gz --param admission_number=1
+      --param admission_method=B
+    needs: []
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodB_admission1.csv.gz
+
+  extract_sus_methodB_admission2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodB_admission2.csv.gz --param admission_number=2
+      --param admission_method=B
+    needs:
+    - extract_sus_methodB_admission1
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodB_admission2.csv.gz
+
+  extract_sus_methodB_admission3:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodB_admission3.csv.gz --param admission_number=3
+      --param admission_method=B
+    needs:
+    - extract_sus_methodB_admission2
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodB_admission3.csv.gz
+
+  extract_sus_methodB_admission4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodB_admission4.csv.gz --param admission_number=4
+      --param admission_method=B
+    needs:
+    - extract_sus_methodB_admission3
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodB_admission4.csv.gz
+
+  extract_sus_methodB_admission5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodB_admission5.csv.gz --param admission_number=5
+      --param admission_method=B
+    needs:
+    - extract_sus_methodB_admission4
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodB_admission5.csv.gz
+
+  extract_sus_methodC_admission1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodC_admission1.csv.gz --param admission_number=1
+      --param admission_method=C
+    needs: []
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodC_admission1.csv.gz
+
+  extract_sus_methodC_admission2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodC_admission2.csv.gz --param admission_number=2
+      --param admission_method=C
+    needs:
+    - extract_sus_methodC_admission1
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodC_admission2.csv.gz
+
+  extract_sus_methodC_admission3:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodC_admission3.csv.gz --param admission_number=3
+      --param admission_method=C
+    needs:
+    - extract_sus_methodC_admission2
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodC_admission3.csv.gz
+
+  extract_sus_methodC_admission4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodC_admission4.csv.gz --param admission_number=4
+      --param admission_method=C
+    needs:
+    - extract_sus_methodC_admission3
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodC_admission4.csv.gz
+
+  extract_sus_methodC_admission5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodC_admission5.csv.gz --param admission_number=5
+      --param admission_method=C
+    needs:
+    - extract_sus_methodC_admission4
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodC_admission5.csv.gz
+
+  process_sus:
+    run: r:latest analysis/process_sus.R
+    needs:
+    - extract_sus_methodA_admission1
+    - extract_sus_methodA_admission2
+    - extract_sus_methodA_admission3
+    - extract_sus_methodA_admission4
+    - extract_sus_methodA_admission5
+    - extract_sus_methodB_admission1
+    - extract_sus_methodB_admission2
+    - extract_sus_methodB_admission3
+    - extract_sus_methodB_admission4
+    - extract_sus_methodB_admission5
+    - extract_sus_methodC_admission1
+    - extract_sus_methodC_admission2
+    - extract_sus_methodC_admission3
+    - extract_sus_methodC_admission4
+    - extract_sus_methodC_admission5
+    outputs:
+      highly_sensitive:
+        rds: output/admissions/processed_sus*.rds
+
+  validation:
+    run: r:latest analysis/validation.R
+    needs:
+    - process_isaric
+    - process_sus
+    outputs:
+      moderately_sensitive:
+        csv: output/validation/*.csv
+
+  ## # # # # # # # # # # # # # # # # # # # 
+  ## End 
+  ## # # # # # # # # # # # # # # # # # # # 
+
