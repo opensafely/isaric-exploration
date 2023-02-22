@@ -23,7 +23,7 @@ def combine_codelists(*codelists):
 covid_icd10 = codelist(["U071", "U072", "U109", "U099"], system="icd10")
 
 covid_emergency = codelist_from_csv(
-    "codelists/user-anschaf-covid-19-ae-diagnosis-codes.csv",
+    "codelists/opensafely-covid-19-ae-diagnosis-codes.csv",
     system="snomedct",
     column="code",
 )
