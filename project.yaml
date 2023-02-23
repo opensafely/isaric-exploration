@@ -16,7 +16,7 @@ actions:
   ## # # # # # # # # # # # # # # # # # # # 
 
   extract_isaric_admission1:
-    run: databuilder:v0.69.0 generate-dataset 'analysis/dataset_definition_isaric.py'
+    run: databuilder:v0.70.0 generate-dataset 'analysis/dataset_definition_isaric.py'
       --dummy-tables 'dummy-tables/' --output 'output/admissions/isaric_admission1.csv.gz'
     needs: []
     outputs:
