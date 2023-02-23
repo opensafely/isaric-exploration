@@ -37,11 +37,11 @@ for column_name in ["hostdat", "age", "calc_age", "sex", "corona_ieorres", "cori
 
 def add_primary_care_characteristic_to_dataset(column_name):
     codelist_attribute = getattr(codelists_ehrql, column_name)
-    characteristic = clinical_events.take(
-        clinical_events.ctv3_code.is_in(codelist_attribute)
-        # TODO: make date subtraction work.
-        # .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1)))
-    ).exists_for_patient()
+    characteristic = (
+        clinical_events.take(clinical_events.ctv3_code.is_in(codelist_attribute))
+        .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1)))
+        .exists_for_patient()
+    )
     setattr(dataset, column_name, characteristic)
 
 
