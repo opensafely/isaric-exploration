@@ -44,10 +44,10 @@ nrow(admissions_susC %>% filter(admission_number ==1))
 admissions_joined <-
   reduce(
     lst(
-      admissions_isaric %>% filter(admission_number == 1) %>% transmute(patient_id, admiss_date=hostdat, method_isaric=TRUE),
-      admissions_susA %>% filter(admission_number == 1) %>% transmute(patient_id, admiss_date, method_susA=TRUE),
-      admissions_susB %>% filter(admission_number == 1) %>% transmute(patient_id, admiss_date, method_susB=TRUE),
-      admissions_susC %>% filter(admission_number == 1) %>% transmute(patient_id, admiss_date, method_susC=TRUE),
+      admissions_isaric %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date=hostdat, method_isaric=TRUE),
+      admissions_susA %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, method_susA=TRUE),
+      admissions_susB %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, method_susB=TRUE),
+      admissions_susC %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, method_susC=TRUE),
     ),
     full_join,
     by = c("patient_id", "admission_date")
