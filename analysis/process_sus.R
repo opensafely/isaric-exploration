@@ -30,7 +30,8 @@ get_admissions <- function(method, n){
     here("dummy-output", glue("sus_method{method}_admission{n}.feather")),
     here("output", "admissions", glue("sus_method{method}_admission{n}.csv.gz"))
   ) %>%
-  select(-previous_admission_date) %>%
+  select(-previous_admiss_date) %>%
+  rename(admission_date = admiss_date) %>%
   add_column(
     admission_method=method,
     admission_number=n,
