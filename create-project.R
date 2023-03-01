@@ -95,7 +95,7 @@ actions_list <- splice(
 
   action(
     name = glue("extract_isaric_admission1"),
-    run = glue("databuilder:v0.73.0 generate-dataset 'analysis/dataset_definition_isaric.py' --dummy-tables 'dummy-tables/' --output 'output/admissions/isaric_admission1.csv.gz'"),
+    run = glue("databuilder:v0 generate-dataset 'analysis/dataset_definition_isaric.py' --dummy-tables 'dummy-tables/' --output 'output/admissions/isaric_admission1.csv.gz'"),
     needs = list(),
     highly_sensitive = lst(
       csv = glue("output/admissions/isaric_admission1.csv.gz")
