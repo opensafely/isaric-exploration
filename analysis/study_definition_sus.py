@@ -28,13 +28,13 @@ end_date = "2022-11-30"
 def previous_admission_date_dict(n, method, minimum_date):
   if n == 1:
     variable_dict = {
-      "previous_admission_date": patients.fixed_value(minimum_date),
+      "previous_admiss_date": patients.fixed_value(minimum_date),
     }
   else:
     variable_dict = {
-      "previous_admission_date": patients.with_value_from_file(
+      "previous_admiss_date": patients.with_value_from_file(
         f_path=f"output/admissions/sus_method{method}_admission{n-1}.csv.gz",
-        returning="admission_date", 
+        returning="admiss_date", 
         returning_type="date", 
         date_format='YYYY-MM-DD'
       ),
@@ -45,11 +45,11 @@ def previous_admission_date_dict(n, method, minimum_date):
 def admission_date_dict(method):
   if method == "A":
     variable_dict = {
-      "admission_date": patients.admitted_to_hospital(
+      "admiss_date": patients.admitted_to_hospital(
         returning="date_admitted",
         with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
         with_these_diagnoses=codelists.covid_icd10,
-        on_or_after="previous_admission_date + 1 days",
+        on_or_after="previous_admiss_date + 1 days",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
       ),
@@ -57,10 +57,10 @@ def admission_date_dict(method):
     
   if method == "B":
     variable_dict = {
-      "admission_date": patients.admitted_to_hospital(
+      "admiss_date": patients.admitted_to_hospital(
         returning="date_admitted",
         with_these_diagnoses=codelists.covid_icd10,
-        on_or_after="previous_admission_date + 1 days",
+        on_or_after="previous_admiss_date + 1 days",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
       ),
@@ -68,10 +68,10 @@ def admission_date_dict(method):
     
   if method == "C":
     variable_dict = {
-      "admission_date": patients.attended_emergency_care(
+      "admiss_date": patients.attended_emergency_care(
         returning="date_arrived",
         date_format="YYYY-MM-DD",
-        on_or_after="previous_admission_date + 1 days",
+        on_or_after="previous_admiss_date + 1 days",
         find_first_match_in_period=True,
         with_these_diagnoses = codelists.covid_emergency,
         discharged_to = codelists.discharged_to_hospital,
@@ -81,7 +81,7 @@ def admission_date_dict(method):
     
   if method == "D":
     variable_dict = {
-      "admission_date": patients.categorised_as(
+      "admiss_date": patients.categorised_as(
         {
           attended_resp_date: "attended_resp_date AND positivetest3",
           "": "DEFAULT"
@@ -90,7 +90,7 @@ def admission_date_dict(method):
         attended_resp_date=patients.attended_emergency_care(
           returning="date_arrived",
           date_format="YYYY-MM-DD",
-          on_or_after="previous_admission_date + 1 days",
+          on_or_after="previous_admiss_date + 1 days",
           find_first_match_in_period=True,
           with_these_diagnoses = codelists.resp_emergency,
           discharged_to = codelists.discharged_to_hospital,
@@ -108,14 +108,14 @@ def admission_date_dict(method):
   
   if method == "E":
     variable_dict = {
-      "admission_date": patients.satisfying(
+      "admiss_date": patients.satisfying(
         
         "attended_date AND positivetest4",
         
         attended_date = patients.attended_emergency_care(
           returning="date_arrived",
           date_format="YYYY-MM-DD",
-          on_or_after="previous_admission_date + 1 days",
+          on_or_after="previous_admiss_date + 1 days",
           find_first_match_in_period=True,
           with_these_diagnoses = codelists.covid_emergency,
           discharged_to = codelists.discharged_to_hospital,
@@ -149,7 +149,7 @@ study = StudyDefinition(
   
   # This line defines the study population
   population=patients.satisfying(
-    "admission_date",
+    "admiss_date",
   ),
   
   
@@ -167,21 +167,21 @@ study = StudyDefinition(
   ###############################################################################
   
   prior_dereg_date=patients.date_deregistered_from_all_supported_practices(
-    on_or_before="admission_date - 1 day",
+    on_or_before="admiss_date - 1 day",
     date_format="YYYY-MM-DD",
   ),
 
   dereg_date=patients.date_deregistered_from_all_supported_practices(
-    on_or_after="admission_date",
+    on_or_after="admiss_date",
     date_format="YYYY-MM-DD",
   ),
   
   registered=patients.registered_as_of(
-    "admission_date",
+    "admiss_date",
   ),
 
   age=patients.age_as_of( 
-    "admission_date",
+    "admiss_date",
   ),
   
   sex=patients.sex(
@@ -193,7 +193,7 @@ study = StudyDefinition(
   ),
   
   practice_id=patients.registered_practice_as_of(
-    "admission_date",
+    "admiss_date",
     returning="pseudo_id",
     return_expectations={
       "int": {"distribution": "normal", "mean": 1000, "stddev": 100},
@@ -202,7 +202,7 @@ study = StudyDefinition(
   ),
   
   stp=patients.registered_practice_as_of(
-    "admission_date",
+    "admiss_date",
     returning="stp_code",
     return_expectations={
       "rate": "universal",
@@ -224,7 +224,7 @@ study = StudyDefinition(
   ),
   
   region=patients.registered_practice_as_of(
-    "admission_date",
+    "admiss_date",
     returning="nuts1_region_name",
     return_expectations={
       "rate": "universal",
@@ -273,13 +273,13 @@ study = StudyDefinition(
   diabetes = patients.with_these_clinical_events(
     codelists.diabetes,
     returning="binary_flag",
-    on_or_before="admission_date - 1 day",
+    on_or_before="admiss_date - 1 day",
   ),
   
   chronic_cardiac_disease = patients.with_these_clinical_events(
     codelists.chronic_cardiac_disease,
     returning="binary_flag",
-    on_or_before="admission_date - 1 day",
+    on_or_before="admiss_date - 1 day",
   ),
   
   ################################################################################################
@@ -305,7 +305,7 @@ study = StudyDefinition(
 #     ),
 #     returning="date",
 #     date_format="YYYY-MM-DD",
-#     on_or_before="admission_date - 1 day",
+#     on_or_before="admiss_date - 1 day",
 #     find_last_match_in_period=True,
 #   ),
 #   
@@ -313,7 +313,7 @@ study = StudyDefinition(
 #   prior_covid_test_date=patients.with_test_result_in_sgss(
 #     pathogen="SARS-CoV-2",
 #     test_result="any",
-#     on_or_before="admission_date - 1 day",
+#     on_or_before="admiss_date - 1 day",
 #     returning="date",
 #     date_format="YYYY-MM-DD",
 #     find_last_match_in_period=True,
@@ -326,7 +326,7 @@ study = StudyDefinition(
 #     test_result="positive",
 #     returning="date",
 #     date_format="YYYY-MM-DD",
-#     on_or_before="admission_date - 1 day",
+#     on_or_before="admiss_date - 1 day",
 #     find_last_match_in_period=True,
 #     restrict_to_earliest_specimen_date=False,
 #   ),
@@ -337,7 +337,7 @@ study = StudyDefinition(
 #     test_result="positive",
 #     returning="date",
 #     date_format="YYYY-MM-DD",
-#     on_or_after="admission_date",
+#     on_or_after="admiss_date",
 #     find_first_match_in_period=True,
 #     restrict_to_earliest_specimen_date=False,
 #   ),

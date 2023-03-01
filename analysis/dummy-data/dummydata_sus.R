@@ -30,22 +30,22 @@ index_date = as.Date("2020-01-01")
 
 sim_list1 = lst(
 
-  previous_admission_day = bn_node(
+  previous_admiss_day = bn_node(
     ~0
   ),
 
-  admission_day = bn_node(
+  admiss_day = bn_node(
     ~as.integer(seq_len(..n)*(500/..n)), # uniformly distributed over day 0 to 500, in order
     missing_rate = ~0.05
   ),
 
   prior_dereg_day = bn_node(
-    ~as.integer(runif(n=..n, admission_day-500, admission_day)),
+    ~as.integer(runif(n=..n, admiss_day-500, admiss_day)),
     missing_rate = ~0.99
   ),
 
   dereg_day = bn_node(
-    ~as.integer(runif(n=..n, admission_day, admission_day+500)),
+    ~as.integer(runif(n=..n, admiss_day, admiss_day+500)),
     missing_rate = ~0.99
   ),
 
@@ -103,14 +103,14 @@ sim_list1 = lst(
 )
 
 sim_list2 = lst(
-  admission_day = bn_node(
-    ~as.integer(runif(n=..n, previous_admission_day, 300)),
+  admiss_day = bn_node(
+    ~as.integer(runif(n=..n, previous_admiss_day, 300)),
     missing_rate = ~0.9
   )
 )
 
 bn1 <- bn_create(sim_list1, known_variables = known_variables)
-bn2 <- bn_create(sim_list2, known_variables = c(known_variables, "previous_admission_day"))
+bn2 <- bn_create(sim_list2, known_variables = c(known_variables, "previous_admiss_day"))
 
 bn_plot(bn1)
 bn_plot(bn1, connected_only=TRUE)
@@ -118,14 +118,14 @@ bn_plot(bn1, connected_only=TRUE)
 set.seed(10)
 
 dummydata1 <- bn_simulate(bn1, pop_size = population_size, keep_all = FALSE, .id="patient_id")
-dummydata2 <- bn_simulate(bn2, pop_size = population_size, keep_all = FALSE, .id="patient_id", known_df = dummydata1 %>% select(-previous_admission_day) %>% rename(previous_admission_day = admission_day))
-dummydata3 <- bn_simulate(bn2, pop_size = population_size, keep_all = FALSE, .id="patient_id", known_df = dummydata2 %>% select(-previous_admission_day) %>% rename(previous_admission_day = admission_day))
-dummydata4 <- bn_simulate(bn2, pop_size = population_size, keep_all = FALSE, .id="patient_id", known_df = dummydata3 %>% select(-previous_admission_day) %>% rename(previous_admission_day = admission_day))
-dummydata5 <- bn_simulate(bn2, pop_size = population_size, keep_all = FALSE, .id="patient_id", known_df = dummydata4 %>% select(-previous_admission_day) %>% rename(previous_admission_day = admission_day))
+dummydata2 <- bn_simulate(bn2, pop_size = population_size, keep_all = FALSE, .id="patient_id", known_df = dummydata1 %>% select(-previous_admiss_day) %>% rename(previous_admiss_day = admiss_day))
+dummydata3 <- bn_simulate(bn2, pop_size = population_size, keep_all = FALSE, .id="patient_id", known_df = dummydata2 %>% select(-previous_admiss_day) %>% rename(previous_admiss_day = admiss_day))
+dummydata4 <- bn_simulate(bn2, pop_size = population_size, keep_all = FALSE, .id="patient_id", known_df = dummydata3 %>% select(-previous_admiss_day) %>% rename(previous_admiss_day = admiss_day))
+dummydata5 <- bn_simulate(bn2, pop_size = population_size, keep_all = FALSE, .id="patient_id", known_df = dummydata4 %>% select(-previous_admiss_day) %>% rename(previous_admiss_day = admiss_day))
 
 day_to_date <- function(data, index_date){
   data %>%
-    filter(!is.na(admission_day)) %>%
+    filter(!is.na(admiss_day)) %>%
     #convert logical to integer as study defs output 0/1 not TRUE/FALSE
     mutate(across(where(is.logical), ~ as.integer(.))) %>%
     #convert integer days to dates since index date and rename vars
