@@ -1,6 +1,6 @@
 from databuilder.ehrql import Dataset
-from databuilder.tables.beta.tpp import isaric_raw, clinical_events
 from databuilder.query_language import days
+from databuilder.tables.beta.tpp import clinical_events, isaric_raw
 
 import codelists_ehrql
 
@@ -25,7 +25,17 @@ dataset.set_population(isaric_raw.exists_for_patient())
 #     setattr(dataset, column_name, column_data)
 
 
-for column_name in ["hostdat", "age", "calc_age", "sex", "corona_ieorres", "coriona_ieorres2", "coriona_ieorres3", "inflammatory_mss", "covid19_vaccine"]:
+for column_name in [
+    "hostdat",
+    "age",
+    "calc_age",
+    "sex",
+    "corona_ieorres",
+    "coriona_ieorres2",
+    "coriona_ieorres3",
+    "inflammatory_mss",
+    "covid19_vaccine",
+]:
     # Instead of approach above, choose subset of variables currently of interest, treating all as a string
     column_on_table = getattr(isaric_raw, column_name)
     # Choose the same row for each column.
@@ -37,11 +47,11 @@ for column_name in ["hostdat", "age", "calc_age", "sex", "corona_ieorres", "cori
 
 def add_primary_care_characteristic_to_dataset(column_name):
     codelist_attribute = getattr(codelists_ehrql, column_name)
-    characteristic = clinical_events.take(
-        clinical_events.ctv3_code.is_in(codelist_attribute)
-        # TODO: make date subtraction work.
-        # .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1)))
-    ).exists_for_patient()
+    characteristic = (
+        clinical_events.take(clinical_events.ctv3_code.is_in(codelist_attribute))
+        .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1)))
+        .exists_for_patient()
+    )
     setattr(dataset, column_name, characteristic)
 
 
