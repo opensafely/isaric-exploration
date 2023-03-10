@@ -7,7 +7,7 @@ import codelists_ehrql
 dataset = Dataset()
 
 # Select all patients with an entry in the ISARIC table.
-dataset.set_population(isaric_raw.exists_for_patient())
+dataset.define_population(isaric_raw.exists_for_patient())
 
 # for column_name in isaric_raw.qm_node.schema.column_names:
 #     # The conventional way to set columns on the dataset in ehrQL would be to write them out:
@@ -48,8 +48,8 @@ for column_name in [
 def add_primary_care_characteristic_to_dataset(column_name):
     codelist_attribute = getattr(codelists_ehrql, column_name)
     characteristic = (
-        clinical_events.take(clinical_events.ctv3_code.is_in(codelist_attribute))
-        .take(clinical_events.date.is_on_or_before(dataset.hostdat - days(1)))
+        clinical_events.where(clinical_events.ctv3_code.is_in(codelist_attribute))
+        .where(clinical_events.date.is_on_or_before(dataset.hostdat - days(1)))
         .exists_for_patient()
     )
     setattr(dataset, column_name, characteristic)
