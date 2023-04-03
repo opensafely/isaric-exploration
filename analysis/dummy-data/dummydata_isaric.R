@@ -30,6 +30,11 @@ index_date = as.Date("2020-01-01")
 
 sim_list = lst(
 
+  admission_date = bn_node(
+    ~as.integer(seq_len(..n)*(500/..n)), # uniformly distributed over day 0 to 500
+    missing_rate = ~0
+  ),
+
   corona_ieorres = bn_node(
     ~rfactor(n=..n, levels = c("Yes", "No"), p = c(0.51, 0.49)),
     missing_rate = ~0.1
@@ -68,23 +73,116 @@ sim_list = lst(
     missing_rate = ~0.001 # this is shorthand for ~(rbernoulli(n=..n, p = 0.2))
   ),
 
-  hostdat = bn_node(
-    ~as.integer(seq_len(..n)*(500/..n)), # uniformly distributed over day 0 to 500
-    missing_rate = ~0
+  ccd_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
   ),
 
-  diabetes = bn_node(
-    ~rbernoulli(..n, 0.1),
+  hypertension_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
   ),
 
-  chronic_cardiac_disease = bn_node(
-    ~rbernoulli(..n, 0.1),
+  chronicpul_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
   ),
 
-  # dsstdat = bn_node(
-  #   ~as.integer(runif(n=..n, hostdat-20, hostdat)),
-  #   missing_rate = ~0
-  # ),
+  asthma_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  ckd_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  mildliver_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  modliver_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  neuro_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  cancer_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  haemo_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  hiv_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  obesity_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  diabetes_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  diabetescom_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  rheumatologic_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  dementia_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+  malnutrition_isaric = bn_node(
+    ~rfactor(n=..n, levels = c("YES", "NO", "Unknown"), p = c(0.1, 0.89, 0.01)),
+  ),
+
+
+  ccd_pc = bn_node(
+    ~if_else(ccd_isaric=="YES", runif(..n)<0.99, runif(..n)>0.99)*1L,
+  ),
+
+  hypertension_pc = bn_node(
+    ~if_else(hypertension_isaric=="YES", runif(..n)<0.99, runif(..n)>0.99)*1L,
+  ),
+
+  copd_pc = bn_node(
+    ~if_else(chronicpul_isaric=="YES", runif(..n)<0.90, runif(..n)>0.99)*1L,
+  ),
+  asthma_pc = bn_node(
+    ~if_else(asthma_isaric=="YES", runif(..n)<0.99, runif(..n)>0.99)*1L,
+  ),
+  ckd_pc = bn_node(
+    ~if_else(ckd_isaric=="YES", runif(..n)<0.99, runif(..n)>0.99)*1L,
+  ),
+  neuro_pc = bn_node(
+    ~if_else(neuro_isaric=="YES", runif(..n)<0.99, runif(..n)>0.99)*1L,
+  ),
+  cancer_haemo_pc = bn_node(
+    ~if_else(cancer_isaric=="YES", runif(..n)<0.20, runif(..n)>0.99)*1L,
+  ),
+  cancer_lung_pc = bn_node(
+    ~if_else(cancer_isaric=="YES", runif(..n)<0.20, runif(..n)>0.99)*1L,
+  ),
+  cancer_other_pc = bn_node(
+    ~if_else(cancer_isaric=="YES", runif(..n)<0.70, runif(..n)>0.99)*1L,
+  ),
+  hiv_pc = bn_node(
+    ~if_else(hiv_isaric=="YES", runif(..n)<0.99, runif(..n)>0.99)*1L,
+  ),
+  diabetes_pc = bn_node(
+    ~if_else(diabetes_isaric=="YES", runif(..n)<0.99, runif(..n)>0.99)*1L,
+  ),
+  diabetes_t1_pc = bn_node(
+    ~if_else(diabetes_pc=="YES", runif(..n)<0.20, runif(..n)>0.99)*1L,
+  ),
+  diabetes_t2_pc = bn_node(
+    ~if_else(diabetes_pc=="YES" & !diabetes_t1_pc, runif(..n)<0.95, runif(..n)>0.99)*1L,
+  ),
 
 )
 
@@ -102,7 +200,7 @@ day_to_date <- function(data, index_date){
     #convert logical to integer as study defs output 0/1 not TRUE/FALSE
     mutate(across(where(is.logical), ~ as.integer(.))) %>%
     #convert integer days to dates since index date and rename vars
-    mutate(across(c("hostdat"), ~ as.Date(as.character(index_date + .))))
+    mutate(across(c("admission_date"), ~ as.Date(as.character(index_date + .))))
 }
 
 dummydata_processed <- day_to_date(dummydata, index_date)
