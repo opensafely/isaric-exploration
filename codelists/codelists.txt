@@ -15,5 +15,19 @@ opensafely/ethnicity-snomed-0removed/2e641f61/
 opensafely/covid-19-ae-diagnosis-codes/1df1c0b2
 user/Louis/respiratory-related-ae/4a555f7d
 # comorbidities
-opensafely/chronic-cardiac-disease/2020-04-08
-opensafely/diabetes/2020-04-15
+opensafely/chronic-cardiac-disease-snomed/2020-04-08
+opensafely/hypertension-snomed/2020-04-28
+nhsd-primary-care-domain-refsets/copd_cod/20210127
+opensafely/asthma-diagnosis-snomed/2020-04-15
+opensafely/chronic-kidney-disease-snomed/2020-04-14
+opensafely/chronic-liver-disease-snomed/2020-06-02
+opensafely/other-neurological-conditions/2020-06-02
+opensafely/haematological-cancer-snomed/2020-04-15
+opensafely/cancer-excluding-lung-and-haematological-snomed/2020-04-15
+opensafely/lung-cancer-snomed/2020-04-15
+
+opensafely/hiv-snomed/2020-07-13
+
+opensafely/diabetes-snomed/2020-04-15
+nhsd-primary-care-domain-refsets/dmtype2_cod/20200812
+nhsd-primary-care-domain-refsets/dmtype1_cod/20210127
