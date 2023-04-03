@@ -75,17 +75,16 @@ discharged_to_hospital = codelist(
     system="snomed",
 )
 
-# comorbidities 
-
-diabetes = codelist_from_csv(
-    "codelists/opensafely-diabetes.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
-chronic_cardiac_disease = codelist_from_csv(
-    "codelists/opensafely-chronic-cardiac-disease.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-
+# 
+# diabetes = codelist_from_csv(
+#     "codelists/opensafely-diabetes.csv",
+#     system="ctv3",
+#     column="CTV3ID",
+# )
+# 
+# chronic_cardiac_disease = codelist_from_csv(
+#     "codelists/opensafely-chronic-cardiac-disease.csv",
+#     system="ctv3",
+#     column="CTV3ID",
+# )
+# 

@@ -86,13 +86,13 @@ sim_list1 = lst(
 
   # comorbidities
 
-  diabetes = bn_node(
-    ~rbernoulli(n=..n, p=0.15)
-  ),
-
-  chronic_cardiac_disease = bn_node(
-    ~rbernoulli(n=..n, p=0.2)
-  ),
+  # diabetes = bn_node(
+  #   ~rbernoulli(n=..n, p=0.15)
+  # ),
+  #
+  # chronic_cardiac_disease = bn_node(
+  #   ~rbernoulli(n=..n, p=0.2)
+  # ),
 
 
 

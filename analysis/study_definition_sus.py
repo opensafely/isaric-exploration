@@ -270,18 +270,18 @@ study = StudyDefinition(
   # Solid organ transplant; 
   # immunosuppression therapies.
   
-  diabetes = patients.with_these_clinical_events(
-    codelists.diabetes,
-    returning="binary_flag",
-    on_or_before="admiss_date - 1 day",
-  ),
-  
-  chronic_cardiac_disease = patients.with_these_clinical_events(
-    codelists.chronic_cardiac_disease,
-    returning="binary_flag",
-    on_or_before="admiss_date - 1 day",
-  ),
-  
+  # diabetes = patients.with_these_clinical_events(
+  #   codelists.diabetes,
+  #   returning="binary_flag",
+  #   on_or_before="admiss_date - 1 day",
+  # ),
+  # 
+  # chronic_cardiac_disease = patients.with_these_clinical_events(
+  #   codelists.chronic_cardiac_disease,
+  #   returning="binary_flag",
+  #   on_or_before="admiss_date - 1 day",
+  # ),
+  # 
   ################################################################################################
   # peri admission characteristics / events
   ################################################################################################

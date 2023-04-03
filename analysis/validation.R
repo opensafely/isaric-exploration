@@ -44,7 +44,7 @@ nrow(admissions_susC %>% filter(admission_number ==1))
 admissions_joined <-
   reduce(
     lst(
-      admissions_isaric %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date=hostdat, method_isaric=TRUE),
+      admissions_isaric %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, method_isaric=TRUE),
       admissions_susA %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, method_susA=TRUE),
       admissions_susB %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, method_susB=TRUE),
       admissions_susC %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, method_susC=TRUE),
@@ -90,23 +90,59 @@ write_csv(ascertainment, here("output","validation", "ascertainment.csv"))
 
 
 
-# Clinical characteristics in SUS versus ISARIC -------
+# Ascertainment of clinical characteristics in SystmOne versus ISARIC -------
 
-## Only consider admissions identified and matched in both sources
+## Only consider ISARIC admissions
 
+comorbs <-
+  c(
+    "ccd",
+    "hypertension",
+    #"chronicpul",
+    "asthma",
+    "ckd",
+    #"mildliver",
+    #"modliver",
+    "neuro",
+    #"cancer",
+    #"haemo",
+    "hiv",
+    #"obesity",
+    "diabetes",
+    #"rheumatologic",
+    #"dementia",
+    #"malnutrition",
+    NULL
+  )
 
-#
-# characteristics <-
-#   admissions_joined %>%
-#   filter(method_isaric, method_susA) %>%
-#   summarise(
-#     n = n(),
-#   ) %>%
-#
-#
-# ascertainment
-#
-# write_csv(characteristics, here("output","validation", "ascertainment.csv"))
+comorbs_crossvalidation <-
+  admissions_isaric %>%
+  mutate(
+    across(
+      .cols = all_of(str_c(comorbs, "_isaric")),
+      .fns = ~(.=="YES")*1L
+    )
+  ) %>%
+  select(
+    patient_id, all_of(str_c(comorbs, "_isaric")), all_of(str_c(comorbs, "_pc"))
+  ) %>%
+  pivot_longer(
+    -patient_id,
+    names_to=c("comorb", ".value"),
+    names_sep="_",
+    values_to=""
+  ) %>%
+  group_by(comorb) %>%
+  summarise(
+    isaric_prop = mean(isaric),
+    pc_prop = mean(pc),
+    difference = isaric_prop - pc_prop,
+    agreement = mean(isaric==pc),
+    sensitivity = sum(pc*isaric) / sum(pc),
+    specificity = sum((1-pc)*(1-isaric)) / sum((1-pc)),
+  )
+
+write_csv(comorbs_crossvalidation, here("output","validation", "comorbs_crossvalidation.csv"))
 
 
 

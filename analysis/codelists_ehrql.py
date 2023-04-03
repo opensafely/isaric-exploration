@@ -65,12 +65,64 @@ discharged_to_hospital = ["306706006", "1066331000000109", "1066391000000105"]
 
 # comorbidities
 
-diabetes = codelist_from_csv(
-    "codelists/opensafely-diabetes.csv",
-    column="CTV3ID",
+chronic_cardiac_disease = codelist_from_csv(
+    "codelists/opensafely-chronic-cardiac-disease-snomed.csv",
+    column="id",
 )
 
-chronic_cardiac_disease = codelist_from_csv(
-    "codelists/opensafely-chronic-cardiac-disease.csv",
+hypertension = codelist_from_csv(
+    "codelists/opensafely-hypertension-snomed.csv",
+    column="id",
+)
+
+copd = codelist_from_csv(
+    "codelists/nhsd-primary-care-domain-refsets-copd_cod.csv",
+    column="code",
+)
+
+asthma = codelist_from_csv(
+    "codelists/opensafely-asthma-diagnosis-snomed.csv",
+    column="id",
+)
+chronic_kidney_disease = codelist_from_csv(
+    "codelists/opensafely-chronic-kidney-disease-snomed.csv",
+    column="id",
+)
+chronic_liver_disease = codelist_from_csv(
+    "codelists/opensafely-chronic-liver-disease-snomed.csv",
+    column="id",
+)
+neuro_other = codelist_from_csv(
+    "codelists/opensafely-other-neurological-conditions.csv",
     column="CTV3ID",
 )
+cancer_haemo = codelist_from_csv(
+    "codelists/opensafely-haematological-cancer-snomed.csv",
+    column="id",
+)
+cancer_lung = codelist_from_csv(
+    "codelists/opensafely-lung-cancer-snomed.csv",
+    column="id",
+)
+cancer_other = codelist_from_csv(
+    "codelists/opensafely-cancer-excluding-lung-and-haematological-snomed.csv",
+    column="id",
+)
+hiv = codelist_from_csv(
+    "codelists/opensafely-hiv-snomed.csv",
+    column="id",
+)
+
+diabetes = codelist_from_csv(
+    "codelists/opensafely-diabetes-snomed.csv",
+    column="id",
+)
+diabetes_t1 = codelist_from_csv(
+    "codelists/nhsd-primary-care-domain-refsets-dmtype1_cod.csv",
+    column="code",
+)
+diabetes_t2 = codelist_from_csv(
+    "codelists/nhsd-primary-care-domain-refsets-dmtype2_cod.csv",
+    column="code",
+)
+

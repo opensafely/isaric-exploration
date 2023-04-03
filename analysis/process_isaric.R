@@ -57,6 +57,7 @@ isaric_processed <-
       right=FALSE
     ),
     sex = factor(sex, levels=c("Female", "Male")),
+    cancer_pc = (cancer_lung_pc | cancer_haemo_pc | cancer_other_pc )*1L
   )
 
 write_rds(isaric_processed, here("output", "admissions", "processed_isaric.rds"), compress="gz")

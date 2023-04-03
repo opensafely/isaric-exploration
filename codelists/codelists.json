@@ -72,17 +72,89 @@
       "downloaded_at": "2023-02-13 20:45:10.399690Z",
       "sha": "d151edf20098013b6572e1114835d78da6e1f483"
     },
-    "opensafely-chronic-cardiac-disease.csv": {
-      "id": "opensafely/chronic-cardiac-disease/2020-04-08",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/chronic-cardiac-disease/2020-04-08/",
-      "downloaded_at": "2023-02-16 10:14:28.565836Z",
-      "sha": "2267f6fada9c77a2bbf62ce7a1c07ddf48348d61"
+    "opensafely-chronic-cardiac-disease-snomed.csv": {
+      "id": "opensafely/chronic-cardiac-disease-snomed/2020-04-08",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/chronic-cardiac-disease-snomed/2020-04-08/",
+      "downloaded_at": "2023-03-27 10:29:34.190652Z",
+      "sha": "9af634a364f09123c83d6da9a694642ccd3075be"
     },
-    "opensafely-diabetes.csv": {
-      "id": "opensafely/diabetes/2020-04-15",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/diabetes/2020-04-15/",
-      "downloaded_at": "2023-02-16 10:14:28.761833Z",
-      "sha": "f2781f0c9a0617b30996d681a798eedd152a09af"
+    "opensafely-hypertension-snomed.csv": {
+      "id": "opensafely/hypertension-snomed/2020-04-28",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/hypertension-snomed/2020-04-28/",
+      "downloaded_at": "2023-03-27 10:29:34.352060Z",
+      "sha": "5d5471bb6a8a01e362b191b3eb8e80c2febeb1da"
+    },
+    "nhsd-primary-care-domain-refsets-copd_cod.csv": {
+      "id": "nhsd-primary-care-domain-refsets/copd_cod/20210127",
+      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/copd_cod/20210127/",
+      "downloaded_at": "2023-03-27 10:29:34.496667Z",
+      "sha": "5d08ae3a50efe6a5fa54806e9ffce16d14ba9955"
+    },
+    "opensafely-asthma-diagnosis-snomed.csv": {
+      "id": "opensafely/asthma-diagnosis-snomed/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/asthma-diagnosis-snomed/2020-04-15/",
+      "downloaded_at": "2023-03-27 10:29:34.648778Z",
+      "sha": "884477b8c56a7e29ef1684d5a7ea3cfd6f75b566"
+    },
+    "opensafely-chronic-kidney-disease-snomed.csv": {
+      "id": "opensafely/chronic-kidney-disease-snomed/2020-04-14",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/chronic-kidney-disease-snomed/2020-04-14/",
+      "downloaded_at": "2023-03-27 10:29:34.823308Z",
+      "sha": "5facf34dc24ff71032df5399b43adcd36997d670"
+    },
+    "opensafely-chronic-liver-disease-snomed.csv": {
+      "id": "opensafely/chronic-liver-disease-snomed/2020-06-02",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/chronic-liver-disease-snomed/2020-06-02/",
+      "downloaded_at": "2023-03-27 10:29:34.974927Z",
+      "sha": "996796d695797fe151821c2e01be26d7d3bfb77c"
+    },
+    "opensafely-other-neurological-conditions.csv": {
+      "id": "opensafely/other-neurological-conditions/2020-06-02",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/other-neurological-conditions/2020-06-02/",
+      "downloaded_at": "2023-03-27 10:29:35.129192Z",
+      "sha": "855e7e09a0500401ae2429c6a401978e8c9075ec"
+    },
+    "opensafely-haematological-cancer-snomed.csv": {
+      "id": "opensafely/haematological-cancer-snomed/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/haematological-cancer-snomed/2020-04-15/",
+      "downloaded_at": "2023-03-27 10:29:35.316505Z",
+      "sha": "c87e49e8d2965bc489f9baba670783f15ce73896"
+    },
+    "opensafely-cancer-excluding-lung-and-haematological-snomed.csv": {
+      "id": "opensafely/cancer-excluding-lung-and-haematological-snomed/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/cancer-excluding-lung-and-haematological-snomed/2020-04-15/",
+      "downloaded_at": "2023-03-27 10:29:35.789813Z",
+      "sha": "d43aff12fcb3b404c635e24f964ba2a368c96c98"
+    },
+    "opensafely-lung-cancer-snomed.csv": {
+      "id": "opensafely/lung-cancer-snomed/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/lung-cancer-snomed/2020-04-15/",
+      "downloaded_at": "2023-03-27 10:29:35.972154Z",
+      "sha": "f0debdf1c968242fa8790cd0b773662b8e169f43"
+    },
+    "opensafely-hiv-snomed.csv": {
+      "id": "opensafely/hiv-snomed/2020-07-13",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/hiv-snomed/2020-07-13/",
+      "downloaded_at": "2023-03-27 10:29:36.130568Z",
+      "sha": "9273c81432c3cfba328a19a1037a0dc2621ef543"
+    },
+    "opensafely-diabetes-snomed.csv": {
+      "id": "opensafely/diabetes-snomed/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/diabetes-snomed/2020-04-15/",
+      "downloaded_at": "2023-03-27 10:29:36.330541Z",
+      "sha": "c255576081fb4ee8c4daf71445d54b0f1ef0a10e"
+    },
+    "nhsd-primary-care-domain-refsets-dmtype2_cod.csv": {
+      "id": "nhsd-primary-care-domain-refsets/dmtype2_cod/20200812",
+      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/dmtype2_cod/20200812/",
+      "downloaded_at": "2023-03-27 10:29:36.536388Z",
+      "sha": "387e64c3c30326515da4db1302a0bd9515f75e67"
+    },
+    "nhsd-primary-care-domain-refsets-dmtype1_cod.csv": {
+      "id": "nhsd-primary-care-domain-refsets/dmtype1_cod/20210127",
+      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/dmtype1_cod/20210127/",
+      "downloaded_at": "2023-03-27 10:29:36.722095Z",
+      "sha": "23e6cb9c5555fb756c9a68295bd701b6ddb34ebd"
     }
   }
 }
