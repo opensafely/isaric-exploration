@@ -154,6 +154,9 @@ ascertainment_fuzzy <-
     susA_prop = mean(method_susA),
     susB_prop = mean(method_susB),
     susC_prop = mean(method_susC),
+    susA_datediff = mean(admission_date_diff_susA, na.rm=TRUE),
+    susB_datediff = mean(admission_date_diff_susB, na.rm=TRUE),
+    susC_datediff = mean(admission_date_diff_susC, na.rm=TRUE),
   ) %>%
   pivot_longer(
     cols=everything(),
