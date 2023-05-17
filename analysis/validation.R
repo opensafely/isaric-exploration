@@ -98,29 +98,86 @@ write_csv(ascertainment, here("output","validation", "ascertainment.csv"))
 
 
 
-# now using fuzzy matching in-case admission dates are slightly different (and to pick up different spells/episodes within a single super spell, etc)
+# now using fuzzy matching in case admission dates are slightly different (and to pick up different spells/episodes within a single super spell, etc)
 
 # all dates of admission via ISARIC per patient up to <end_date>, and each SUS ascertainment method where a match was found for that date +/- 3 days
+
+# the version below hits memory limits, so refectoring below...
+if(FALSE){
+  admissions_joined_fuzzy <-
+    reduce(
+      lst(
+        admissions_isaric %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_isaric=admission_date, method_isaric=TRUE),
+        admissions_susA %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susA=admission_date, method_susA=TRUE),
+        admissions_susB %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susB=admission_date, method_susB=TRUE),
+        admissions_susC %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susC=admission_date, method_susC=TRUE),
+      ),
+      ~{
+        fuzzy_left_join(
+          .x,
+          .y,
+          by = c("patient_id", "admission_date"),
+          match_fun = list(
+            patient_id = `==`,
+            admission_date = function(x,y){x<=y+3 & x>=y-3}
+          )
+        ) %>%
+          rename(patient_id=patient_id.x, admission_date=admission_date.x) %>%
+          select(-patient_id.y, -admission_date.y)
+      },
+    ) %>%
+    mutate(
+      admission_date_diff_susA = admission_date_susA - admission_date_isaric,
+      admission_date_diff_susB = admission_date_susB - admission_date_isaric,
+      admission_date_diff_susC = admission_date_susC - admission_date_isaric
+    ) %>%
+    replace_na(
+      lst(
+        method_isaric=FALSE,
+        method_susA=FALSE,
+        method_susB=FALSE,
+        method_susC=FALSE,
+      )
+    ) %>%
+    filter(
+      admission_date >= start_date,
+      admission_date <= end_date
+    )
+}
+
+
+# potentially lower memory version:
+function_fuzzy_join <- function(mx, my){
+  joined <- fuzzy_left_join(
+    mx,
+    my,
+    by = c("patient_id", "admission_date"),
+    match_fun = list(
+      patient_id = `==`,
+      admission_date = function(x,y){x<=y+1 & x>=y-1}
+    )
+  )
+  renamed <- rename(joined, patient_id=patient_id.x, admission_date=admission_date.x)
+  select(renamed, -patient_id.y, -admission_date.y)
+}
+
+
 admissions_joined_fuzzy <-
-  reduce(
-    lst(
-      admissions_isaric %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_isaric=admission_date, method_isaric=TRUE),
-      admissions_susA %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susA=admission_date, method_susA=TRUE),
-      admissions_susB %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susB=admission_date, method_susB=TRUE),
-      admissions_susC %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susC=admission_date, method_susC=TRUE),
-    ),
-    ~{
-      fuzzy_left_join(
-        .x,
-        .y,
-        by = c("patient_id", "admission_date"),
-        match_fun = list(
-          patient_id = `==`,
-          admission_date = function(x,y){x<=y+3 & x>=y-3})
-      ) %>%
-        rename(patient_id=patient_id.x, admission_date=admission_date.x) %>%
-        select(-patient_id.y, -admission_date.y)
-    },
+  admissions_isaric %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_isaric=admission_date, method_isaric=TRUE) %>%
+  function_fuzzy_join(
+    admissions_susA %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susA=admission_date, method_susA=TRUE)
+  )
+
+admissions_joined_fuzzy <-
+  function_fuzzy_join(
+    admissions_joined_fuzzy,
+    admissions_susB %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susB=admission_date, method_susB=TRUE)
+  )
+
+admissions_joined_fuzzy <-
+  function_fuzzy_join(
+    admissions_joined_fuzzy,
+    admissions_susC %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susC=admission_date, method_susC=TRUE)
   ) %>%
   mutate(
     admission_date_diff_susA = admission_date_susA - admission_date_isaric,
