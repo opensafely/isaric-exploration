@@ -16,8 +16,8 @@ actions:
   ## # # # # # # # # # # # # # # # # # # # 
 
   extract_isaric_admission1:
-    run: databuilder:v0 generate-dataset 'analysis/dataset_definition_isaric.py'
-      --dummy-tables 'dummy-tables/' --output 'output/admissions/isaric_admission1.csv.gz'
+    run: databuilder:v0 generate-dataset 'analysis/dataset_definition_isaric.py' --dummy-tables
+      'dummy-tables/' --output 'output/admissions/isaric_admission1.csv.gz'
     needs: []
     outputs:
       highly_sensitive:
@@ -202,14 +202,24 @@ actions:
       highly_sensitive:
         rds: output/admissions/processed_sus*.rds
 
-  validation:
-    run: r:latest analysis/validation.R
+  validation_events:
+    run: r:latest analysis/validation_events.R
     needs:
     - process_isaric
     - process_sus
     outputs:
       moderately_sensitive:
-        csv: output/validation/*.csv
+        csv: output/validation_events/*.csv
+
+  validation_characteristics:
+    run: r:latest analysis/validation_characteristics.R
+    needs:
+    - process_isaric
+    - process_sus
+    outputs:
+      moderately_sensitive:
+        csv: output/validation_characteristics/*.csv
+        jpg: output/validation_characteristics/*.jpg
 
   ## # # # # # # # # # # # # # # # # # # # 
   ## End 

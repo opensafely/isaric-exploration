@@ -163,11 +163,21 @@ actions_list <- splice(
   ),
 
   action(
-    name = glue("validation"),
-    run = glue("r:latest analysis/validation.R"),
+    name = glue("validation_events"),
+    run = glue("r:latest analysis/validation_events.R"),
     needs = list("process_isaric", "process_sus"),
     moderately_sensitive = lst(
-      csv = glue("output/validation/*.csv")
+      csv = glue("output/validation_events/*.csv"),
+    )
+  ),
+
+  action(
+    name = glue("validation_characteristics"),
+    run = glue("r:latest analysis/validation_characteristics.R"),
+    needs = list("process_isaric", "process_sus"),
+    moderately_sensitive = lst(
+      csv = glue("output/validation_characteristics/*.csv"),
+      jpg= glue("output/validation_characteristics/*.jpg"),
     )
   ),
 
