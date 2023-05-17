@@ -1,6 +1,6 @@
-from databuilder.ehrql import Dataset
-from databuilder.query_language import days
-from databuilder.tables.beta.tpp import clinical_events, isaric_raw
+from ehrql import Dataset
+from ehrql import days
+from ehrql.tables.beta.tpp import clinical_events, isaric_raw, hospital_admissions
 
 import codelists_ehrql
 
