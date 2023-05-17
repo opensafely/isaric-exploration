@@ -119,7 +119,7 @@ if(FALSE){
           by = c("patient_id", "admission_date"),
           match_fun = list(
             patient_id = `==`,
-            admission_date = function(x,y){x<=y+3 & x>=y-3}
+            admission_date = function(x,y){x<=y+1 & x>=y-1}
           )
         ) %>%
           rename(patient_id=patient_id.x, admission_date=admission_date.x) %>%
