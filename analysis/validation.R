@@ -161,19 +161,21 @@ function_fuzzy_join <- function(mx, my){
   select(renamed, -patient_id.y, -admission_date.y)
 }
 
-
+print("susA")
 admissions_joined_fuzzy <-
   admissions_isaric %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_isaric=admission_date, method_isaric=TRUE) %>%
   function_fuzzy_join(
     admissions_susA %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susA=admission_date, method_susA=TRUE)
   )
 
+print("susB")
 admissions_joined_fuzzy <-
   function_fuzzy_join(
     admissions_joined_fuzzy,
     admissions_susB %>% filter(admission_number == 1) %>% transmute(patient_id, admission_date, admission_date_susB=admission_date, method_susB=TRUE)
   )
 
+print("susC")
 admissions_joined_fuzzy <-
   function_fuzzy_join(
     admissions_joined_fuzzy,
@@ -200,6 +202,7 @@ admissions_joined_fuzzy <-
 
 # sensitivity of SUS for picking up admissions reported in ISARIC -------
 
+print("summarise")
 ascertainment_fuzzy <-
   admissions_joined_fuzzy %>%
   filter(method_isaric) %>%
