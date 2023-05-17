@@ -1,6 +1,6 @@
 from ehrql import Dataset
 from ehrql import days
-from ehrql.tables import clinical_events, isaric_raw, hospital_admissions
+from ehrql.tables.beta.tpp import clinical_events, isaric_raw, hospital_admissions
 
 import codelists_ehrql
 
