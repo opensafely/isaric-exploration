@@ -107,13 +107,13 @@ ascertainment <-
   filter(dup_id==1L) %>%
   # summarise number of SUS admissions that match isaric admissions
   summarise(
-    isaric_n = n(),
-    susA_n = sum(method_susA),
-    susB_n = sum(method_susB),
-    susC_n = sum(method_susC),
-    susA_prop = mean(method_susA),
-    susB_prop = mean(method_susB),
-    susC_prop = mean(method_susC),
+    isaric_n = roundmid_any(n(), 10),
+    susA_n = roundmid_any(sum(method_susA),10),
+    susB_n = roundmid_any(sum(method_susB),10),
+    susC_n = roundmid_any(sum(method_susC),10),
+    susA_prop = susA_n/isaric_n,
+    susB_prop = susB_n/isaric_n,
+    susC_prop = susC_n/isaric_n,
   ) %>%
   pivot_longer(
     cols=everything(),
@@ -199,16 +199,16 @@ ascertainment_nonequi <-
   filter(dup_id==1L) %>%
   # summarise number of SUS admissions that closely match isaric admissions
   summarise(
-    isaric_n = n(),
-    susA_n = sum(method_susA),
-    susB_n = sum(method_susB),
-    susC_n = sum(method_susC),
-    susA_prop = mean(method_susA),
-    susB_prop = mean(method_susB),
-    susC_prop = mean(method_susC),
-    susA_datediff = mean(admission_date_diff_susA, na.rm=TRUE),
-    susB_datediff = mean(admission_date_diff_susB, na.rm=TRUE),
-    susC_datediff = mean(admission_date_diff_susC, na.rm=TRUE),
+    isaric_n = roundmid_any(n(), 10),
+    susA_n = roundmid_any(sum(method_susA),10),
+    susB_n = roundmid_any(sum(method_susB),10),
+    susC_n = roundmid_any(sum(method_susC),10),
+    susA_prop = susA_n/isaric_n,
+    susB_prop = susB_n/isaric_n,
+    susC_prop = susC_n/isaric_n,
+    susA_datediff = plyr::round_any(as.numeric(mean(admission_date_diff_susA, na.rm=TRUE)),1/24),
+    susB_datediff = plyr::round_any(as.numeric(mean(admission_date_diff_susB, na.rm=TRUE)),1/24),
+    susC_datediff = plyr::round_any(as.numeric(mean(admission_date_diff_susC, na.rm=TRUE)),1/24),
   ) %>%
   pivot_longer(
     cols=everything(),
