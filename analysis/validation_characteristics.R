@@ -20,6 +20,29 @@ end_date = as.Date("2022-11-30")
 
 rounding_threshold <- 10
 
+
+
+comorbs <-
+  c(
+    "ccd",
+    "hypertension",
+    #"chronicpul",
+    "asthma",
+    "ckd",
+    #"mildliver",
+    #"modliver",
+    "neuro",
+    #"cancer",
+    #"haemo",
+    "hiv",
+    #"obesity",
+    "diabetes",
+    #"rheumatologic",
+    #"dementia",
+    #"malnutrition",
+    NULL
+  )
+
 ## output processed data to rds ----
 output_dir <- here("output", "validation_characteristics")
 fs::dir_create(output_dir)
@@ -142,6 +165,12 @@ library('gtsummary')
 tab_summary_baseline <-
   data_baseline %>%
   mutate(
+    across(
+      .cols = all_of(str_c(comorbs, "_isaric")),
+      .fns = ~factor(.x, levels=c("YES", "NO"))
+    )
+  ) %>%
+  mutate(
     N = 1L
   ) %>%
   select(
@@ -185,26 +214,6 @@ write_csv(raw_stats_redacted, fs::path(output_dir, "baseline.csv"))
 
 ## Only consider ISARIC admissions
 
-comorbs <-
-  c(
-    "ccd",
-    "hypertension",
-    #"chronicpul",
-    "asthma",
-    "ckd",
-    #"mildliver",
-    #"modliver",
-    "neuro",
-    #"cancer",
-    #"haemo",
-    "hiv",
-    #"obesity",
-    "diabetes",
-    #"rheumatologic",
-    #"dementia",
-    #"malnutrition",
-    NULL
-  )
 
 comorbs_crossvalidation <-
   admissions_isaric %>%
@@ -231,6 +240,12 @@ comorbs_crossvalidation <-
     agreement = mean(isaric==pc),
     sensitivity = sum(pc*isaric) / sum(pc),
     specificity = sum((1-pc)*(1-isaric)) / sum((1-pc)),
+  ) %>%
+  # round values
+  mutate(
+    across(
+      .cols = -comorb,
+      .fns = ~plyr::round_any(.x, accuracy=0.0001))
   )
 
 write_csv(comorbs_crossvalidation, fs::path(output_dir, "comorbs_crossvalidation.csv"))
