@@ -139,7 +139,7 @@ function_fuzzy_join <- function(mx, my){
     by = c("patient_id", "admission_date"),
     match_fun = list(
       patient_id = `==`,
-      admission_date = function(x,y){x>=y-1 & x<=y+1}
+      admission_date = function(x,y){x>=y-2 & x<=y+2}
     )
   )
   renamed <- rename(joined, patient_id=patient_id.x, admission_date=admission_date.x)
@@ -150,7 +150,7 @@ function_fuzzy_join <- function(mx, my){
 function_nonequi_join <- function(mx, my){
   joined <- setDT(my)[
     ,
-    c("admission_date_pre", "admission_date_post") := list(admission_date-1, admission_date+1)
+    c("admission_date_pre", "admission_date_post") := list(admission_date-2, admission_date+2)
   ][
     setDT(mx),
     on = .(patient_id, admission_date_pre<=admission_date, admission_date_post>=admission_date)
