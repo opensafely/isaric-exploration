@@ -111,6 +111,7 @@ def admission_date_dict(method):
           between=["attended_resp_date - 14 days", "attended_resp_date + 3 days"],
           restrict_to_earliest_specimen_date=False,
         ),
+      )
     }
   
   if method == "E":
@@ -142,6 +143,7 @@ def admission_date_dict(method):
           between=["attended_date - 14 days", "attended_date + 3 days"],
           restrict_to_earliest_specimen_date=False,
         ),
+      )
     }
     
   return variable_dict
