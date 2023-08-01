@@ -9,68 +9,30 @@ dataset = Dataset()
 # Select all patients with an entry in the ISARIC table.
 dataset.define_population(isaric_raw.exists_for_patient())
 
-# for column_name in isaric_raw.qm_node.schema.column_names:
-#     # The conventional way to set columns on the dataset in ehrQL would be to write them out:
-#     # dataset.column = isaric_raw.sort_by(isaric_raw.column).first_for_patient().column
-#     # Instead, we access the column names as attributes,
-#     # so we don't have to explicitly specify them,
-#     # making this dataset definition much more concise.
-#     # see here for all options: https://github.com/opensafely-core/databuilder/blob/dec86f9001911665e863b4ac886327f856ab4a6c/databuilder/tables/beta/tpp.py#L204
-#     # this will need to be updated to add / access new columns
-#     column_on_table = getattr(isaric_raw, column_name)
-#     # Choose the same row for each column.
-#     column_data = getattr(
-#         isaric_raw.sort_by(isaric_raw.age).first_for_patient(), column_name
-#     )
-#     setattr(dataset, column_name, column_data)
 
-# 
-# for column_name in [
-#     "hostdat",
-#     "age",
-#     "calc_age",
-#     "sex",
-#     "corona_ieorres",
-#     "coriona_ieorres2",
-#     "coriona_ieorres3",
-#     "inflammatory_mss",
-#     "covid19_vaccine",
-#     "chrincard", 
-#     "hypertension_mhyn",
-#     "chronicpul_mhyn",
-#     "asthma_mhyn",
-#     "renal_mhyn",
-#     "mildliver",
-#     "modliv",
-#     "chronicneu_mhyn",
-#     "malignantneo_mhyn",
-#     "chronichaemo_mhyn",
-#     "aidshiv_mhyn",
-#     "obesity_mhyn",
-#     "diabetes_mhyn",
-#     "diabetescom_mhyn",
-#     "rheumatologic_mhyn",
-#     "dementia_mhyn",
-#     "malnutrition_mhyn",
-# ]:
-#     # Instead of approach above, choose subset of variables currently of interest, treating all as a string
-#     column_on_table = getattr(isaric_raw, column_name)
-#     # Choose the same row for each column.
-#     column_data = getattr(
-#         isaric_raw.sort_by(isaric_raw.age).first_for_patient(), column_name
-#     )
-#     setattr(dataset, column_name, column_data)
-#     
+
+## extract all ISARIC variables of interest from the `isaric_raw` table, selecting only the first admission for each patient
+
+
     
 def add_isaric_variable(extract_name, database_name):
+  # The conventional way to set columns on the dataset in ehrQL would be to write them out, for instance:
+  #   dataset.variable_name = isaric_raw.sort_by(isaric_raw.admission_date).first_for_patient().database_variable_name
+  # but since all we want to do is select a bunch of variables using this exact pattern, we can wrap it in a function
+  # unfortunately, I don't know how to do that for arbitrary `variable_name` and `database_variable_name`, except by getting and setting attributes, as in the function below
+  # so that's what we'll use for now
+  
+  # note that we sort on age because this is more reliable than sorting on admission_date, which has a bunch of dodgy values 
+  
   # select a column from isaric and rename it
-    column_on_table = getattr(isaric_raw, database_name)
-    # Choose the same row for each column.
-    column_data = getattr(
-        isaric_raw.sort_by(isaric_raw.age).first_for_patient(), database_name
-    )
-    setattr(dataset, extract_name, column_data)
-    
+  column_on_table = getattr(isaric_raw, database_name)
+  # Choose the same row for each column.
+  column_data = getattr(
+      isaric_raw.sort_by(isaric_raw.age).first_for_patient(), database_name
+  )
+  setattr(dataset, extract_name, column_data)
+
+# get basic information about the admission as recorded at time of admission
 add_isaric_variable("admission_date","hostdat")
 add_isaric_variable("age", "age")
 add_isaric_variable("calc_age","calc_age")
@@ -81,6 +43,7 @@ add_isaric_variable("coriona_ieorres3","coriona_ieorres3")
 add_isaric_variable("inflammatory_mss","inflammatory_mss")
 add_isaric_variable("covid19_vaccine","covid19_vaccine")
 
+# get comorbidity info as recorded at the time of admission
 add_isaric_variable("ccd_isaric","chrincard") 
 add_isaric_variable("hypertension_isaric","hypertension_mhyn")
 add_isaric_variable("chronicpul_isaric","chronicpul_mhyn")
@@ -100,6 +63,11 @@ add_isaric_variable("dementia_isaric","dementia_mhyn")
 add_isaric_variable("malnutrition_isaric","malnutrition_mhyn")
 
 
+
+# Now retrieve equivalent comorbidity data from primary care records
+# I've used existing codelists from previous studies.
+# These may not exactly match the clinical definitions used on the ISARIC case report forms
+# Codelists should therefore be checked and revised if necessary
 
 def add_primary_care_variable(extract_name, codelist_name, system):
     codelist_attribute = getattr(codelists_ehrql, codelist_name)

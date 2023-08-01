@@ -44,6 +44,7 @@ def previous_admission_date_dict(n, method, minimum_date):
 
 def admission_date_dict(method):
   if method == "A":
+    # Unplanned admissions with a ICD10 COVID code as a diagnosis
     variable_dict = {
       "admiss_date": patients.admitted_to_hospital(
         returning="date_admitted",
@@ -56,6 +57,7 @@ def admission_date_dict(method):
     }
     
   if method == "B":
+    # Any admissions with a ICD10 COVID code as a diagnosis
     variable_dict = {
       "admiss_date": patients.admitted_to_hospital(
         returning="date_admitted",
@@ -67,6 +69,8 @@ def admission_date_dict(method):
     }
     
   if method == "C":
+    # A&E attendance resulting in admission to hospital, with a COVID code (from the A&E SNOMED discharge diagnosis refset) as the A&E discharge diagnosis
+    # This is expected to be a big underestimate of actual COVID admissions, but A&E data arrives much quick than hospital data for rapid real time analyses it can be an important proxy
     variable_dict = {
       "admiss_date": patients.attended_emergency_care(
         returning="date_arrived",
@@ -80,13 +84,17 @@ def admission_date_dict(method):
     
     
   if method == "D":
+    # emergency A&E attendances, with a respiratory diagnosis, occurring within 14 days after or 3 days before a positive SARS-CoV-2 test
+    # NOTE: this definition won't work! it will pick up some events meeting the definition, but not all
+    # So this method is currently unused. 
+    # in fact, this event is not possible to define in cohort extractor
+    # supporting this is a goal in ehrQL, but it's not currently possible
+    # see slack thread here https://bennettoxford.slack.com/archives/C33TWNQ1J/p1676635830922819
+    # and follow on thread here https://bennettoxford.slack.com/archives/C03FB777L1M/p1676890072678899
     variable_dict = {
       "admiss_date": patients.categorised_as(
-        {
-          attended_resp_date: "attended_resp_date AND positivetest3",
-          "": "DEFAULT"
-        },
-        
+        "attended_resp_date AND positivetestE",
+
         attended_resp_date=patients.attended_emergency_care(
           returning="date_arrived",
           date_format="YYYY-MM-DD",
@@ -96,39 +104,44 @@ def admission_date_dict(method):
           discharged_to = codelists.discharged_to_hospital,
         ),
         
-        positivetest3=patients.with_test_result_in_sgss(
+        positivetestD=patients.with_test_result_in_sgss(
           pathogen="SARS-CoV-2",
           test_result="positive",
           returning="binary_flag",
           between=["attended_resp_date - 14 days", "attended_resp_date + 3 days"],
           restrict_to_earliest_specimen_date=False,
         ),
-      ),
     }
   
   if method == "E":
+    # hospital admissions with a respiratory diagnosis, occurring within 14 days after or 3 days before a positive SARS-CoV-2 test
+    # NOTE: this definition won't work! it will pick up some events meeting the definition, but not all
+    # So this method is currently unused. 
+    # in fact, this event is not possible to define in cohort extractor
+    # supporting this is a goal in ehrQL, but it's not currently possible
+    # see slack thread here https://bennettoxford.slack.com/archives/C33TWNQ1J/p1676635830922819
+    # and follow on thread here https://bennettoxford.slack.com/archives/C03FB777L1M/p1676890072678899
+
     variable_dict = {
       "admiss_date": patients.satisfying(
+        "attended_date AND positivetestE",
         
-        "attended_date AND positivetest4",
-        
-        attended_date = patients.attended_emergency_care(
-          returning="date_arrived",
-          date_format="YYYY-MM-DD",
+        attended_date = patients.admitted_to_hospital(
+          returning="date_admitted",
+          with_admission_method=["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"],
+          with_these_diagnoses=codelists.resp_icd10,
           on_or_after="previous_admiss_date + 1 days",
+          date_format="YYYY-MM-DD",
           find_first_match_in_period=True,
-          with_these_diagnoses = codelists.covid_emergency,
-          discharged_to = codelists.discharged_to_hospital,
         ),
         
-        positivetest4=patients.with_test_result_in_sgss(
+        positivetestE=patients.with_test_result_in_sgss(
           pathogen="SARS-CoV-2",
           test_result="positive",
           returning="binary_flag",
           between=["attended_date - 14 days", "attended_date + 3 days"],
           restrict_to_earliest_specimen_date=False,
         ),
-      ),
     }
     
   return variable_dict

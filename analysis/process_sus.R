@@ -25,6 +25,9 @@ fs::dir_create(here("output", "admissions"))
 
 # process ----
 
+## import each SUS dataset ----
+
+# there's one dataset for each event index (ie first, second, third, etc admission per patient) and admission definition (ie, admission definition method A, B, C, etc))
 get_admissions <- function(method, n){
   import_extract(
     here("dummy-output", glue("sus_method{method}_admission{n}.feather")),
@@ -39,6 +42,7 @@ get_admissions <- function(method, n){
   )
 }
 
+## combine admissions into one dataset for each method ----
 process_admissions <- function(method){
   bind_rows(
     get_admissions(method, 1),
@@ -80,6 +84,8 @@ admissions_C_processed <- process_admissions("C")
 # admissions_D_processed <- process_admissions("D")
 # admissions_E_processed <- process_admissions("E")
 
+
+## save datasets to file ----
 
 write_rds(admissions_A_processed, here("output", "admissions", "processed_sus_A.rds"), compress="gz")
 write_rds(admissions_B_processed, here("output", "admissions", "processed_sus_B.rds"), compress="gz")
