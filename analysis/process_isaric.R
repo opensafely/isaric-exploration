@@ -25,7 +25,7 @@ fs::dir_create(here("output", "admissions"))
 
 # process ----
 
-
+## import ISARIC admissions data ----
 get_admissions <- function(n){
   import_extract(
     here("dummy-output", glue("isaric_admission{n}.feather")),
@@ -40,7 +40,12 @@ get_admissions <- function(n){
 
 isaric_raw1 <- get_admissions(1)
 
+
+## print basic dataset decription to file ----
+
 os_skim(isaric_raw1, path=here("output", "admissions", "isaric_raw_skim.txt"))
+
+## standardise some variables ----
 
 isaric_processed <-
   isaric_raw1 %>%
@@ -59,5 +64,7 @@ isaric_processed <-
     sex = factor(sex, levels=c("Female", "Male")),
     cancer_pc = (cancer_lung_pc | cancer_haemo_pc | cancer_other_pc )*1L
   )
+
+## save to file ----
 
 write_rds(isaric_processed, here("output", "admissions", "processed_isaric.rds"), compress="gz")

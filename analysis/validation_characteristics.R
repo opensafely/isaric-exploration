@@ -18,10 +18,11 @@ source(here("analysis", "lib", "utility.R"))
 start_date = as.Date("2020-02-01")
 end_date = as.Date("2022-11-30")
 
+# rounding threshold for statistical disclosure control
 rounding_threshold <- 10
 
 
-
+# select comorbidities to compare
 comorbs <-
   c(
     "ccd",
@@ -56,7 +57,7 @@ admissions_isaric  <- read_rds(here("output", "admissions", "processed_isaric.rd
 
 # describe isaric admissions ----
 
-## admissions over time ----
+## report and plot admissions over time ----
 
 admissions_per_week <-
   admissions_isaric %>%
@@ -137,7 +138,10 @@ ggsave(plot_admissions_per_week, filename="admission_per_week.jpg", path=output_
 remove(plot_admissions_per_week)
 
 
-## baseline characteristics ----
+## report and print baseline characteristics ----
+
+# here we use the gtsummary::tbl_summary function to summarise the data
+# and then apply some rounding to ensure nonn-disclosivity
 
 var_labels <- list(
   N  ~ "Total N",
@@ -162,6 +166,7 @@ data_baseline <-
 library('gt')
 library('gtsummary')
 
+# create summary table object using gtsummary::tbl_summary
 tab_summary_baseline <-
   data_baseline %>%
   mutate(
@@ -185,6 +190,7 @@ tab_summary_baseline <-
     ),
   )
 
+# extract the underlying data table from the summary table object
 raw_stats <- tab_summary_baseline$meta_data %>%
   select(var_label, df_stats) %>%
   unnest(df_stats)
@@ -193,6 +199,7 @@ remove(tab_summary_baseline)
 remove(data_baseline)
 
 
+# apply rounding to mitigate disclosivity
 raw_stats_redacted <- raw_stats %>%
   mutate(
     n = roundmid_any(n, rounding_threshold),
@@ -213,7 +220,6 @@ write_csv(raw_stats_redacted, fs::path(output_dir, "baseline.csv"))
 # Ascertainment of clinical characteristics in SystmOne versus ISARIC -------
 
 ## Only consider ISARIC admissions
-
 
 comorbs_crossvalidation <-
   admissions_isaric %>%

@@ -26,6 +26,7 @@ fs::dir_create(output_dir)
 
 ## import data ----
 
+# import sus data
 import_sus_data <- function(method){
   dat <- read_rds(here("output", "admissions", glue("processed_sus_{method}.rds")))
   dat <- transmute(
@@ -44,6 +45,8 @@ admissions_susA  <- import_sus_data("A")
 admissions_susB  <- import_sus_data("B")
 admissions_susC  <- import_sus_data("C")
 
+
+# import ISARIC data
 admissions_isaric  <- read_rds(here("output", "admissions", "processed_isaric.rds")) %>%
   transmute(
     patient_id,
@@ -53,7 +56,15 @@ admissions_isaric  <- read_rds(here("output", "admissions", "processed_isaric.rd
     method_isaric=TRUE
   )
 
-# admissions ----
+# compare ascertainment of COVID-19 admissions between SUS and ISARIC ----
+
+# Note, we assume ISARIC as a tool for identifying COVID-19 in-patient admissions is 100% specific, but not 100% sensitive.
+# In other words, it may not pick up every COVID-19 admission, either because
+# - lack of coverage in certain hospitals
+# - some admissions were missed in participating hospitals
+# - admission date was badly recorded
+# but every ISARIC record corresponds to a "true" COVID-19 admission
+# our goal is to see if national hospital data (provided via SUS) is capable of identifying those records picked up by SUS
 
 ## Number of first ISARIC admissions in TPP
 nrow(admissions_isaric %>% filter(admission_number==1))
@@ -94,7 +105,9 @@ admissions_joined <-
     admission_date <= end_date
   )
 
-# sensitivity of SUS for picking up admissions reported in ISARIC -------
+# sensitivity of SUS for picking up admissions reported in ISARIC ----
+
+## match records using exact date ----
 
 ascertainment <-
   admissions_joined %>%
@@ -127,19 +140,23 @@ write_csv(ascertainment, fs::path(output_dir, "ascertainment.csv"))
 
 remove(admissions_joined)
 
-# now using fuzzy matching in case admission dates are slightly different (and to pick up different spells/episodes within a single super spell, etc)
 
-# all dates of admission via ISARIC per patient up to <end_date>, and each SUS ascertainment method where a match was found for that date +/- 3 days
+## match records using non-exact date ----
 
+# we use fuzzy (=non-equi) matching in case admission dates are slightly different (and to pick up different spells/episodes within a single super spell, etc)
 
-function_fuzzy_join <- function(mx, my){
+# all dates of admission via ISARIC per patient up to <end_date>, and each SUS ascertainment method where a match was found for that date +/- X days
+
+function_fuzzy_join <- function(mx, my, x_days_before, x_days_after){
+  # this function is easy to read but is very very slow
+  # there is now an equivalent function to `fuzzy_left_join` in dplyr (and probably much faster), but this version of dplyr is not currently in the opensafely R image
   joined <- fuzzy_left_join(
     mx,
     my,
     by = c("patient_id", "admission_date"),
     match_fun = list(
       patient_id = `==`,
-      admission_date = function(x,y){x>=y-2 & x<=y+2}
+      admission_date = function(x,y){x>=y-x_days_before & x<=y+x_days_after}
     )
   )
   renamed <- rename(joined, patient_id=patient_id.x, admission_date=admission_date.x)
@@ -147,10 +164,11 @@ function_fuzzy_join <- function(mx, my){
 }
 
 
-function_nonequi_join <- function(mx, my){
+function_nonequi_join <- function(mx, my, x_days_before, x_days_after){
+  # this function uses the data.table package. it's harder to read, but it is very very quick!
   joined <- setDT(my)[
     ,
-    c("admission_date_pre", "admission_date_post") := list(admission_date-2, admission_date+2)
+    c("admission_date_pre", "admission_date_post") := list(admission_date-x_days_before, admission_date+x_days_after)
   ][
     setDT(mx),
     on = .(patient_id, admission_date_pre<=admission_date, admission_date_post>=admission_date)
@@ -167,7 +185,7 @@ admissions_joined_nonequi <-
       admissions_susB %>% select(-admission_number),
       admissions_susC %>% select(-admission_number),
     ),
-    ~{function_nonequi_join(.x, .y)},
+    ~{function_nonequi_join(.x, .y, 2, 2)},
   ) %>%
   mutate(
     admission_date_diff_susA = admission_date_susA - admission_date_isaric,
@@ -187,8 +205,6 @@ admissions_joined_nonequi <-
     admission_date <= end_date
   )
 
-
-# sensitivity of SUS for picking up admissions reported in ISARIC -------
 
 ascertainment_nonequi <-
   admissions_joined_nonequi %>%
