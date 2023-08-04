@@ -6,14 +6,14 @@ expectations:
 
 actions:
 
-  ## # # # # # # # # # # # # # # # # # # # 
-  ## DO NOT EDIT project.yaml DIRECTLY 
-  ## This file is created by create-project.R 
-  ## Edit and run create-project.R to update the project.yaml 
-  ## # # # # # # # # # # # # # # # # # # # 
-  ## # # # # # # # # # # # # # # # # # # # 
-  ## Extract admission date 
-  ## # # # # # # # # # # # # # # # # # # # 
+  ## # # # # # # # # # # # # # # # # # # #
+  ## DO NOT EDIT project.yaml DIRECTLY
+  ## This file is created by create-project.R
+  ## Edit and run create-project.R to update the project.yaml
+  ## # # # # # # # # # # # # # # # # # # #
+  ## # # # # # # # # # # # # # # # # # # #
+  ## Extract admission date
+  ## # # # # # # # # # # # # # # # # # # #
 
   extract_isaric_admission1:
     run: databuilder:v0 generate-dataset 'analysis/dataset_definition_isaric.py' --dummy-tables
@@ -22,6 +22,13 @@ actions:
     outputs:
       highly_sensitive:
         csv: output/admissions/isaric_admission1.csv.gz
+
+  data_properties:
+    run: r:latest analysis/data_properties.R output/admissions/isaric_admission1.csv.gz output/data_properties
+    needs: [extract_isaric_admission1]
+    outputs:
+      moderately_sensitive:
+        cohort: output/data_properties/isaric_admission1*.txt
 
   process_isaric:
     run: r:latest analysis/process_isaric.R
@@ -221,7 +228,7 @@ actions:
         csv: output/validation_characteristics/*.csv
         jpg: output/validation_characteristics/*.jpg
 
-  ## # # # # # # # # # # # # # # # # # # # 
-  ## End 
-  ## # # # # # # # # # # # # # # # # # # # 
+  ## # # # # # # # # # # # # # # # # # # #
+  ## End
+  ## # # # # # # # # # # # # # # # # # # #
 
