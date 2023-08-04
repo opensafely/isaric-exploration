@@ -1,20 +1,26 @@
-from ehrql import Dataset
-from ehrql import days
+################################################################################
+#
+# Description: This script provides the formal specification of the study data 
+#              that will be extracted from the OpenSAFELY database.
+#
+# Output: output/admissions/isaric_admission1.csv.gz
+#
+# Author(s): S Maude, W Hulme, M Green
+# Date last updated: 04/08/2023
+#
+################################################################################
+
+
+# IMPORT STATEMENTS ----
+
+# Import tables and Python objects
+from ehrql import Dataset, days
 from ehrql.tables.beta.tpp import clinical_events, isaric_raw, hospital_admissions
 
+# Import codelists
 import codelists_ehrql
 
-dataset = Dataset()
-
-# Select all patients with an entry in the ISARIC table.
-dataset.define_population(isaric_raw.exists_for_patient())
-
-
-
-## extract all ISARIC variables of interest from the `isaric_raw` table, selecting only the first admission for each patient
-
-
-    
+# Functions
 def add_isaric_variable(extract_name, database_name):
   # The conventional way to set columns on the dataset in ehrQL would be to write them out, for instance:
   #   dataset.variable_name = isaric_raw.sort_by(isaric_raw.admission_date).first_for_patient().database_variable_name
@@ -31,45 +37,8 @@ def add_isaric_variable(extract_name, database_name):
       isaric_raw.sort_by(isaric_raw.age).first_for_patient(), database_name
   )
   setattr(dataset, extract_name, column_data)
-
-# get basic information about the admission as recorded at time of admission
-add_isaric_variable("admission_date","hostdat")
-add_isaric_variable("age", "age")
-add_isaric_variable("calc_age","calc_age")
-add_isaric_variable("sex","sex")
-add_isaric_variable("corona_ieorres","corona_ieorres")
-add_isaric_variable("coriona_ieorres2","coriona_ieorres2")
-add_isaric_variable("coriona_ieorres3","coriona_ieorres3")
-add_isaric_variable("inflammatory_mss","inflammatory_mss")
-add_isaric_variable("covid19_vaccine","covid19_vaccine")
-
-# get comorbidity info as recorded at the time of admission
-add_isaric_variable("ccd_isaric","chrincard") 
-add_isaric_variable("hypertension_isaric","hypertension_mhyn")
-add_isaric_variable("chronicpul_isaric","chronicpul_mhyn")
-add_isaric_variable("asthma_isaric","asthma_mhyn")
-add_isaric_variable("ckd_isaric","renal_mhyn")
-add_isaric_variable("mildliver_isaric","mildliver")
-add_isaric_variable("modliver_isaric","modliv")
-add_isaric_variable("neuro_isaric","chronicneu_mhyn")
-add_isaric_variable("cancer_isaric","malignantneo_mhyn")
-add_isaric_variable("haemo_isaric","chronichaemo_mhyn")
-add_isaric_variable("hiv_isaric","aidshiv_mhyn")
-add_isaric_variable("obesity_isaric","obesity_mhyn")
-add_isaric_variable("diabetes_isaric","diabetes_mhyn")
-add_isaric_variable("diabetescom_isaric","diabetescom_mhyn")
-add_isaric_variable("rheumatologic_isaric","rheumatologic_mhyn")
-add_isaric_variable("dementia_isaric","dementia_mhyn")
-add_isaric_variable("malnutrition_isaric","malnutrition_mhyn")
-
-
-
-# Now retrieve equivalent comorbidity data from primary care records
-# I've used existing codelists from previous studies.
-# These may not exactly match the clinical definitions used on the ISARIC case report forms
-# Codelists should therefore be checked and revised if necessary
-
-def add_primary_care_variable(extract_name, codelist_name, system):
+  
+  def add_primary_care_variable(extract_name, codelist_name, system):
     codelist_attribute = getattr(codelists_ehrql, codelist_name)
     if system == "snomed":
       characteristic = (
@@ -86,17 +55,159 @@ def add_primary_care_variable(extract_name, codelist_name, system):
       )
       setattr(dataset, extract_name, characteristic)
 
+
+# DEFINE DATASET ----
+
+# Create dataset object for output dataset
+dataset = Dataset()
+
+# Define dataset a all patients with an entry in the ISARIC table.
+dataset.define_population(isaric_raw.exists_for_patient())
+
+
+
+
+
+
+# ADD BASIC INFO ABOUT PATIENTS FIRST ADMISSION (as recorded at time of admission) ----
+
+# Admission date
+add_isaric_variable("admission_date","hostdat")
+
+#Age
+add_isaric_variable("age", "age")
+add_isaric_variable("calc_age","calc_age")
+
+#Sex
+add_isaric_variable("sex","sex")
+
+# Ethnicity
+
+# COVID-19 infection
+add_isaric_variable("corona_ieorres","corona_ieorres")
+add_isaric_variable("coriona_ieorres2","coriona_ieorres2")
+add_isaric_variable("coriona_ieorres3","coriona_ieorres3")
+
+# Adult or child who meets case definition for inflammatory multi-system syndrome (MIS-C/MIS-A).
+add_isaric_variable("inflammatory_mss","inflammatory_mss")
+
+# COVID-19 vaccination
+add_isaric_variable("covid19_vaccine","covid19_vaccine")
+
+
+# ADD COMORBIDITY INFO (as recorded in ISARIC at the time of first admission) ----
+
+# Chronic cardiac disease
+add_isaric_variable("ccd_isaric","chrincard") 
+
+# Hypertension
+add_isaric_variable("hypertension_isaric","hypertension_mhyn")
+
+# Chronic pulmonary disease
+add_isaric_variable("chronicpul_isaric","chronicpul_mhyn")
+
+# Asthma
+add_isaric_variable("asthma_isaric","asthma_mhyn")
+
+# Chronic kidney disease
+add_isaric_variable("ckd_isaric","renal_mhyn")
+
+# Liver disease
+add_isaric_variable("mildliver_isaric","mildliver")
+add_isaric_variable("modliver_isaric","modliv")
+
+# Chronic neurological disorder
+add_isaric_variable("neuro_isaric","chronicneu_mhyn")
+
+#Cancer
+add_isaric_variable("cancer_isaric","malignantneo_mhyn")
+add_isaric_variable("haemo_isaric","chronichaemo_mhyn")
+
+# AIDS/HIV
+add_isaric_variable("hiv_isaric","aidshiv_mhyn")
+
+# Obesity
+add_isaric_variable("obesity_isaric","obesity_mhyn")
+
+# Diabetes
+add_isaric_variable("diabetes_isaric","diabetes_mhyn")
+add_isaric_variable("diabetescom_isaric","diabetescom_mhyn")
+
+# Rheumatologic disorder
+add_isaric_variable("rheumatologic_isaric","rheumatologic_mhyn")
+
+# Dementia
+add_isaric_variable("dementia_isaric","dementia_mhyn")
+
+# Malnutrition
+add_isaric_variable("malnutrition_isaric","malnutrition_mhyn")
+
+# Smoking
+
+
+# EXTRACT EQUIVALENT DATA FROM PRIMARY CARE RECORDS ----
+# Note, these may not exactly match the clinical definitions used on the ISARIC case report forms
+
+# Age
+dataset.age_pc = patients.age_on(dataset.admission_date)
+
+# Sex
+dataset.sex_pc = patients.sex
+
+# Ethnicity
+
+# COVID-19 infection
+
+# COVID-19 Vaccination
+
+
+# Chronic cardiac disease
 add_primary_care_variable("ccd_pc", "chronic_cardiac_disease", "snomed")
+
+# Hypertension
 add_primary_care_variable("hypertension_pc", "hypertension", "snomed")
+
+# Chronic pulmonary disease
 add_primary_care_variable("copd_pc", "copd", "snomed")
+
+# Asthma
 add_primary_care_variable("asthma_pc", "asthma", "snomed")
+
+# Chronic kidney disease
 add_primary_care_variable("ckd_pc", "chronic_kidney_disease", "snomed")
+
+# Liver disease
+add_primary_care_variable("cld_pc", "chronic_liver_disease", "snomed")
+
+# Chronic neurological disorder
 add_primary_care_variable("neuro_pc", "neuro_other", "ctv3")
-add_primary_care_variable("cancer_haemo_pc", "cancer_haemo", "snomed")
+
+# Cancer
 add_primary_care_variable("cancer_lung_pc", "cancer_lung", "snomed")
 add_primary_care_variable("cancer_other_pc", "cancer_other", "snomed")
+add_primary_care_variable("cancer_haemo_pc", "cancer_haemo", "snomed")
+
+# AIDS/HIV
 add_primary_care_variable("hiv_pc", "hiv", "snomed")
-#add_primary_care_variable("obesity_pc", "obesity", "snomed")
+
+# Obesity
+
+# Diabetes
 add_primary_care_variable("diabetes_pc", "diabetes", "snomed")
 add_primary_care_variable("diabetes_t1_pc", "diabetes_t1", "snomed")
 add_primary_care_variable("diabetes_t2_pc", "diabetes_t2", "snomed")
+
+# Rheumatologic disorder
+#add_primary_care_variable("rheumatologic_pc", "rheumatologic", "snomed")
+
+# Dementia
+#add_primary_care_variable("dementia_pc", "dementia", "snomed")
+
+# Malnutrition
+#add_primary_care_variable("malnutrition_pc", "malnutrition", "snomed")
+
+# Smoking
+#add_primary_care_variable("smoking_pc", "smoking", "snomed")
+
+
+
