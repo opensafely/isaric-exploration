@@ -155,6 +155,12 @@
       "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/dmtype1_cod/20210127/",
       "downloaded_at": "2023-03-27 10:29:36.722095Z",
       "sha": "23e6cb9c5555fb756c9a68295bd701b6ddb34ebd"
+    },
+    "opensafely-dementia-snomed.csv": {
+      "id": "opensafely/dementia-snomed/2020-04-22",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/dementia-snomed/2020-04-22/",
+      "downloaded_at": "2023-08-04 13:57:25.673060Z",
+      "sha": "3f412d7c633312b105a0f909858e08b391f1ad46"
     }
   }
 }

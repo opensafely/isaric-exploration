@@ -1,6 +1,32 @@
+################################################################################
+#
+# Description: - Some of the variables used in this study are created from 
+#                codelists of clinical conditions or numerical values available 
+#                on a patient's records.
+#              - This script defines all of the codelists used.
+#
+################################################################################
+
+
+
+# IMPORT STATEMENTS ------------------------
 from databuilder.ehrql import codelist_from_csv
 
 
+
+# CODELISTS FOR PRIMARY CARE RECORD VARIABLES ------------------------
+
+# Ethnicity
+ethnicity_codelist = codelist_from_csv(
+    "codelists/opensafely-ethnicity-snomed-0removed.csv",
+    column="snomedcode",
+    category_column="Grouping_6",
+)
+
+# Obesity
+obesity_codelist = ["60621009", "846931000000101"]
+
+# COVID
 covid_icd10 = ["U071", "U072", "U109", "U099"]
 
 covid_emergency = codelist_from_csv(
@@ -63,7 +89,9 @@ primary_care_suspected_covid_combined = (
 
 discharged_to_hospital = ["306706006", "1066331000000109", "1066391000000105"]
 
-# comorbidities
+
+
+# COMORBIDITIES ------------------
 
 chronic_cardiac_disease = codelist_from_csv(
     "codelists/opensafely-chronic-cardiac-disease-snomed.csv",
@@ -126,3 +154,7 @@ diabetes_t2 = codelist_from_csv(
     column="code",
 )
 
+dementia = codelist_from_csv(
+    "codelists/opensafely-dementia-snomed.csv",
+    column="id",
+)

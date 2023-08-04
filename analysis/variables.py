@@ -1,6 +1,43 @@
+################################################################################
+#
+# Description: This script contains custom functions for:
+#             - 
+#             - Extracting comorbidities from primary care data based on codelist
+#             - 
+#             - 
+#             - 
+#             - 
+#             - 
+#             - 
+#             - 
+#             - 
+#
+# Author(s): M Green, W Hulme, S Maude
+# Date last updated: 04/08/2023
+#
+################################################################################
 
 
-## Functions for extracting a series of time dependent variables
+# Extract comorbidity from primary care data based on codelist ------------------------
+def add_primary_care_variable(extract_name, codelist_name, system, codelists_ehrql, clinical_events, dataset, days):
+    codelist_attribute = getattr(codelists_ehrql, codelist_name)
+    if system == "snomed":
+      characteristic = (
+          clinical_events.where(clinical_events.snomedct_code.is_in(codelist_attribute))
+          .where(clinical_events.date.is_on_or_before(dataset.admission_date - days(1)))
+          .exists_for_patient()
+      )
+      setattr(dataset, extract_name, characteristic)
+    if system == "ctv3":
+      characteristic = (
+          clinical_events.where(clinical_events.ctv3_code.is_in(codelist_attribute))
+          .where(clinical_events.date.is_on_or_before(dataset.admission_date - days(1)))
+          .exists_for_patient()
+      )
+      setattr(dataset, extract_name, characteristic)
+
+
+## Functions for extracting a series of time dependent variables ------------------------
 # These define study defintion variable signatures such that
 # variable_1_date is the the first event date on or after the index date
 # variable_2_date is the first event date strictly after variable_2_date
