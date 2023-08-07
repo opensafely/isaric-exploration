@@ -251,7 +251,7 @@ add_primary_care_variable("dementia_pc", "dementia", "snomed", codelists_ehrql, 
 #add_primary_care_variable("malnutrition_pc", "malnutrition", "snomed", codelists_ehrql, clinical_events, dataset, days)
 
 # Smoking
-#add_primary_care_variable("smoking_pc", "smoking", "snomed", codelists_ehrql, clinical_events, dataset, days)
+add_primary_care_variable("smoking_pc", "clear_smoking_codes", "ctv3", codelists_ehrql, clinical_events, dataset, days)
 
 
 

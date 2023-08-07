@@ -161,6 +161,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/dementia-snomed/2020-04-22/",
       "downloaded_at": "2023-08-04 13:57:25.673060Z",
       "sha": "3f412d7c633312b105a0f909858e08b391f1ad46"
+    },
+    "opensafely-smoking-clear.csv": {
+      "id": "opensafely/smoking-clear/2020-04-29",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/smoking-clear/2020-04-29/",
+      "downloaded_at": "2023-08-07 08:24:46.324444Z",
+      "sha": "0b5f3afe1db96dcce5141220e893a42ba2e5a8f7"
     }
   }
 }
