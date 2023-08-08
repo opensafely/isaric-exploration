@@ -19,10 +19,34 @@
 
 
 
+# IMPORT STATEMENTS ------------------------
+
+# Import tables and Python objects
+from ehrql import Dataset, days, years, case, when
+from ehrql.tables.beta.tpp import (
+  hospital_admissions, 
+  emergency_care_attendances, 
+  practice_registrations, 
+  patients, 
+  sgss_covid_all_tests, 
+  vaccinations,
+  addresses, 
+  clinical_events
+  )
+
+# Import codelists
+import codelists_ehrql
+
+
+
+
+
+# FUNCTIONS ------------------------
+
 # Extract comorbidity from primary care data based on codelist ------------------------
 
 def has_prior_comorbidity(
-  extract_name, codelist_name, system, column_name, codelists_ehrql, clinical_events, dataset, days):
+  extract_name, codelist_name, system, column_name, dataset):
     
     codelist_attribute = getattr(codelists_ehrql, codelist_name)
     if system == "snomed":
@@ -44,19 +68,21 @@ def has_prior_comorbidity(
 
 
 # Extract emergency care data based on codelist ------------------------
+from functools import reduce
+import operator
 
 def emergency_care_diagnosis_matches(emergency_care_attendances, codelist):
   conditions = [
     getattr(emergency_care_attendances, column_name).is_in(codelist)
     for column_name in [f"diagnosis_{i:02d}" for i in range(1, 25)]
   ]
-  return emergency_care_attendances.where(any_of(conditions))  
+  return emergency_care_attendances.where(reduce(operator.or_, conditions)) 
 
 
 
 # Extract patients with COVID-19 admissions depending on method specified ------------------------
 
-def admissions_data(admission_method, hospital_admissions, start_date):
+def admissions_data(admission_method, hospital_admissions, emergency_care_attendances, start_date):
     
     # Unplanned admissions with a ICD10 COVID code as a diagnosis
     if admission_method == "A":
@@ -71,7 +97,6 @@ def admissions_data(admission_method, hospital_admissions, start_date):
       admissions_data_sus = (
           hospital_admissions.where(hospital_admissions.admission_date.is_on_or_after(start_date))
           .sort_by(hospital_admissions.admission_date)
-          .first_for_patient().admission_date
       )
     
     ## A&E attendance resulting in admission to hospital, with a COVID code 
@@ -84,7 +109,6 @@ def admissions_data(admission_method, hospital_admissions, start_date):
           .where(emergency_care_attendances.arrival_date.is_on_or_after(start_date))
           .where(emergency_care_attendances.discharge_destination.is_in(codelists_ehrql.discharged_to_hospital))
           .sort_by(emergency_care_attendances.arrival_date)
-          .first_for_patient().arrival_date
       )
       
     return admissions_data_sus

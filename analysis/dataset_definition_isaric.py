@@ -211,33 +211,33 @@ dataset.last_positive_test_date_pc = sgss_covid_all_tests.where(sgss_covid_all_t
 dataset.covid19_vaccine_pc = vaccinations.where(vaccinations.date.is_on_or_before(dataset.first_admission_date_isaric)).exists_for_patient()
 
 # Chronic cardiac disease
-has_prior_comorbidity("ccd_pc", "chronic_cardiac_disease", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("ccd_pc", "chronic_cardiac_disease", "snomed", "first_admission_date_isaric", dataset)
 
 # Hypertension
-has_prior_comorbidity("hypertension_pc", "hypertension", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("hypertension_pc", "hypertension", "snomed", "first_admission_date_isaric", dataset)
 
 # Chronic pulmonary disease
-has_prior_comorbidity("copd_pc", "copd", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("copd_pc", "copd", "snomed", "first_admission_date_isaric", dataset)
 
 # Asthma
-has_prior_comorbidity("asthma_pc", "asthma", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("asthma_pc", "asthma", "snomed", "first_admission_date_isaric", dataset)
 
 # Chronic kidney disease
-has_prior_comorbidity("ckd_pc", "chronic_kidney_disease", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("ckd_pc", "chronic_kidney_disease", "snomed", "first_admission_date_isaric", dataset)
 
 # Liver disease
-has_prior_comorbidity("cld_pc", "chronic_liver_disease", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("cld_pc", "chronic_liver_disease", "snomed", "first_admission_date_isaric", dataset)
 
 # Chronic neurological disorder
-has_prior_comorbidity("neuro_pc", "neuro_other", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("neuro_pc", "neuro_other", "snomed", "first_admission_date_isaric", dataset)
 
 # Cancer
-has_prior_comorbidity("cancer_lung_pc", "cancer_lung", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
-has_prior_comorbidity("cancer_other_pc", "cancer_other", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
-has_prior_comorbidity("cancer_haemo_pc", "cancer_haemo", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("cancer_lung_pc", "cancer_lung", "snomed", "first_admission_date_isaric", dataset)
+has_prior_comorbidity("cancer_other_pc", "cancer_other", "snomed", "first_admission_date_isaric", dataset)
+has_prior_comorbidity("cancer_haemo_pc", "cancer_haemo", "snomed", "first_admission_date_isaric", dataset)
 
 # AIDS/HIV
-has_prior_comorbidity("hiv_pc", "hiv", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("hiv_pc", "hiv", "snomed", "first_admission_date_isaric", dataset)
 
 # Obesity
 dataset.obesity_pc  = (
@@ -253,21 +253,21 @@ dataset.obesity_pc  = (
 )
 
 # Diabetes
-has_prior_comorbidity("diabetes_pc", "diabetes", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
-has_prior_comorbidity("diabetes_t1_pc", "diabetes_t1", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
-has_prior_comorbidity("diabetes_t2_pc", "diabetes_t2", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("diabetes_pc", "diabetes", "snomed", "first_admission_date_isaric", dataset)
+has_prior_comorbidity("diabetes_t1_pc", "diabetes_t1", "snomed", "first_admission_date_isaric", dataset)
+has_prior_comorbidity("diabetes_t2_pc", "diabetes_t2", "snomed", "first_admission_date_isaric", dataset)
 
 # Rheumatologic disorder
-#has_prior_comorbidity("rheumatologic_pc", "rheumatologic", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+#has_prior_comorbidity("rheumatologic_pc", "rheumatologic", "snomed", "first_admission_date_isaric", dataset)
 
 # Dementia
-has_prior_comorbidity("dementia_pc", "dementia", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("dementia_pc", "dementia", "snomed", "first_admission_date_isaric", dataset)
 
 # Malnutrition
-#has_prior_comorbidity("malnutrition_pc", "malnutrition", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+#has_prior_comorbidity("malnutrition_pc", "malnutrition", "snomed", "first_admission_date_isaric", dataset)
 
 # Smoking
-has_prior_comorbidity("smoking_pc", "clear_smoking_codes", "ctv3", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("smoking_pc", "clear_smoking_codes", "ctv3", "first_admission_date_isaric", dataset)
 
 
 

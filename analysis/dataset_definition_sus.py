@@ -23,7 +23,6 @@ from ehrql import Dataset, days, years, case, when
 from ehrql.tables.beta.tpp import (
   hospital_admissions, 
   emergency_care_attendances, 
-  practice_registrations, 
   patients, 
   sgss_covid_all_tests, 
   vaccinations,
@@ -66,7 +65,8 @@ dataset = Dataset()
 
 # Define dataset as all patients with a COVID-19 related hospital_admissions/emergency_care_attendances 
 # depending on method.
-admissions_data_sus = admissions_data(admission_method, hospital_admissions, start_date)
+admissions_data_sus = admissions_data(
+  admission_method, hospital_admissions, emergency_care_attendances, start_date)
 dataset.define_population(admissions_data_sus.exists_for_patient())
 
 
@@ -76,7 +76,10 @@ dataset.define_population(admissions_data_sus.exists_for_patient())
 # ADD BASIC INFO ABOUT PATIENTS ADMISSION (as recorded at time of admission) ------------------------
 
 # First COVID-19 admission date
-dataset.first_admission_date_sus = admissions_data_sus.first_for_patient().admission_date
+if admission_method == "C":
+  dataset.first_admission_date_sus = admissions_data_sus.first_for_patient().arrival_date
+else:
+  dataset.first_admission_date_sus = admissions_data_sus.first_for_patient().admission_date
 
 # Subsequent COVID-19 admission dates
 get_sequential_admissions_date(dataset, "admission{n}_date_sus", admissions_data_sus, 5, admission_method)
@@ -162,33 +165,33 @@ dataset.covid19_vaccine_sus = vaccinations.where(vaccinations.date.is_on_or_befo
 # ADD COMORBIDITY INFO (as recorded at the time of first admission) ------------------------
 
 # Chronic cardiac disease
-has_prior_comorbidity("ccd_sus", "chronic_cardiac_disease", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("ccd_sus", "chronic_cardiac_disease", "snomed", "first_admission_date_sus", dataset)
 
 # Hypertension
-has_prior_comorbidity("hypertension_sus", "hypertension", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("hypertension_sus", "hypertension", "snomed", "first_admission_date_sus", dataset)
 
 # Chronic pulmonary disease
-has_prior_comorbidity("copd_sus", "copd", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("copd_sus", "copd", "snomed", "first_admission_date_sus", dataset)
 
 # Asthma
-has_prior_comorbidity("asthma_sus", "asthma", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("asthma_sus", "asthma", "snomed", "first_admission_date_sus", dataset)
 
 # Chronic kidney disease
-has_prior_comorbidity("ckd_sus", "chronic_kidney_disease", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("ckd_sus", "chronic_kidney_disease", "snomed", "first_admission_date_sus", dataset)
 
 # Liver disease
-has_prior_comorbidity("cld_sus", "chronic_liver_disease", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("cld_sus", "chronic_liver_disease", "snomed", "first_admission_date_sus", dataset)
 
 # Chronic neurological disorder
-has_prior_comorbidity("neuro_sus", "neuro_other", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("neuro_sus", "neuro_other", "snomed", "first_admission_date_sus", dataset)
 
 # Cancer
-has_prior_comorbidity("cancer_lung_sus", "cancer_lung", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
-has_prior_comorbidity("cancer_other_sus", "cancer_other", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
-has_prior_comorbidity("cancer_haemo_sus", "cancer_haemo", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("cancer_lung_sus", "cancer_lung", "snomed", "first_admission_date_sus", dataset)
+has_prior_comorbidity("cancer_other_sus", "cancer_other", "snomed", "first_admission_date_sus", dataset)
+has_prior_comorbidity("cancer_haemo_sus", "cancer_haemo", "snomed", "first_admission_date_sus", dataset)
 
 # AIDS/HIV
-has_prior_comorbidity("hiv_sus", "hiv", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("hiv_sus", "hiv", "snomed", "first_admission_date_sus", dataset)
 
 # Obesity
 dataset.obesity_sus  = (
@@ -204,21 +207,21 @@ dataset.obesity_sus  = (
 )
 
 # Diabetes
-has_prior_comorbidity("diabetes_sus", "diabetes", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
-has_prior_comorbidity("diabetes_t1_sus", "diabetes_t1", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
-has_prior_comorbidity("diabetes_t2_sus", "diabetes_t2", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("diabetes_sus", "diabetes", "snomed", "first_admission_date_sus", dataset)
+has_prior_comorbidity("diabetes_t1_sus", "diabetes_t1", "snomed", "first_admission_date_sus", dataset)
+has_prior_comorbidity("diabetes_t2_sus", "diabetes_t2", "snomed", "first_admission_date_sus", dataset)
 
 # Rheumatologic disorder
-#has_prior_comorbidity("rheumatologic_sus", "rheumatologic", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+#has_prior_comorbidity("rheumatologic_sus", "rheumatologic", "snomed", "first_admission_date_sus", dataset)
 
 # Dementia
-has_prior_comorbidity("dementia_sus", "dementia", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("dementia_sus", "dementia", "snomed", "first_admission_date_sus", dataset)
 
 # Malnutrition
-#has_prior_comorbidity("malnutrition_sus", "malnutrition", "snomed", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+#has_prior_comorbidity("malnutrition_sus", "malnutrition", "snomed", "first_admission_date_sus", dataset)
 
 # Smoking
-has_prior_comorbidity("smoking_sus", "clear_smoking_codes", "ctv3", "first_admission_date_sus", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("smoking_sus", "clear_smoking_codes", "ctv3", "first_admission_date_sus", dataset)
 
 
 
@@ -227,10 +230,14 @@ has_prior_comorbidity("smoking_sus", "clear_smoking_codes", "ctv3", "first_admis
 # ADD OTHER INFO  ------------------------
 
 # Number of admissions
-dataset.n_admissions =  admissions_data_sus.count_for_patient() 
+if admission_method == "A" or admission_method == "B":
+  dataset.n_admissions =  admissions_data_sus.count_for_patient() 
 
 # In-hospital severity (critical care stay, length of stay)
-dataset.days_in_critical_care = admissions_data_sus.first_for_patient().days_in_critical_care
+if admission_method == "A" or admission_method == "B":
+  dataset.days_in_critical_care = admissions_data_sus.first_for_patient().days_in_critical_care
+
+
 
 # All-cause death
 ons_deathdata = ons_deaths.sort_by(ons_deaths.date).last_for_patient()
@@ -240,6 +247,7 @@ dataset.has_died = ons_deaths.where(ons_deaths.date >= dataset.first_admission_d
 
 # In-hospital death (hospitalisation with discharge + death date on same day or discharge location = death)
 dataset.in_hospital_death = ons_deaths.where(ons_deaths.place == "Hospital").exists_for_patient()
-dataset.discharge_date = admissions_data_sus.first_for_patient().discharge_date
+if admission_method == "A" or admission_method == "B":
+  dataset.discharge_date = admissions_data_sus.first_for_patient().discharge_date
 
 
