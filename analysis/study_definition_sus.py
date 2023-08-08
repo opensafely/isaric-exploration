@@ -15,8 +15,6 @@ import json
 # Import codelists from codelists.py
 import codelists
 
-# import variables from variables.py
-import variables
 
 # process parameters
 admission_number = int(params["admission_number"])
