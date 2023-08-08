@@ -23,7 +23,7 @@ nhsd-primary-care-domain-refsets/copd_cod/20210127
 opensafely/asthma-diagnosis-snomed/2020-04-15
 opensafely/chronic-kidney-disease-snomed/2020-04-14
 opensafely/chronic-liver-disease-snomed/2020-06-02
-opensafely/other-neurological-conditions/2020-06-02
+opensafely/other-neurological-conditions-snomed/2020-06-02
 opensafely/haematological-cancer-snomed/2020-04-15
 opensafely/cancer-excluding-lung-and-haematological-snomed/2020-04-15
 opensafely/lung-cancer-snomed/2020-04-15

@@ -124,9 +124,10 @@ chronic_liver_disease = codelist_from_csv(
 )
 
 neuro_other = codelist_from_csv(
-    "codelists/opensafely-other-neurological-conditions.csv",
-    column="CTV3ID",
+    "codelists/opensafely-other-neurological-conditions-snomed.csv",
+    column="id",
 )
+
 
 cancer_haemo = codelist_from_csv(
     "codelists/opensafely-haematological-cancer-snomed.csv",
