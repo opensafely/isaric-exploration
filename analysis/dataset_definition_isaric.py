@@ -18,13 +18,14 @@
 
 # Import tables and Python objects
 from ehrql import Dataset, days, years, case, when
-from ehrql.tables.beta.tpp import clinical_events, isaric_raw, patients, sgss_covid_all_tests, vaccinations
+from ehrql.tables.beta.tpp import (
+  clinical_events, isaric_raw, patients, sgss_covid_all_tests, vaccinations, addresses, practice_registrations, ons_deaths)
 
 # Import codelists
 import codelists_ehrql
 
 # Functions
-from variables import add_primary_care_variable
+from variables import has_prior_comorbidity
 
 
 
@@ -35,7 +36,7 @@ from variables import add_primary_care_variable
 # Create dataset object for output dataset
 dataset = Dataset()
 
-# Define dataset a all patients with an entry in the ISARIC table.
+# Define dataset as all patients with an entry in the ISARIC table.
 dataset.define_population(isaric_raw.exists_for_patient())
 
 
@@ -50,7 +51,7 @@ dataset.define_population(isaric_raw.exists_for_patient())
 first_isaric_admission = (isaric_raw.sort_by(isaric_raw.age).first_for_patient())
 
 # Admission date
-dataset.admission_date = first_isaric_admission.hostdat
+dataset.first_admission_date_isaric = first_isaric_admission.hostdat
 
 # Age
 dataset.age_isaric = first_isaric_admission.age
@@ -144,7 +145,7 @@ dataset.smoking_isaric = first_isaric_admission.smoking_mhyn
 # Note, these may not exactly match the clinical definitions used on the ISARIC case report forms
 
 # Age
-dataset.age_pc = patients.age_on(dataset.admission_date)
+dataset.age_pc = patients.age_on(dataset.first_admission_date_isaric)
 
 # Sex
 dataset.sex_pc = patients.sex
@@ -152,7 +153,7 @@ dataset.sex_pc = patients.sex
 # Ethnicity
 ethnicity6 = clinical_events.where(clinical_events.snomedct_code.is_in(codelists_ehrql.ethnicity_codelist)
     ).where(
-        clinical_events.date.is_on_or_before(dataset.admission_date)
+        clinical_events.date.is_on_or_before(dataset.first_admission_date_isaric)
     ).sort_by(
         clinical_events.date
     ).last_for_patient().snomedct_code.to_category(codelists_ehrql.ethnicity_codelist)
@@ -167,11 +168,26 @@ dataset.ethnicity_pc = case(
     default = "Unknown"
 )
 
+# IMD
+imd = addresses.for_patient_on(dataset.first_admission_date_isaric).imd_rounded
+
+dataset.imd_pc = case(
+    when((imd >=0) & (imd < int(32844 * 1 / 5))).then("1 (most deprived)"),
+    when(imd < int(32844 * 2 / 5)).then("2"),
+    when(imd < int(32844 * 3 / 5)).then("3"),
+    when(imd < int(32844 * 4 / 5)).then("4"),
+    when(imd < int(32844 * 5 / 5)).then("5 (least deprived)"),
+    default="unknown"
+)
+
+# Region
+dataset.region_pc = practice_registrations.for_patient_on(dataset.first_admission_date_isaric).practice_nuts1_region_name
+
 # COVID-19 infection
 dataset.suspected_covid_date_pc = clinical_events.where(
   clinical_events.ctv3_code.is_in(codelists_ehrql.primary_care_suspected_covid_combined)
   ).where(
-    clinical_events.date.is_on_or_before(dataset.admission_date)
+    clinical_events.date.is_on_or_before(dataset.first_admission_date_isaric)
     ).sort_by(
       clinical_events.date
       ).last_for_patient().date
@@ -179,56 +195,56 @@ dataset.suspected_covid_date_pc = clinical_events.where(
 dataset.probable_covid_date_pc = clinical_events.where(
   clinical_events.ctv3_code.is_in(codelists_ehrql.covid_primary_care_probable_combined)
   ).where(
-    clinical_events.date.is_on_or_before(dataset.admission_date)
+    clinical_events.date.is_on_or_before(dataset.first_admission_date_isaric)
     ).sort_by(
       clinical_events.date
       ).last_for_patient().date
 
 dataset.last_positive_test_date_pc = sgss_covid_all_tests.where(sgss_covid_all_tests.is_positive
     ).where(
-        sgss_covid_all_tests.specimen_taken_date.is_on_or_before(dataset.admission_date)
+        sgss_covid_all_tests.specimen_taken_date.is_on_or_before(dataset.first_admission_date_isaric)
     ).sort_by(
         sgss_covid_all_tests.specimen_taken_date
     ).last_for_patient().specimen_taken_date
     
 # COVID-19 Vaccination
-dataset.covid19_vaccine_pc = vaccinations.where(vaccinations.date.is_on_or_before(dataset.admission_date)).exists_for_patient()
+dataset.covid19_vaccine_pc = vaccinations.where(vaccinations.date.is_on_or_before(dataset.first_admission_date_isaric)).exists_for_patient()
 
 # Chronic cardiac disease
-add_primary_care_variable("ccd_pc", "chronic_cardiac_disease", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("ccd_pc", "chronic_cardiac_disease", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Hypertension
-add_primary_care_variable("hypertension_pc", "hypertension", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("hypertension_pc", "hypertension", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Chronic pulmonary disease
-add_primary_care_variable("copd_pc", "copd", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("copd_pc", "copd", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Asthma
-add_primary_care_variable("asthma_pc", "asthma", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("asthma_pc", "asthma", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Chronic kidney disease
-add_primary_care_variable("ckd_pc", "chronic_kidney_disease", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("ckd_pc", "chronic_kidney_disease", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Liver disease
-add_primary_care_variable("cld_pc", "chronic_liver_disease", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("cld_pc", "chronic_liver_disease", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Chronic neurological disorder
-add_primary_care_variable("neuro_pc", "neuro_other", "ctv3", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("neuro_pc", "neuro_other", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Cancer
-add_primary_care_variable("cancer_lung_pc", "cancer_lung", "snomed", codelists_ehrql, clinical_events, dataset, days)
-add_primary_care_variable("cancer_other_pc", "cancer_other", "snomed", codelists_ehrql, clinical_events, dataset, days)
-add_primary_care_variable("cancer_haemo_pc", "cancer_haemo", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("cancer_lung_pc", "cancer_lung", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("cancer_other_pc", "cancer_other", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("cancer_haemo_pc", "cancer_haemo", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # AIDS/HIV
-add_primary_care_variable("hiv_pc", "hiv", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("hiv_pc", "hiv", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Obesity
 dataset.obesity_pc  = (
     # Filter on codes which which capture recorded BMI
     clinical_events.where(clinical_events.snomedct_code.is_in(codelists_ehrql.obesity_codelist))
     # Only values in the 5 years prior to admission date
-    .where(clinical_events.date.is_on_or_between(dataset.admission_date - years(5), dataset.admission_date))
+    .where(clinical_events.date.is_on_or_between(dataset.first_admission_date_isaric - years(5), dataset.first_admission_date_isaric))
     # Exclude out-of-range values
     .where((clinical_events.numeric_value > 4.0) & (clinical_events.numeric_value < 200.0))
     # Exclude measurements taken when patient was younger than 16
@@ -237,22 +253,39 @@ dataset.obesity_pc  = (
 )
 
 # Diabetes
-add_primary_care_variable("diabetes_pc", "diabetes", "snomed", codelists_ehrql, clinical_events, dataset, days)
-add_primary_care_variable("diabetes_t1_pc", "diabetes_t1", "snomed", codelists_ehrql, clinical_events, dataset, days)
-add_primary_care_variable("diabetes_t2_pc", "diabetes_t2", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("diabetes_pc", "diabetes", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("diabetes_t1_pc", "diabetes_t1", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("diabetes_t2_pc", "diabetes_t2", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Rheumatologic disorder
-#add_primary_care_variable("rheumatologic_pc", "rheumatologic", "snomed", codelists_ehrql, clinical_events, dataset, days)
+#has_prior_comorbidity("rheumatologic_pc", "rheumatologic", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Dementia
-add_primary_care_variable("dementia_pc", "dementia", "snomed", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("dementia_pc", "dementia", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Malnutrition
-#add_primary_care_variable("malnutrition_pc", "malnutrition", "snomed", codelists_ehrql, clinical_events, dataset, days)
+#has_prior_comorbidity("malnutrition_pc", "malnutrition", "snomed", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
 # Smoking
-add_primary_care_variable("smoking_pc", "clear_smoking_codes", "ctv3", codelists_ehrql, clinical_events, dataset, days)
+has_prior_comorbidity("smoking_pc", "clear_smoking_codes", "ctv3", "first_admission_date_isaric", codelists_ehrql, clinical_events, dataset, days)
 
+
+
+
+
+# ADD OTHER INFO  ------------------------
+
+# Number of admissions
+dataset.n_admissions =  isaric_raw.count_for_patient() 
+
+# All-cause death
+ons_deathdata = ons_deaths.sort_by(ons_deaths.date).last_for_patient()
+dataset.ons_death_date = ons_deathdata.date
+dataset.death_date = patients.date_of_death
+dataset.has_died = ons_deaths.where(ons_deaths.date >= dataset.first_admission_date_isaric).exists_for_patient()
+
+# In-hospital death (hospitalisation with discharge + death date on same day or discharge location = death)
+#dataset.discharge_date = isaric_raw.first_for_patient().where(dsterm == "Death").dsstdtc
 
 
 
