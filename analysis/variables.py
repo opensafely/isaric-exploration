@@ -3,10 +3,11 @@
 # Description: This script contains custom functions for:
 #             - 
 #             - Extracting comorbidities from primary care data based on codelist
-#             - 
-#             - 
-#             - 
-#             - 
+#             - Extracting emergency care data based on codelist
+#             - Extracting patients with COVID-19 admissions depending on method specified
+#             - Matching hospital admission dignosis with codelist
+#             - Creating n sequential admission date variables
+#             - Extracting practice deregistration date
 #             - 
 #             - 
 #             - 
@@ -23,6 +24,7 @@
 
 # Import tables and Python objects
 from ehrql import Dataset, days, years, case, when
+from ehrql.codes import ICD10Code
 from ehrql.tables.beta.tpp import (
   hospital_admissions, 
   emergency_care_attendances, 
@@ -33,6 +35,8 @@ from ehrql.tables.beta.tpp import (
   addresses, 
   clinical_events
   )
+import operator
+from functools import reduce
 
 # Import codelists
 import codelists_ehrql
@@ -44,7 +48,6 @@ import codelists_ehrql
 # FUNCTIONS ------------------------
 
 # Extract comorbidity from primary care data based on codelist ------------------------
-
 def has_prior_comorbidity(
   extract_name, codelist_name, system, column_name, dataset):
     
@@ -68,9 +71,6 @@ def has_prior_comorbidity(
 
 
 # Extract emergency care data based on codelist ------------------------
-from functools import reduce
-import operator
-
 def emergency_care_diagnosis_matches(emergency_care_attendances, codelist):
   conditions = [
     getattr(emergency_care_attendances, column_name).is_in(codelist)
@@ -80,14 +80,45 @@ def emergency_care_diagnosis_matches(emergency_care_attendances, codelist):
 
 
 
-# Extract patients with COVID-19 admissions depending on method specified ------------------------
+# Match hospital admission dignosis with codelists ------------------------
+def hospitalisation_diagnosis_matches(admissions, codelist):
+    code_strings = set()
+    for code in codelist:
+        # Pass the string through the ICD10Code to constructor to validate that it has
+        # the expected format
+        code_string = ICD10Code(code)._to_primitive_type()
+        code_strings.add(code_string)
+    conditions = [
+        # The reason a plain substring search like this works is twofold:
+        #
+        # * ICD-10 codes all start with the sequence [A-Z][0-9] and do not contain
+        #   such a sequence in any other part of the code. In this sense they are
+        #   suffix-free and two codes will only match at they start if they match at
+        #   all.
+        #
+        # * Although the codes are not prefix-free they are organised hierarchically
+        #   such that code A0123 represents a child concept of code A01. So although
+        #   the naive substring matching below will find code A01 if code A0123 is
+        #   present, this happens to be the behaviour we actually want.
+        #
+        # Obviously this is all far from ideal though, and later we hope to be able
+        # to pull these codes out in a separate table and handle the matching
+        # properly.
+        admissions.all_diagnoses.contains(code_string)
+        for code_string in code_strings
+    ]
+    return admissions.where(reduce(operator.or_, conditions))
 
+
+
+# Extract patients with COVID-19 admissions depending on method specified ------------------------
 def admissions_data(admission_method, hospital_admissions, emergency_care_attendances, start_date):
     
     # Unplanned admissions with a ICD10 COVID code as a diagnosis
     if admission_method == "A":
       admissions_data_sus = (
-          hospital_admissions.where(hospital_admissions.admission_method.is_in(["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"]))
+          hospitalisation_diagnosis_matches(hospital_admissions, codelists_ehrql.covid_icd10)
+          .where(hospital_admissions.admission_method.is_in(["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"]))
           .where(hospital_admissions.admission_date.is_on_or_after(start_date))
           .sort_by(hospital_admissions.admission_date)
       )
@@ -95,7 +126,8 @@ def admissions_data(admission_method, hospital_admissions, emergency_care_attend
     ## Any hospital admission with a ICD10 COVID code as a diagnosis
     if admission_method == "B":
       admissions_data_sus = (
-          hospital_admissions.where(hospital_admissions.admission_date.is_on_or_after(start_date))
+          hospitalisation_diagnosis_matches(hospital_admissions, codelists_ehrql.covid_icd10)
+          .where(hospital_admissions.admission_date.is_on_or_after(start_date))
           .sort_by(hospital_admissions.admission_date)
       )
     

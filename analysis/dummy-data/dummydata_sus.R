@@ -62,6 +62,10 @@ sim_list1 = lst(
     missing_rate = ~0.001 # this is shorthand for ~(rbernoulli(n=..n, p = 0.2))
   ),
 
+  obesity = bn_node(
+    ~as.integer(rnorm(n=..n, mean=25, sd=5))
+  ),
+
   practice_id = bn_node(
     ~as.integer(runif(n=..n, 1, 200))
   ),

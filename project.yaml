@@ -16,7 +16,7 @@ expectations:
 
 actions:
 
-  # Extract isaric data ----
+  # Extract isaric data (ehrQL) ----
   extract_first_isaric_admission:
     run: >
       ehrql:v0 generate-dataset analysis/dataset_definition_isaric.py
@@ -25,18 +25,8 @@ actions:
       highly_sensitive:
         csv: output/admissions/isaric_admission1.csv.gz
 
-  # Extract sus data ----
-  extract_sus_methodA_admission1_cohortextractor:
-    run: >
-      cohortextractor:latest generate_cohort
-      --study-definition study_definition_sus
-      --output-file output/admissions/sus_methodA_admission1_cohortextractor.csv.gz
-      --param admission_number=1
-      --param admission_method=A
-    outputs:
-      highly_sensitive:
-        csv: output/admissions/sus_methodA_admission1_cohortextractor.csv.gz
 
+  # Extract sus data (ehrQL)----
   extract_first_sus_admission_methodA_ehrQL:
     run: >
       ehrql:v0
@@ -70,6 +60,41 @@ actions:
       highly_sensitive:
         cohort: output/admissions/sus_methodC_admission1_ehrQL.csv.gz
 
+
+  # Extract sus data (cohortextractor)----
+  extract_sus_methodA_admission1_cohortextractor:
+    run: >
+      cohortextractor:latest generate_cohort
+      --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodA_admission1_cohortextractor.csv.gz
+      --param admission_number=1
+      --param admission_method=A
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodA_admission1_cohortextractor.csv.gz
+
+  extract_sus_methodB_admission1_cohortextractor:
+    run: >
+      cohortextractor:latest generate_cohort
+      --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodB_admission1_cohortextractor.csv.gz
+      --param admission_number=1
+      --param admission_method=B
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodB_admission1_cohortextractor.csv.gz
+
+  extract_sus_methodC_admission1_cohortextractor:
+    run: >
+      cohortextractor:latest generate_cohort
+      --study-definition study_definition_sus
+      --output-file output/admissions/sus_methodC_admission1_cohortextractor.csv.gz
+      --param admission_number=1
+      --param admission_method=C
+    outputs:
+      highly_sensitive:
+        csv: output/admissions/sus_methodC_admission1_cohortextractor.csv.gz
+
   # Data properties ----
   data_properties:
     run: >
@@ -83,4 +108,7 @@ actions:
     outputs:
       moderately_sensitive:
         txt1: output/data_properties/*.txt
+
+
+  # ehrQL vs cohortextractor ----
 
