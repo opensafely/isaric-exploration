@@ -95,11 +95,12 @@ actions:
       highly_sensitive:
         csv: output/admissions/sus_methodC_admission1_cohortextractor.csv.gz
 
+
   # Data properties ----
   data_properties:
     run: >
       r:latest
-        analysis/data_properties.R
+        analysis/rcode/descriptive/data_properties.R
         output/admissions/isaric_admission1.csv.gz
         output/admissions/sus_methodA_admission1_cohortextractor.csv.gz
         output/admissions/sus_methodA_admission1_ehrQL.csv.gz
@@ -111,4 +112,24 @@ actions:
 
 
   # ehrQL vs cohortextractor ----
+  ehrQL_vs_cohortextractor_comparison:
+    run: >
+      r:latest
+        analysis/rcode/translation/ehrQL_vs_cohortextractor_comparison.R
+    needs: [extract_first_sus_admission_methodA_ehrQL, extract_first_sus_admission_methodB_ehrQL, extract_first_sus_admission_methodC_ehrQL, extract_sus_methodA_admission1_cohortextractor, extract_sus_methodB_admission1_cohortextractor, extract_sus_methodC_admission1_cohortextractor]
+    outputs:
+      moderately_sensitive:
+        csv: output/translation/ehrQL_vs_cohortextractor_comparison.csv
+
+
+  # Data processing ----
+  data_process:
+    run: >
+      r:latest
+        analysis/rcode/process/process_data.R
+    needs: [extract_first_isaric_admission, extract_first_sus_admission_methodA_ehrQL, extract_first_sus_admission_methodB_ehrQL, extract_first_sus_admission_methodC_ehrQL]
+    outputs:
+      highly_sensitive:
+        rds: output/admissions/processed_*.rds
+
 
