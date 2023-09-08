@@ -52,4 +52,4 @@ comparison_table <- data.frame(method = c("A", "B", "C"),
                          )
 
 # Save to file ----
-write_rds(comparison_table, here("output", "translation", "ehrQL_vs_cohortextractor_comparison.csv"))
+write_csv(comparison_table, here("output", "translation", "ehrQL_vs_cohortextractor_comparison.csv"))
