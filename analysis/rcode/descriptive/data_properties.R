@@ -134,3 +134,12 @@ for (i in 1:length(csv_files)){
     append=TRUE
   )
 }
+
+# ISARIC dates ----
+isaric_raw <- read_csv(here::here("output", "admissions", "isaric_admission1.csv.gz"))
+isaric_raw_admiss_dates <- isaric_raw %>%
+  select(first_admission_date_isaric) %>%
+  filter(first_admission_date_isaric >= as.Date("2020-02-01"),
+         first_admission_date_isaric <= Sys.Date())
+print(table(isaric_raw_admiss_dates))
+print(summary(isaric_raw_admiss_dates))
