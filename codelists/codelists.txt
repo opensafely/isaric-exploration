@@ -1,7 +1,8 @@
+# Ethnicity
+opensafely/ethnicity-snomed-0removed/2e641f61/
+
 # COVID identification codes
-## ICD10
 opensafely/covid-identification/2020-06-03
-## SNOMED/CTV-3
 opensafely/covid-identification-in-primary-care-probable-covid-positive-test/2020-07-16
 opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16
 opensafely/covid-identification-in-primary-care-probable-covid-sequelae/2020-07-16
@@ -10,24 +11,25 @@ opensafely/covid-identification-in-primary-care-suspected-covid-had-test/2020-07
 opensafely/covid-identification-in-primary-care-suspected-covid-isolation-code/2020-07-16
 opensafely/covid-identification-in-primary-care-suspected-covid-nonspecific-clinical-assessment/2020-07-16
 opensafely/covid-identification-in-primary-care-exposure-to-disease/2020-06-23
-opensafely/ethnicity-snomed-0removed/2e641f61/
+
 # A&E diagnosis codes
 opensafely/covid-19-ae-diagnosis-codes/1df1c0b2
 user/Louis/respiratory-related-ae/4a555f7d
-# comorbidities
+
+# Comorbidities
 opensafely/chronic-cardiac-disease-snomed/2020-04-08
 opensafely/hypertension-snomed/2020-04-28
 nhsd-primary-care-domain-refsets/copd_cod/20210127
 opensafely/asthma-diagnosis-snomed/2020-04-15
 opensafely/chronic-kidney-disease-snomed/2020-04-14
 opensafely/chronic-liver-disease-snomed/2020-06-02
-opensafely/other-neurological-conditions/2020-06-02
+opensafely/other-neurological-conditions-snomed/2020-06-02
 opensafely/haematological-cancer-snomed/2020-04-15
 opensafely/cancer-excluding-lung-and-haematological-snomed/2020-04-15
 opensafely/lung-cancer-snomed/2020-04-15
-
 opensafely/hiv-snomed/2020-07-13
-
 opensafely/diabetes-snomed/2020-04-15
 nhsd-primary-care-domain-refsets/dmtype2_cod/20200812
 nhsd-primary-care-domain-refsets/dmtype1_cod/20210127
+opensafely/dementia-snomed/2020-04-22
+opensafely/smoking-clear/2020-04-29

@@ -1,5 +1,11 @@
 {
   "files": {
+    "opensafely-ethnicity-snomed-0removed.csv": {
+      "id": "opensafely/ethnicity-snomed-0removed/2e641f61",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity-snomed-0removed/2e641f61/",
+      "downloaded_at": "2023-02-13 16:17:40.851865Z",
+      "sha": "8b849b5b785d80306e488d0109640c8c1d2da01b"
+    },
     "opensafely-covid-identification.csv": {
       "id": "opensafely/covid-identification/2020-06-03",
       "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification/2020-06-03/",
@@ -54,12 +60,6 @@
       "downloaded_at": "2023-02-13 16:17:40.636695Z",
       "sha": "b7cd77be113fa93776d072da047dc22b4a021091"
     },
-    "opensafely-ethnicity-snomed-0removed.csv": {
-      "id": "opensafely/ethnicity-snomed-0removed/2e641f61",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity-snomed-0removed/2e641f61/",
-      "downloaded_at": "2023-02-13 16:17:40.851865Z",
-      "sha": "8b849b5b785d80306e488d0109640c8c1d2da01b"
-    },
     "opensafely-covid-19-ae-diagnosis-codes.csv": {
       "id": "opensafely/covid-19-ae-diagnosis-codes/1df1c0b2",
       "url": "https://codelists.opensafely.org/codelist/opensafely/covid-19-ae-diagnosis-codes/1df1c0b2/",
@@ -108,11 +108,11 @@
       "downloaded_at": "2023-03-27 10:29:34.974927Z",
       "sha": "996796d695797fe151821c2e01be26d7d3bfb77c"
     },
-    "opensafely-other-neurological-conditions.csv": {
-      "id": "opensafely/other-neurological-conditions/2020-06-02",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/other-neurological-conditions/2020-06-02/",
-      "downloaded_at": "2023-03-27 10:29:35.129192Z",
-      "sha": "855e7e09a0500401ae2429c6a401978e8c9075ec"
+    "opensafely-other-neurological-conditions-snomed.csv": {
+      "id": "opensafely/other-neurological-conditions-snomed/2020-06-02",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/other-neurological-conditions-snomed/2020-06-02/",
+      "downloaded_at": "2023-08-08 08:08:22.296928Z",
+      "sha": "7829d40377657fc66ab575b6420260dc48de500d"
     },
     "opensafely-haematological-cancer-snomed.csv": {
       "id": "opensafely/haematological-cancer-snomed/2020-04-15",
@@ -155,6 +155,18 @@
       "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/dmtype1_cod/20210127/",
       "downloaded_at": "2023-03-27 10:29:36.722095Z",
       "sha": "23e6cb9c5555fb756c9a68295bd701b6ddb34ebd"
+    },
+    "opensafely-dementia-snomed.csv": {
+      "id": "opensafely/dementia-snomed/2020-04-22",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/dementia-snomed/2020-04-22/",
+      "downloaded_at": "2023-08-04 13:57:25.673060Z",
+      "sha": "3f412d7c633312b105a0f909858e08b391f1ad46"
+    },
+    "opensafely-smoking-clear.csv": {
+      "id": "opensafely/smoking-clear/2020-04-29",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/smoking-clear/2020-04-29/",
+      "downloaded_at": "2023-08-07 08:24:46.324444Z",
+      "sha": "0b5f3afe1db96dcce5141220e893a42ba2e5a8f7"
     }
   }
 }
