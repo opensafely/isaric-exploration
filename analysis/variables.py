@@ -112,14 +112,14 @@ def hospitalisation_diagnosis_matches(admissions, codelist):
 
 
 # Extract patients with COVID-19 admissions depending on method specified ------------------------
-def admissions_data(admission_method, hospital_admissions, emergency_care_attendances, start_date):
+def admissions_data(admission_method, hospital_admissions, emergency_care_attendances):
     
     # Unplanned admissions with a ICD10 COVID code as a diagnosis
     if admission_method == "A":
       admissions_data_sus = (
           hospitalisation_diagnosis_matches(hospital_admissions, codelists_ehrql.covid_icd10)
           .where(hospital_admissions.admission_method.is_in(["21", "22", "23", "24", "25", "2A", "2B", "2C", "2D", "28"]))
-          .where(hospital_admissions.admission_date.is_on_or_after(start_date))
+          #.where(hospital_admissions.admission_date.is_on_or_after(start_date))
           .sort_by(hospital_admissions.admission_date)
       )
     
@@ -127,7 +127,7 @@ def admissions_data(admission_method, hospital_admissions, emergency_care_attend
     if admission_method == "B":
       admissions_data_sus = (
           hospitalisation_diagnosis_matches(hospital_admissions, codelists_ehrql.covid_icd10)
-          .where(hospital_admissions.admission_date.is_on_or_after(start_date))
+          #.where(hospital_admissions.admission_date.is_on_or_after(start_date))
           .sort_by(hospital_admissions.admission_date)
       )
     
@@ -138,7 +138,7 @@ def admissions_data(admission_method, hospital_admissions, emergency_care_attend
     if admission_method == "C":
       admissions_data_sus = (
           emergency_care_diagnosis_matches(emergency_care_attendances, codelists_ehrql.covid_emergency)
-          .where(emergency_care_attendances.arrival_date.is_on_or_after(start_date))
+          #.where(emergency_care_attendances.arrival_date.is_on_or_after(start_date))
           .where(emergency_care_attendances.discharge_destination.is_in(codelists_ehrql.discharged_to_hospital))
           .sort_by(emergency_care_attendances.arrival_date)
       )
