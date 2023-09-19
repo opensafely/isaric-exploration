@@ -37,7 +37,6 @@ source(here("analysis", "lib", "custom_functions.R"))
 # Output directory
 fs::dir_create(here("output", "admissions"))
 
-
 # Process data ----
 
 ## Import data
@@ -107,8 +106,4 @@ processed_sus_methodA <- process_sus(sus_methodA_raw)
 processed_sus_methodB <- process_sus(sus_methodB_raw)
 processed_sus_methodC <- process_sus(sus_methodC_raw)
 
-## Save to file
-write_rds(isaric_processed, here("output", "admissions", "processed_isaric.rds"), compress="gz")
-write_rds(processed_sus_methodA, here("output", "admissions", "processed_sus_methodA.rds"), compress="gz")
-write_rds(processed_sus_methodB, here("output", "admissions", "processed_sus_methodB.rds"), compress="gz")
-write_rds(processed_sus_methodC, here("output", "admissions", "processed_sus_methodC.rds"), compress="gz")
+
