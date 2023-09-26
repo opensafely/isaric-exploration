@@ -234,8 +234,6 @@ if admission_method == "A" or admission_method == "B":
 if admission_method == "A" or admission_method == "B":
   dataset.days_in_critical_care = admissions_data_sus.first_for_patient().days_in_critical_care
 
-
-
 # All-cause death
 ons_deathdata = ons_deaths.sort_by(ons_deaths.date).last_for_patient()
 dataset.ons_death_date = ons_deathdata.date

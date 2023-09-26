@@ -37,6 +37,7 @@ source(here("analysis", "lib", "custom_functions.R"))
 # Output directory
 fs::dir_create(here("output", "admissions"))
 
+
 # Process data ----
 
 ## Import data
@@ -54,6 +55,20 @@ os_skim(sus_methodC_raw, path=here("output", "admissions", "sus_methodC_raw_skim
 ## Standardise some ISARIC variables
 isaric_processed <- isaric_raw %>%
   dplyr::mutate(
+
+    # Age
+    ageband = cut(
+      as.numeric(age_isaric),
+      breaks=c(-Inf, 18, 40, 55, 65, 75, Inf),
+      labels=c("under 18", "18-39", "40-54", "55-64", "65-74", "75+"),
+      right=FALSE
+    ),
+
+    ageband_pc = cut(
+      as.numeric(age_pc),
+      breaks=c(-Inf, 18, 40, 55, 65, 75, Inf),
+      labels=c("under 18", "18-39", "40-54", "55-64", "65-74", "75+"),
+      right=FALSE),
 
     # Ethnicity
     ethnicity = dplyr::case_when(
@@ -75,16 +90,22 @@ isaric_processed <- isaric_raw %>%
       TRUE ~ ethnicity
     ),
 
-    # Age
-    ageband = cut(
-      as.numeric(age_isaric),
-      breaks=c(-Inf, 18, 40, 55, 65, 75, Inf),
-      labels=c("under 18", "18-39", "40-54", "55-64", "65-74", "75+"),
-      right=FALSE
-    ),
-
+    ethnicity_pc = factor(as.character(ethnicity_pc),
+                          levels = c("White", "Mixed", "South Asian",
+                                     "Black", "Other", "Not stated", "Unknown")),
     # Cancer
-    cancer_pc = (cancer_lung_pc | cancer_haemo_pc | cancer_other_pc )*1L
+    cancer_pc = (cancer_lung_pc | cancer_haemo_pc | cancer_other_pc )*1L,
+
+    # Death
+    death_with_28_days_of_covid_positive_test = ifelse((ons_death_date <= last_positive_test_date_pc + 28 &
+                                                          ons_death_date >= last_positive_test_date_pc), 1, NA),
+
+    death_with_28_days_of_covid_hosp_admission = ifelse((ons_death_date <= first_admission_date_isaric + 28 &
+                                                           ons_death_date >= first_admission_date_isaric), 1, NA),
+
+    # Positive COVID test
+    positive_covid_test_prior_28_days = ifelse((last_positive_test_date_pc >= first_admission_date_isaric - 28 &
+                                                  last_positive_test_date_pc <= first_admission_date_isaric), 1, NA),
   )
 
 ## Standardise some SUS variables
@@ -93,12 +114,31 @@ process_sus <- function(data){
     mutate(
 
       # Age
-      ageband = cut(
+      ageband_sus = cut(
         age_sus,
         breaks=c(-Inf, 18, 40, 55, 65, 75, Inf),
         labels=c("under 18", "18-39", "40-54", "55-64", "65-74", "75+"),
         right=FALSE
-      )
+      ),
+
+      # Ethnicity
+      ethnicity_sus = factor(as.character(ethnicity_sus),
+                            levels = c("White", "Mixed", "South Asian",
+                                       "Black", "Other", "Not stated", "Unknown")),
+
+      # Cancer
+      cancer_sus = (cancer_lung_sus | cancer_haemo_sus | cancer_other_sus )*1L,
+
+      # Death
+      death_with_28_days_of_covid_positive_test = ifelse((ons_death_date <= last_positive_test_date_sus + 28 &
+                                                            ons_death_date >= last_positive_test_date_sus), 1, NA),
+
+      death_with_28_days_of_covid_hosp_admission = ifelse((ons_death_date <= first_admission_date_sus + 28 &
+                                                             ons_death_date >= first_admission_date_sus), 1, NA),
+
+      # Positive COVID test
+      positive_covid_test_prior_28_days = ifelse((last_positive_test_date_sus >= first_admission_date_sus - 28 &
+                                                    last_positive_test_date_sus <= first_admission_date_sus), 1, NA),
     )
 }
 
@@ -106,4 +146,9 @@ processed_sus_methodA <- process_sus(sus_methodA_raw)
 processed_sus_methodB <- process_sus(sus_methodB_raw)
 processed_sus_methodC <- process_sus(sus_methodC_raw)
 
+## Save to file
+write_rds(isaric_processed, here("output", "admissions", "processed_isaric.rds"), compress="gz")
+write_rds(processed_sus_methodA, here("output", "admissions", "processed_sus_methodA.rds"), compress="gz")
+write_rds(processed_sus_methodB, here("output", "admissions", "processed_sus_methodB.rds"), compress="gz")
+write_rds(processed_sus_methodC, here("output", "admissions", "processed_sus_methodC.rds"), compress="gz")
 
