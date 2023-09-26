@@ -1,13 +1,7 @@
 ---
 title: "Population validation and cohort representativeness: A short data report in ISARIC and OpenSAFELY"
 output:
-  html_document:
-  theme: journal
-github_document:
-  keep_html: TRUE
-# output:
-#   pdf_document
-
+    html_document
 ---
 
 ```{css, echo=FALSE}
@@ -48,7 +42,9 @@ library(Gmisc)
 library(tidyverse)
 library(DiagrammeR)
 library(glue)
+library(gtsummary)
 
+knitr::opts_chunk$set(echo = FALSE, warnings = FALSE, message = FALSE)
 
 # Import custom user functions ----
 source(here("analysis", "lib", "custom_functions.R"))
@@ -57,6 +53,9 @@ source(here("analysis", "lib", "utility.R"))
 # Output directory ----
 output_dir_rmd <- here("reports", "validation")
 fs::dir_create(output_dir_rmd)
+
+# Rounding threshold for statistical disclosure control ----
+rounding_threshold <- 10
 
 # Dates ----
 start_date = as.Date("2020-02-01")
@@ -99,8 +98,12 @@ admissions_SUS <- admissions_joined_SUS %>% filter(first_admission_date_sus >= s
 * [Purpose](#purpose)
 * [Results](#results)
   + [Ascertainment of COVID-19 hospitalisations](#ascertainment)
+    + [Identification and matching admissions](#matched)
+    + [Unmatched admissions](#unmatched)
   + [Consistency and completeness of data](#consistency)
-
+    + [Demographic characteristics of datasets](#demographics)
+    + [Consistency of underlying conditions reported](#consistency2)
+    
   
 # Purpose <a name="purpose"></a>
 Given ISARIC is a new, rapidly-deployed data collection initiative, data quality and consistency across different sites may not be well-understood and it is therefore important to validate data with other sources. 
@@ -117,7 +120,7 @@ The main purpose of this piece of work is to validate the representativeness of 
 # Results <a name="results"></a>
 
 ## Ascertainment of COVID-19 hospitalisations via ISARIC and SUS <a name="ascertainment"></a>
-```{r flow chart, include=FALSE}
+```{r, include=FALSE}
 
 # Patients with an COVID-19 hospital admission
 n_patients_ISARIC <- nrow(processed_isaric)
@@ -134,14 +137,14 @@ n_SUS_admission_1_method_C <- nrow(SUS_admission_1_method_C)
 n_SUS_joined_admission_1 <- nrow(admissions_SUS)
 
 # Patients with an COVID-19 hospital admission in ISARIC but not SUS
-n_admission_ISARIC_NOT_SUS <- ISARIC_admission_1 %>%
-  filter(!(patient_id %in% admissions_SUS$patient_id)) %>%
-  nrow()
+admission_ISARIC_NOT_SUS <- ISARIC_admission_1 %>%
+  filter(!(patient_id %in% admissions_SUS$patient_id)) 
+n_admission_ISARIC_NOT_SUS <- admission_ISARIC_NOT_SUS %>% nrow()
 
 # Patients with an COVID-19 hospital admission in SUS but not ISARIC
-n_admission_SUS_NOT_ISARIC <- admissions_SUS %>%
-  filter(!(patient_id %in% ISARIC_admission_1$patient_id)) %>%
-  nrow()
+admission_SUS_NOT_ISARIC <- admissions_SUS %>%
+  filter(!(patient_id %in% ISARIC_admission_1$patient_id)) 
+n_admission_SUS_NOT_ISARIC <- admission_SUS_NOT_ISARIC %>% nrow()
 
 # Patients with an COVID-19 hospital admission in ISARIC and SUS
 admission_ISARIC_SUS <- inner_join(ISARIC_admission_1, admissions_SUS, by = c("patient_id" = "patient_id"))
@@ -164,22 +167,110 @@ n_admission_ISARIC_SUS_same_date <- admission_ISARIC_SUS %>%
   filter(first_admission_date_isaric == first_admission_date_sus) %>%
   nrow()
 
+n_admission_ISARIC_SUS_same_date_method_A <- admission_ISARIC_SUS %>%
+  filter(first_admission_date_isaric == first_admission_date_sus) %>% 
+  filter(patient_id %in% SUS_admission_1_method_A$patient_id) %>% 
+  nrow()
+
+n_admission_ISARIC_SUS_same_date_method_B <- admission_ISARIC_SUS %>%
+  filter(first_admission_date_isaric == first_admission_date_sus) %>% 
+  filter(patient_id %in% SUS_admission_1_method_B$patient_id &
+           !(patient_id %in% SUS_admission_1_method_A$patient_id)) %>% 
+  nrow()
+
+n_admission_ISARIC_SUS_same_date_method_C <- admission_ISARIC_SUS %>%
+  filter(first_admission_date_isaric == first_admission_date_sus) %>% 
+  filter(patient_id %in% SUS_admission_1_method_C$patient_id &
+           !(patient_id %in% SUS_admission_1_method_A$patient_id) &
+           !(patient_id %in% SUS_admission_1_method_B$patient_id)) %>% 
+  nrow()
+
 ```
 
-Between `r format(min(ISARIC_admission_1$first_admission_date_isaric), format = "%d-%b-%Y")` and `r format(max(ISARIC_admission_1$first_admission_date_isaric), format = "%d-%b-%Y")`, a total of `r format(n_ISARIC_admission_1, big.mark = ",", scientific = FALSE)` patients registered at a general practice using TPP software in England were admitted to an acute care hospital contributing data to the ISARIC COVID-19 Clinical Database with a proven or high likelihood of infection with SARS-CoV-2 (Figure 1). During the same period, a total of `r format(n_patients_SUS_joined, big.mark = ",", scientific = FALSE)` patients registered at a general practice using TPP software in England had a COVID-19 related hospital admission as identifiable in HES/SUS data through OpenSAFELY via three methods;
+### Identification of patients hospitalised with COVID-19 in ISARIC and SUS <a name="matched"></a>
 
-- Method A: Unplanned hospital admission with a ICD10 COVID-19 code as a diagnosis,  N = `r n_patients_SUS_method_A`
-- Method B: Any hospital admission with a ICD10 COVID-19 code as a diagnosis, N = `r n_patients_SUS_method_B`
-- Method C: A&E attendance resulting in admission to hospital, with a COVID code (from the A&E SNOMED discharge diagnosis refset) as the A&E discharge diagnosis, N = `r n_patients_SUS_method_C`.
+Between `r format(min(ISARIC_admission_1$first_admission_date_isaric), format = "%d-%b-%Y")` and `r format(max(ISARIC_admission_1$first_admission_date_isaric), format = "%d-%b-%Y")`, a total of **`r format(n_ISARIC_admission_1, big.mark = ",", scientific = FALSE)`** patients registered at a general practice using TPP software in England were admitted to an acute care hospital contributing data to the ISARIC COVID-19 Clinical Database with a proven or high likelihood of infection with SARS-CoV-2. During the same period, a total of **`r format(n_patients_SUS_joined, big.mark = ",", scientific = FALSE)`** patients registered at a general practice using TPP software in England had a COVID-19 related hospital admission as identifiable in HES/SUS data through OpenSAFELY via three methods;
 
+- Method A: Unplanned hospital admission with a ICD10 COVID-19 code as a diagnosis,  N = **`r n_patients_SUS_method_A`**
+- Method B: Any hospital admission with a ICD10 COVID-19 code as a diagnosis, N = **`r n_patients_SUS_method_B`**
+- Method C: A&E attendance resulting in admission to hospital, with a COVID code (from the A&E SNOMED discharge diagnosis refset) as the A&E discharge diagnosis, N = **`r n_patients_SUS_method_C`**.
+
+```{r, include=FALSE}
+admissions_per_week_ISARIC <- ISARIC_admission_1 %>%
+  mutate(admission_week = round_date(first_admission_date_isaric, unit="week", week_start=1)) %>%
+  group_by(admission_week) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  complete(admission_week = full_seq(.$admission_week, 7), # in case zero admissions on some days
+           fill = list(n=0)) %>%
+  arrange(admission_week) %>%
+  mutate(cumuln = cumsum(n)) %>%
+  ungroup() %>%
+  mutate(cumuln = roundmid_any(cumuln, to = rounding_threshold),
+         n = diff(c(0,cumuln)),
+         dataset = "ISARIC")
+
+admissions_per_week_SUS <- admissions_SUS %>%
+  mutate(admission_week = round_date(first_admission_date_sus, unit="week", week_start=1)) %>%
+  group_by(admission_week) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  complete(admission_week = full_seq(.$admission_week, 7), # in case zero admissions on some days
+           fill = list(n=0)) %>%
+  arrange(admission_week) %>%
+  mutate(cumuln = cumsum(n)) %>%
+  ungroup() %>%
+  mutate(cumuln = roundmid_any(cumuln, to = rounding_threshold),
+         n = diff(c(0,cumuln)),
+         dataset = "SUS")
+
+admissions_per_week <- rbind(admissions_per_week_ISARIC, admissions_per_week_SUS)
+
+#write_csv(admissions_per_week, fs::path(output_dir, "admissions_per_week.csv"))
+
+xmin <- min(admissions_per_week$admission_week )
+xmax <- max(admissions_per_week$admission_week )+7
+
+bennett_pal = c("#FFD23B","#FF7C00","#F20D52","#FF369C","#FF7CFE","#9C54E6","#5323B3","#5A71F3","#3FB5FF","#17D7E6")
+
+plot_admissions_per_week <- ggplot(admissions_per_week, aes(x = admission_week + 0.5, y = n, fill = dataset)) +
+  geom_col(width=5) +
+  geom_hline(yintercept = 0, colour="black")+
+  scale_x_date(breaks = unique(lubridate::ceiling_date(admissions_per_week$admission_week, "6 month")),
+              limits = c(xmin-1, NA),
+              labels = scales::label_date("%d/%m/%Y"),
+              expand = expansion(add=1)) +
+  scale_y_continuous(expand = expansion(c(0, NA))) +
+  scale_fill_manual(values=bennett_pal[c(9,10)]) +
+  labs(x="Date",
+       y="Number of recorded COVID-19 admissions per week",
+       colour=NULL,
+       fill=NULL,
+       alpha=NULL) +
+  theme_minimal()+
+  theme(axis.line.x.bottom = element_line(),
+       axis.text.x.top=element_text(hjust=0),
+      strip.text.y.right = element_text(angle = 0),
+      axis.ticks.x=element_line(),
+      legend.position = "bottom")
+```
+
+The weekly number of (incident) COVID-19 admissions recorded in ISARIC and SUS is shown in Figure \@ref(fig:weekly-admissions)
+
+<br/>
+
+```{r weekly-admissions, message=FALSE, echo=FALSE, warning=FALSE, fig.align='center', fig.cap="**Weekly number of patients with a COVID-19 admissions recorded in ISARIC and SUS.** Note, patients are only counted on the date of thier first admission."}
+plot_admissions_per_week
+```
 
 Of the `r format(n_ISARIC_admission_1, big.mark = ",", scientific = FALSE)` COVID-19 related hospital admissions recorded in the ISARIC database, `r format(n_admission_ISARIC_SUS, big.mark = ",", scientific = FALSE)` (**`r round(n_admission_ISARIC_SUS/n_ISARIC_admission_1*100, digits = 0)`%**) had a COVID-19 related hospital admission in SUS. Of the `r format(n_SUS_joined_admission_1, big.mark = ",", scientific = FALSE)` COVID-19 related hospital admissions recorded in SUS, `r format(n_admission_ISARIC_SUS, big.mark = ",", scientific = FALSE)` (**`r round(n_admission_ISARIC_SUS/n_SUS_joined_admission_1*100, digits = 0)`%**)  had a COVID-19 related hospital admission in the ISARIC database. 
 
-A total of `r format(n_admission_ISARIC_SUS_same_date, big.mark = ",", scientific = FALSE)` patients (**`r round(n_admission_ISARIC_SUS_same_date/n_ISARIC_admission_1*100, digits = 0)`%** of all first ISARIC admissions) had the same date recorded for their first COVID-19 hospital admission in ISARIC and in SUS. This increased to `r format(n_admission_ISARIC_SUS_2days, big.mark = ",", scientific = FALSE)` (**`r round(n_admission_ISARIC_SUS_2days/n_ISARIC_admission_1*100, digits = 0)`%**) and `r format(n_admission_ISARIC_SUS_5days, big.mark = ",", scientific = FALSE)` (**`r round(n_admission_ISARIC_SUS_5days/n_ISARIC_admission_1*100, digits = 0)`%**) when the window was expanded to within 2 and 5 days, respectively. 
+A total of **`r format(n_admission_ISARIC_SUS_same_date, big.mark = ",", scientific = FALSE)`** patients (**`r round(n_admission_ISARIC_SUS_same_date/n_ISARIC_admission_1*100, digits = 0)`%** of all first ISARIC admissions and **`r round(n_admission_ISARIC_SUS_same_date/n_SUS_joined_admission_1*100, digits = 0)`%** of all first SUS admissions) had the same date recorded for their first COVID-19 hospital admission in ISARIC and in SUS (Figure \@ref(fig:flow-chart)). This increased to `r format(n_admission_ISARIC_SUS_2days, big.mark = ",", scientific = FALSE)` (`r round(n_admission_ISARIC_SUS_2days/n_ISARIC_admission_1*100, digits = 0)`%) and `r format(n_admission_ISARIC_SUS_5days, big.mark = ",", scientific = FALSE)` (`r round(n_admission_ISARIC_SUS_5days/n_ISARIC_admission_1*100, digits = 0)`%) when the window was expanded to within 2 and 5 days, respectively. 
+Of these `r format(n_admission_ISARIC_SUS_same_date, big.mark = ",", scientific = FALSE)` patients, `r format(n_admission_ISARIC_SUS_same_date_method_A, big.mark = ",", scientific = FALSE)` (`r round(n_admission_ISARIC_SUS_same_date_method_A/n_ISARIC_admission_1*100, digits = 0)`%) were identified using method A (COVID-19 as primary reason for admission), with an additional `r format(n_admission_ISARIC_SUS_same_date_method_B, big.mark = ",", scientific = FALSE)` (`r round(n_admission_ISARIC_SUS_same_date_method_B/n_ISARIC_admission_1*100, digits = 0)`%) and `r format(n_admission_ISARIC_SUS_same_date_method_C, big.mark = ",", scientific = FALSE)` (`r round(n_admission_ISARIC_SUS_same_date_method_C/n_ISARIC_admission_1*100, digits = 0)`%) patients identified using methods B (COVID-19 as secondary reason for admission) and C (A&E resulting in COVID-19 admission), respecitvely.
 
 <br>
 
-``` {r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.width=10, fig.cap = "**Figure 1 Ascertainment of COVID-19 hospitalisations via ISARIC and SUS.** ", fig.topcaption=TRUE}
+``` {r flow-chart, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.align = "center", fig.cap = "**Figure 1 Ascertainment of COVID-19 hospitalisations via ISARIC and SUS.** ", fig.topcaption=TRUE}
 grViz(
   glue("digraph my_flowchart {{ 
       graph[splines = ortho]
@@ -274,3 +365,61 @@ grViz(
      }}")
 )
 ```
+
+
+
+
+### Unmatched ISARIC/SUS patients <a name="unmatched"></a>
+Of the `r format(n_admission_ISARIC_NOT_SUS, big.mark = ",", scientific = FALSE)` patients with an COVID-19 hospital admission in ISARIC but with no COVID-19 related admission in SUS;
+
+-  `r format(admission_ISARIC_NOT_SUS %>% filter(non_covid_admission_SUS_same_date == TRUE) %>% nrow(), big.mark = ",", scientific = FALSE)` (`r round((admission_ISARIC_NOT_SUS %>% filter(non_covid_admission_SUS_same_date == TRUE) %>% nrow())/n_admission_ISARIC_NOT_SUS*100, digits = 0)`%) had an (non-COVD-19-related) admission in SUS on the same date. This increased to `r format(admission_ISARIC_NOT_SUS %>% filter(non_covid_admission_SUS_2days == TRUE) %>% nrow(), big.mark = ",", scientific = FALSE)` (`r round((admission_ISARIC_NOT_SUS %>% filter(non_covid_admission_SUS_2days == TRUE) %>% nrow())/n_admission_ISARIC_NOT_SUS*100, digits = 0)`%) when expanded to within a 2 day window.
+- `r format(admission_ISARIC_NOT_SUS %>% filter(registered_pc == FALSE) %>% nrow(), big.mark = ",", scientific = FALSE)` (`r round((admission_ISARIC_NOT_SUS %>% filter(registered_pc == FALSE) %>% nrow())/n_admission_ISARIC_NOT_SUS*100, digits = 0)`%) patients were not registered at a general practice using TPP software on their date of admission
+- `r format(admission_ISARIC_NOT_SUS %>% filter(registered_pc == FALSE) %>% nrow(), big.mark = ",", scientific = FALSE)` (`r round((admission_ISARIC_NOT_SUS %>% filter(first_admission_date_isaric <= last_positive_test_date_pc  & first_admission_date_isaric >= last_positive_test_date_pc - 14) %>% nrow())/n_admission_ISARIC_NOT_SUS*100, digits = 0)`%) patients had tested positive for COVID-19 in the 14 days prior to their ISARIC admission date
+- other reasons?
+
+
+# Consistency and completeness of ISARIC and SUS data <a name="consistency"></a>
+
+### Demographic characteristics of ISARIC and SUS patients <a name="demographics"></a>
+Table \@ref(tab:charcteristics-table) shows the count and proportion of patients whose first COVID-19 hospital admission in ISARIC and/or in SUS was between `r format(min(ISARIC_admission_1$first_admission_date_isaric), format = "%d-%b-%Y")` and `r format(max(ISARIC_admission_1$first_admission_date_isaric), format = "%d-%b-%Y")`, broken down by demographic and clinical categories. The proportion treated varied by X, Y, Z. There was also lower coverage among X and Y. 
+
+Patients with a COVID-19 hospital admission recorded in ISARIC also had a higher proportion of patients with an ICU admissions (N = , %) and who died within 30 days of their hospital admission (N = , %), suggesting these patient had more severe COVID-19.
+
+```{r charcteristics-table}
+tbl_ISARIC <- ISARIC_admission_1 %>%
+  mutate(days_in_critical_care = ifelse(days_in_critical_care >0, 1, NA)) %>%
+  select(patient_id, ageband = ageband_pc, sex = sex_pc, ethnicity = ethnicity_pc, imd = imd_pc, region = region_pc,
+         asthma = asthma_pc, cancer = cancer_pc, chronic_heart_disease = ccd_pc, chronic_kidney_disease = ckd_pc, 
+         chronic_liver_disease = cld_pc, copd = copd_pc, dementia = dementia_pc, diabetes_type_1 = diabetes_t1_pc,
+         diabetes_type_2 = diabetes_t2_pc, hiv = hiv_pc, hypertension = hypertension_pc, 
+         neurological_disorder = neuro_pc, obesity = obesity_pc, smoking = smoking_pc, days_in_critical_care,
+         death_with_28_days_of_covid_positive_test) %>%
+  mutate(dataset = "ISARIC")
+
+tbl_SUS <- admissions_SUS %>%
+    mutate(days_in_critical_care = ifelse(days_in_critical_care >0, 1, NA)) %>%
+  select(patient_id, ageband = ageband_sus, sex = sex_sus, ethnicity = ethnicity_sus, imd = imd_sus, region = region_sus,
+         asthma = asthma_sus, cancer = cancer_sus, chronic_heart_disease = ccd_sus, chronic_kidney_disease = ckd_sus, 
+         chronic_liver_disease = cld_sus, copd = copd_sus, dementia = dementia_sus, diabetes_type_1 = diabetes_t1_sus,
+         diabetes_type_2 = diabetes_t2_sus, hiv = hiv_sus, hypertension = hypertension_sus, 
+         neurological_disorder = neuro_sus, obesity = obesity_sus, smoking = smoking_sus, days_in_critical_care,
+         death_with_28_days_of_covid_positive_test) %>%
+  mutate(dataset = "SUS")
+
+table_demo_clinc_breakdown_base <- rbind(tbl_ISARIC, tbl_SUS) %>%
+  select(-patient_id) %>%
+  tbl_summary(by = dataset)
+
+table_demo_clinc_breakdown_base
+```
+
+
+### Consistency of underlying conditions reported <a name="consistency2"></a>
+
+within isairic and matched isaric and sus
+
+
+
+
+
+

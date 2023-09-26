@@ -134,7 +134,7 @@ actions:
 
   # Preliminary report ----
   validation_report:
-    run: r:latest -e 'rmarkdown::render("reports/validation_report.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output/reports")'
+    run: r:latest -e 'rmarkdown::render("analysis/rcode/validation/validation_report.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output/reports")'
     needs: [data_process]
     outputs:
       moderately_sensitive:
