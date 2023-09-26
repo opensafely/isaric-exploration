@@ -19,13 +19,15 @@
 # Import tables and Python objects
 from ehrql import Dataset, days, years, case, when
 from ehrql.tables.beta.tpp import (
-  clinical_events, isaric_raw, patients, sgss_covid_all_tests, vaccinations, addresses, practice_registrations, ons_deaths)
+  clinical_events, isaric_raw, patients, 
+  sgss_covid_all_tests, vaccinations, addresses, 
+  practice_registrations, ons_deaths, hospital_admissions)
 
 # Import codelists
 import codelists_ehrql
 
 # Functions
-from variables import has_prior_comorbidity
+from variables import has_prior_comorbidity, date_deregistered_from_all_supported_practices, hospitalisation_diagnosis_matches
 
 
 
@@ -275,19 +277,38 @@ has_prior_comorbidity("smoking_pc", "clear_smoking_codes", "ctv3", "first_admiss
 
 # ADD OTHER INFO  ------------------------
 
-# Number of admissions
+## Number of admissions
 dataset.n_admissions =  isaric_raw.count_for_patient() 
 
-# All-cause death
+## Critical care days for COVID-related hospitalisation
+dataset.days_in_critical_care = hospitalisation_diagnosis_matches(
+  hospital_admissions, codelists_ehrql.covid_icd10).where(
+    hospital_admissions.admission_date == dataset.first_admission_date_isaric).sort_by(
+      hospital_admissions.admission_date).first_for_patient().days_in_critical_care
+  
+## All-cause death
 ons_deathdata = ons_deaths.sort_by(ons_deaths.date).last_for_patient()
 dataset.ons_death_date = ons_deathdata.date
 dataset.death_date = patients.date_of_death
 dataset.has_died = ons_deaths.where(ons_deaths.date >= dataset.first_admission_date_isaric).exists_for_patient()
 
-# In-hospital death (hospitalisation with discharge + death date on same day or discharge location = death)
+## In-hospital death (hospitalisation with discharge + death date on same day or discharge location = death)
 #dataset.discharge_date = isaric_raw.first_for_patient().where(dsterm == "Death").dsstdtc
 
+## Non COVID-19 admission in SUS
+dataset.non_covid_admission_SUS_same_date = hospital_admissions.where(
+  hospital_admissions.admission_date == dataset.first_admission_date_isaric).exists_for_patient()
+  
+dataset.non_covid_admission_SUS_2days = hospital_admissions.where(
+  hospital_admissions.admission_date.is_on_or_between(dataset.first_admission_date_isaric - days(2), dataset.first_admission_date_isaric + days(2))).exists_for_patient()
 
+## Registration details
+dataset.prior_dereg_date_pc = practice_registrations.where(
+      practice_registrations.end_date.is_before(dataset.first_admission_date_isaric)).end_date.maximum_for_patient()
+
+dataset.dereg_date_pc = date_deregistered_from_all_supported_practices(practice_registrations, case, when)
+
+dataset.registered_pc = practice_registrations.for_patient_on(dataset.first_admission_date_isaric).exists_for_patient()
 
 
     

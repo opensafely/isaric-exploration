@@ -42,9 +42,6 @@ parser.add_argument("--admission_method")
 args = parser.parse_args()
 admission_method = args.admission_method
 
-start_date = "2020-01-01"
-end_date = "2022-11-30"
-
 # Functions
 from variables import (
   emergency_care_diagnosis_matches, 
@@ -66,7 +63,7 @@ dataset = Dataset()
 # Define dataset as all patients with a COVID-19 related hospital_admissions/emergency_care_attendances 
 # depending on method.
 admissions_data_sus = admissions_data(
-  admission_method, hospital_admissions, emergency_care_attendances, start_date)
+  admission_method, hospital_admissions, emergency_care_attendances)
 dataset.define_population(admissions_data_sus.exists_for_patient())
 
 
@@ -236,8 +233,6 @@ if admission_method == "A" or admission_method == "B":
 # In-hospital severity (critical care stay, length of stay)
 if admission_method == "A" or admission_method == "B":
   dataset.days_in_critical_care = admissions_data_sus.first_for_patient().days_in_critical_care
-
-
 
 # All-cause death
 ons_deathdata = ons_deaths.sort_by(ons_deaths.date).last_for_patient()
