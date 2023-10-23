@@ -132,13 +132,24 @@ actions:
       highly_sensitive:
         rds: output/admissions/processed_*.rds
 
-  # Preliminary report ----
-  validation_report:
-    run: r:latest -e 'rmarkdown::render("analysis/rcode/validation/validation_report.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output/reports")'
+  # Resuts for preliminary report ----
+  validation_report_data:
+    run: >
+      r:latest
+        analysis/rcode/validation/validation_report_data.R
     needs: [data_process]
     outputs:
       moderately_sensitive:
-        html: output/reports/validation_report.html
+        redacted_tables: output/validation/table_*.csv
+  #      unredacted_tables: output/validation/for-checks/table_*.csv
+
+  # # Preliminary report ----
+  # validation_report:
+  #   run: r:latest -e 'rmarkdown::render("analysis/rcode/validation/validation_report.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output/reports")'
+  #   needs: [data_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/reports/validation_report.html
 
 
 
