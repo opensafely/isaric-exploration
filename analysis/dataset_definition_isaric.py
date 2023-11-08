@@ -19,9 +19,10 @@
 # Import tables and Python objects
 from ehrql import Dataset, days, years, case, when
 from ehrql.tables.beta.tpp import (
-  clinical_events, isaric_raw, patients, 
+  clinical_events, patients, 
   sgss_covid_all_tests, vaccinations, addresses, 
   practice_registrations, ons_deaths, hospital_admissions)
+from ehrql.tables.beta.raw.tpp import isaric
 
 # Import codelists
 import codelists_ehrql
@@ -39,7 +40,7 @@ from variables import has_prior_comorbidity, date_deregistered_from_all_supporte
 dataset = Dataset()
 
 # Define dataset as all patients with an entry in the ISARIC table.
-dataset.define_population(isaric_raw.exists_for_patient())
+dataset.define_population(isaric.exists_for_patient())
 
 
 
@@ -50,7 +51,7 @@ dataset.define_population(isaric_raw.exists_for_patient())
 
 # Filter isaric table on first admission for each patient
 # Note that sort is on age rather than admission_date as this is more reliable due to some dodgy admission_date values
-first_isaric_admission = (isaric_raw.sort_by(isaric_raw.age).first_for_patient())
+first_isaric_admission = (isaric.sort_by(isaric.age).first_for_patient())
 
 # Admission date
 dataset.first_admission_date_isaric = first_isaric_admission.hostdat
@@ -278,7 +279,7 @@ has_prior_comorbidity("smoking_pc", "clear_smoking_codes", "ctv3", "first_admiss
 # ADD OTHER INFO  ------------------------
 
 ## Number of admissions
-dataset.n_admissions =  isaric_raw.count_for_patient() 
+dataset.n_admissions =  isaric.count_for_patient() 
 
 ## Critical care days for COVID-related hospitalisation
 dataset.days_in_critical_care = hospitalisation_diagnosis_matches(
@@ -293,7 +294,7 @@ dataset.death_date = patients.date_of_death
 dataset.has_died = ons_deaths.where(ons_deaths.date >= dataset.first_admission_date_isaric).exists_for_patient()
 
 ## In-hospital death (hospitalisation with discharge + death date on same day or discharge location = death)
-#dataset.discharge_date = isaric_raw.first_for_patient().where(dsterm == "Death").dsstdtc
+#dataset.discharge_date = isaric.first_for_patient().where(dsterm == "Death").dsstdtc
 
 ## Non COVID-19 admission in SUS
 dataset.non_covid_admission_SUS_same_date = hospital_admissions.where(
